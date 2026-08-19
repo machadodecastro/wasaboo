@@ -1,0 +1,57 @@
+{% extends "wpanel.html" %}
+{% block body %}
+	<table id="tables">
+	  <thead>
+	    <tr>
+	      <th>User ID</th>
+	      <th>Profile ID</th>
+	      <th>Name</th>
+	      <th>Favorites</th>
+	    </tr>
+	  </thead>
+	  <tbody>	    
+		{% for u in users_favorites %}
+		<tr>
+			<td>{{ u.usuario_id }}</td>
+			<td>{{ u.profile_id }}</td>
+			<td><a href="{%url 'exibir' u.profile_id %}" target="_blank">
+			{% if u.type = "f" %}
+	       		    {% if u.upload != "0" %}
+	       		    	<span class="user"><img src="{{u.upload}}" class="user"></span>
+	       		    {% else %}
+	       		    	<span class="user"><img class="user woman"></span>
+	       		    {% endif %}
+	       	
+	       	{% elif u.type = "m" %}
+	       		    {% if u.upload != "0" %}
+	       		    	<span class="user"><img src="{{u.upload}}" class="user"></span>
+	       		    {% else %}
+	       		    	<span class="user"><img class="user man"></span>
+	       		    {% endif %}
+	       	
+	       	{% elif u.type = "c" %}
+	       		    {% if u.upload != "0" %}
+	       		    	<span class="user"><img src="{{u.upload}}" class="user"></span>
+	       		    {% else %}
+	       		    	<span class="user"><img class="user company"></span>
+	       		    {% endif %}
+			{% endif %}
+			{{ u.nome }}</a></td>			
+			<td>
+			{% with u.usuario_id as usuario %}
+				{% for fav in favoriteds %}
+					{% if fav.usuario_id = usuario %}											
+						{{ fav.favorite }} - 
+						<a href="{%url 'show_tip' fav.slug fav.tip_id %}" target="_blank">
+							Card: {{ fav.tip_id }}
+						</a>
+						<br/>
+					{% endif %}
+				{% endfor %}
+			{% endwith %}
+			</td>			 
+		</tr>
+		{% endfor %}	    
+	  </tbody>
+	</table>
+{% endblock %}

@@ -1,0 +1,77 @@
+{% extends "wpanel.html" %}
+{% block body %}
+	<table id="tables">
+	  <thead>
+	    <tr>
+	      <th>User ID</th>
+	      <th>Profile ID</th>
+	      <th>Follower</th>
+	      <th>Followed</th>
+	    </tr>
+	  </thead>
+	  <tbody>	    
+		{% for u in users_followers %}
+		<tr>
+			<td>{{ u.usuario_id }}</td>
+			<td>{{ u.profile_id }}</td>
+			<td><a href="{%url 'exibir' u.profile_id %}" target="_blank">
+			{% if u.type = "f" %}
+	       		    {% if u.upload != "0" %}
+	       		    	<span class="user"><img src="{{u.upload}}" class="user"></span>
+	       		    {% else %}
+	       		    	<span class="user"><img class="user woman"></span>
+	       		    {% endif %}
+	       	
+	       	{% elif u.type = "m" %}
+	       		    {% if u.upload != "0" %}
+	       		    	<span class="user"><img src="{{u.upload}}" class="user"></span>
+	       		    {% else %}
+	       		    	<span class="user"><img class="user man"></span>
+	       		    {% endif %}
+	       	
+	       	{% elif u.type = "c" %}
+	       		    {% if u.upload != "0" %}
+	       		    	<span class="user"><img src="{{u.upload}}" class="user"></span>
+	       		    {% else %}
+	       		    	<span class="user"><img class="user company"></span>
+	       		    {% endif %}
+			{% endif %}
+			{{ u.nome }}</a></td>			
+			<td>
+			{% with u.usuario_id as user_profile %}
+				{% for f in users_followeds %}
+					{% if f.follower_id = user_profile %}
+					<a href="{%url 'exibir' f.followed_id %}" target="_blank">
+						{% if f.type = "f" %}
+				       		    {% if f.upload != "0" %}
+				       		    	<span class="user"><img src="{{f.upload}}" class="user"></span>
+				       		    {% else %}
+				       		    	<span class="user"><img class="user woman"></span>
+				       		    {% endif %}
+		       	
+				       	{% elif f.type = "m" %}
+				       		    {% if f.upload != "0" %}
+				       		    	<span class="user"><img src="{{f.upload}}" class="user"></span>
+				       		    {% else %}
+				       		    	<span class="user"><img class="user man"></span>
+				       		    {% endif %}
+				       	
+				       	{% elif f.type = "c" %}
+				       		    {% if f.upload != "0" %}
+				       		    	<span class="user"><img src="{{f.upload}}" class="user"></span>
+				       		    {% else %}
+				       		    	<span class="user"><img class="user company"></span>
+				       		    {% endif %}
+						{% endif %}
+						{{f.nome}}
+					</a>
+					<br/>
+					{% endif %}
+				{% endfor %}
+			{% endwith %}
+			</td>			 
+		</tr>
+		{% endfor %}	    
+	  </tbody>
+	</table>
+{% endblock %}

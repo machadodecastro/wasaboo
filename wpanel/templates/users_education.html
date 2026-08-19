@@ -1,0 +1,55 @@
+{% extends "wpanel.html" %}
+{% block body %}
+	<table id="tables">
+	  <thead>
+	    <tr>
+	      <th>User ID</th>
+	      <th>Profile ID</th>
+	      <th>User's Name</th>
+	      <th>Education</th>
+	    </tr>
+	  </thead>
+	  <tbody>	    
+		{% for u in users_education %}
+		<tr>
+			<td>{{ u.usuario_id }}</td>
+			<td>{{ u.profile_id }}</td>
+			<td><a href="{%url 'education' u.profile_id %}" target="_blank">
+			{% if u.type = "f" %}
+	       		    {% if u.upload != "0" %}
+	       		    	<span class="user"><img src="{{u.upload}}" class="user"></span>
+	       		    {% else %}
+	       		    	<span class="user"><img class="user woman"></span>
+	       		    {% endif %}
+	       	
+	       	{% elif u.type = "m" %}
+	       		    {% if u.upload != "0" %}
+	       		    	<span class="user"><img src="{{u.upload}}" class="user"></span>
+	       		    {% else %}
+	       		    	<span class="user"><img class="user man"></span>
+	       		    {% endif %}
+	       	
+	       	{% elif u.type = "c" %}
+	       		    {% if u.upload != "0" %}
+	       		    	<span class="user"><img src="{{u.upload}}" class="user"></span>
+	       		    {% else %}
+	       		    	<span class="user"><img class="user company"></span>
+	       		    {% endif %}
+			{% endif %}
+			{{ u.nome }}</a></td>			
+			<td>
+			{% with u.profile_id as user_profile %}
+				{% for p in education_cards %}
+						{% if p.education_profile_id = user_profile %}
+							School: {{p.school}}<br/>
+							{% if p.course %}Course: {{p.course}}{% endif %}<br/>
+							{% if p.degree %}Degree: {{p.degree}}{% endif %}<br/><br/>
+						{% endif %}
+				{% endfor %}
+			{% endwith %}
+			</td>			 
+		</tr>
+		{% endfor %}	    
+	  </tbody>
+	</table>
+{% endblock %}

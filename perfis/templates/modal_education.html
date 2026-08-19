@@ -1,0 +1,180 @@
+<!-- New Education Form -->
+<div class="modal fade" id="newEducation" tabindex="-1" role="dialog" 
+     aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+          		<span class="profile-name profile-title" id="myModalLabel">
+               	   Add education
+                </span>
+                <button type="button" class="close" data-dismiss="modal">
+                       <span aria-hidden="true">&times;</span>
+                       <span class="sr-only">Close</span>
+                </button>
+            </div>
+            
+            <div class="modal-body">
+			
+			<form  id="new_education_form" action="{%url 'new_education' perfil_logado.id %}" method="post">
+			{% csrf_token %}
+ 			  	  
+ 			  	  <input type="hidden" value="{{user.id}}" id="education_user_id" name="education_user_id" 
+ 			  	  required="required">
+ 			   
+	 			  <input type="hidden" value="{{perfil_logado.id}}" id="education_profile_id" 
+	 			  name="education_profile_id" required="required">
+	 			  
+	 			  <input type="hidden" value="{{perfil_logado.nome}}" id="education_name" 
+	 			  name="education_name" required="required">
+	 			  
+	 			  <input id="date" name="date" type="hidden"  value="{% now 'd/m/Y HH:mm:ss' %}" 
+	 			  required="required">
+	 			  
+	 			  <span class="input_label">School / University</span>
+	 			  <input type="text" id="school" name="school" required="required" 
+	 			  class="profile-field-normal" placeholder="University of IT">
+	 			  
+	 			  <br/><br/>
+	 			  
+	 			  <span class="input_label">Course</span>
+	 			  <input type="text" id="course" name="course" 
+	 			  class="profile-field-normal" placeholder="Software engineering">
+
+				  <br/><br/>
+	 			  
+	 			  <span class="input_label">Degree Type</span>
+	 			  <input type="text" id="degree" name="degree" 
+	 			  class="profile-field-normal profile-field-small" placeholder="B.S.">	 
+
+				  <br/><br/>
+				  
+				  <span class="input_label">Graduation Year</span>
+				  <select id="graduation" name="graduation" 
+				  class="profile-field-normal profile-field-small">
+				  </select>
+				  
+				  
+				  <br/><br/><br/><br/>
+				  
+				  <div class="modal-header">	
+				  <button type="button" class="btn btn-default btn-cancel" data-dismiss="modal">Close</button>
+				  <input class="btn btn-info" type="submit" value="Publish" disabled/>
+				  </div>
+				  
+				  <script>
+				  $(document).ready(function () {
+					    $('#school').keyup(function () {
+					        if ($.trim($('#school').val()).length < 1) {
+
+					        	$(':input[type="submit"]').prop('disabled', true);
+
+					        } else {
+
+					        	$(':input[type="submit"]').prop('disabled', false);
+
+					        }
+					    });
+					});
+		          </script>	
+
+			</form>	
+                
+            </div>
+        </div>  
+    </div>
+</div>	
+<!-- End form -->
+
+<script>
+$(document).ready(function () {
+	jQuery(document).ready(function($) {
+        $('#school').keyup(function(event) {
+            var textBox = event.target;
+            var start = textBox.selectionStart;
+            var end = textBox.selectionEnd;
+            textBox.value = textBox.value.charAt(0).toUpperCase() + textBox.value.slice(1);
+            textBox.setSelectionRange(start, end);
+        });
+    });
+});
+</script>
+
+<script>
+$(document).ready(function () {
+	jQuery(document).ready(function($) {
+        $('#course').keyup(function(event) {
+            var textBox = event.target;
+            var start = textBox.selectionStart;
+            var end = textBox.selectionEnd;
+            textBox.value = textBox.value.charAt(0).toUpperCase() + textBox.value.slice(1);
+            textBox.setSelectionRange(start, end);
+        });
+    });
+});
+</script>
+
+<script>
+$(document).ready(function () {
+	jQuery(document).ready(function($) {
+        $('#degree').keyup(function(event) {
+            var textBox = event.target;
+            var start = textBox.selectionStart;
+            var end = textBox.selectionEnd;
+            textBox.value = textBox.value.charAt(0).toUpperCase() + textBox.value.slice(1);
+            textBox.setSelectionRange(start, end);
+        });
+    });
+});
+</script>	
+
+<!-- AJAX NEW COMPANY FORM SUBMIT -->
+<script>
+$( document ).ready(function() {
+$("#new_education_form").submit(function(event){
+    event.preventDefault(); //prevent default action
+    var wasabooref = "{{url}}";   
+    var tip = $(this).data("id"); 
+    var post_url = $(this).attr("action"); //get form action url
+    var request_method = $(this).attr("method"); //get form GET/POST method
+    var form_data = new FormData(this); //Encode form elements for submission
+    
+    $(':input[type="submit"]').prop('disabled', true);
+    
+    $.ajax({
+    	url : post_url,
+        type: request_method,
+        data : form_data,
+        dataType : 'html',
+        contentType: false,
+        processData: false,
+        success: function(response) { //on success
+        	//LOAD SCRIPTS WITHOUT AJAX CALLS
+        	$.getScript( '/static/js/scripts-loader.js');
+        	
+            // AJAX CALLS
+        	$.getScript( '/static/js/show-references.js');
+        	$.getScript( '/static/js/show-back.js');
+        	$.getScript( '/static/js/favoriting-card.js');
+        	$.getScript( '/static/js/desfavoriting-card.js');
+        	$.getScript( '/static/js/hide-card.js');
+        	$.getScript( '/static/js/publish-card.js');
+        	$.getScript( '/static/js/counting-favoritings.js');
+        	$.getScript( '/static/js/who-favorited.js');
+        	$.getScript( '/static/js/delete-card-btn-yes.js');
+        	$.getScript( '/static/js/save-to-folder.js');
+        	$.getScript( '/static/js/delete-from-folder.js');
+        	$.getScript( '/static/js/jquery.jscroll.js');
+        	$.getScript( '/static/js/delete-education.js');
+        	
+        	// LOAD HTML
+        	$('.profile-waterfall').html(jQuery(response).find('.profile-waterfall').html());
+        	
+        	// CLOSE MODAL
+        	$('.close').click();
+        	$('body').removeClass('modal-open');
+        	$('.modal-backdrop').remove();	        	
+        }
+    });
+});
+});
+</script>

@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+
+{% block body %}
+
+    <div class="panel panel-default-contacts">
+    {% with total_de_contatos=perfil_logado.contatos.count %}
+        {% if total_de_contatos %}
+            <div class="panel-heading">
+                    <div class="title-heading">Contacts</div>
+            </div>
+            <ul class="list-group">
+                {% for contato in perfil_logado.contatos.all %}
+                    <a href="{% url 'exibir' contato.id %}" class="list-group-item">{{ contato.nome }}</a>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <div class="panel-body">
+                <p>Voce nao possui contatos no momento :(</p>
+            </div>
+        {% endif %}
+    {% endwith %}
+  </div>
+    
+
+ 
+ 
+        {% if mytips %}
+        
+
+              {% for tip in mytips %}
+              
+              
+
+				<div class="col-lg-12">
+				    <div class="panel panel-default">              
+				        <div class="panel-heading">
+				            <div class="title-heading">Tips</div>
+				        </div>              
+			              	  <div class="title-content">
+			                  	  {{ tip.content }}
+			                  </div>
+			                  
+			                  <br/>
+				                  
+				                  <div class="author-content">
+					                  <a href="{% url 'exibir' tip.author %}">
+					                  	{{ tip.author_name }}
+					                  </a>
+					              </div>
+					              
+					              <span class="date-content">
+					                  	Posted {{ tip.date }}
+					              </span>
+				    </div>
+				</div>                  
+                  
+              {% endfor %}
+        {% else %}
+          <p>No tips published by me</p>
+        {% endif %}
+    
+
+
+{% endblock %}

@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+
+{% block body %}
+
+        <div id="windy"></div>
+        <script src="/static/js/windy.js"></script>
+        
+        <div id="Center" style="display: none;">				
+	<ul class="profile-waterfall">
+								
+		{% for tip in maps %}
+		
+			{% include 'modal_edit_card.html' %}
+			
+			{% include 'modal_remove_card.html' %}
+							
+			{% include 'my_upcards.html' %}
+			
+			{% include 'upcards.html' %}
+											
+			
+			<li class="cards card-{{tip.id}}" data-url="{{url}}" data-id="{{tip.id}}">
+			    <div class="main card-layout {% if tip.notified %} go-play {% endif %}">
+				  				  
+				  {% include 'card_header.html' %}
+											
+		          <!-- Outdoor title -->
+		          {% include 'outdoor_title.html' %}  
+					
+				  <!-- Picture -->					
+				  {% include 'outdoor_picture.html' %}
+				  						
+	              {% include 'card_delete_question.html' %}      
+	                    
+	              {% include 'folder_options.html' %}	      
+	                    
+				  {% include 'folder_container.html' %}	
+				  
+				  {% include 'chat_container.html' %}
+				  
+				  <!-- Profile image -->
+                  <div class="profile-image">
+                  	  <a href="{% url 'exibir' tip.author %}" aria-label="user profile link">
+                  	  <div class="image-content">
+                  	      	{% if tip.type = "f" %}
+					       		    {% if tip.upload != "0" %}
+					       		    	<span class="user"><img src="{{tip.upload}}" class="user" alt="user picture"></span>
+					       		    {% else %}
+					       		    	<span class="user woman"></span>
+					       		    {% endif %}
+					       	
+					       	{% elif tip.type = "m" %}
+					       		    {% if tip.upload != "0" %}
+					       		    	<span class="user"><img src="{{tip.upload}}" class="user" alt="user picture"></span>
+					       		    {% else %}
+					       		    	<span class="user man"></span>
+					       		    {% endif %}
+					       	
+					       	{% elif tip.type = "c" %}
+					       		    {% if tip.upload != "0" %}
+					       		    	<span class="user"><img src="{{tip.upload}}" class="user" alt="user picture"></span>
+					       		    {% else %}
+					       		    	<span class="user company"></span>
+					       		    {% endif %}
+							{% endif %}
+                  	  </div>
+                  	  </a>
+                  	  
+                  	  <!-- Profile name -->
+				      {% include 'outdoor_profile.html' %}  
+		              
+		              <!-- Favorite icon -->
+    			      {% include 'outdoor_favorite_local.html' %}     			  
+         			  
+		      	  	</div>
+		      	  
+		      	  <!-- Outdoor Campaign -->
+		      	  {% include 'outdoor_campaign.html' %}
+		      	  				      	  	
+			    </div>
+			  </li>
+			
+			{% empty %}
+			
+				<!-- empty index -->
+				<div class="empty-feed"></div>
+		  
+		{% endfor %}
+    </ul> 			
+</div>
+{% endblock %}

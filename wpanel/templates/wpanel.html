@@ -1,0 +1,52 @@
+{% extends "wpanel/base.html" %}
+
+{% block content %} 
+	<nav id="menu">
+	    <ul>
+	        <li><a href="{%url 'home' %}">Home</a></li>
+	        <li><a href="{%url 'users' %}">All Users</a></li>
+	        <li><a href="{%url 'cards' %}">All Cards</a></li>
+	        <li><a href="{%url 'users_favorites' %}">Favorites</a></li>
+	        <li><a href="{%url 'users_followers' %}">Followers</a></li>
+	        <li><a href="{%url 'users_followed' %}">Followed</a></li>
+	        <li><a href="{%url 'users_decks' %}">Decks</a></li>
+	        <li class="dropdown">
+	        	<a href="#" class="dropdown-toggle" data-toggle="dropdown">+ Profiles</a>
+		        <ul class="dropdown-menu">
+			        <li>
+			        	<a href="{%url 'users_whoami' %}">Who Am I</a>	        
+			        </li>
+			        <li>
+			        	<a href="{%url 'users_education' %}">Education</a>	        
+			        </li>
+			        <li>
+			        	<a href="{%url 'users_knows' %}">Knows</a>	        
+			        </li>
+			        <li>
+			        	<a href="{%url 'users_jobs' %}">Jobs</a>	        
+			        </li>
+			        <li>
+			        	<a href="{%url 'users_company_about' %}">Company</a>	        
+			        </li>
+			        <li>
+			        	<a href="{%url 'users_location' %}">Location</a>	        
+			        </li>
+		        </ul>
+	        </li>
+			<li style="float:right">
+	        	<a href="/logout/" class="menu-dropdown-title">
+                	Log out
+                </a>
+            </li>	        
+	        <li style="float:right">
+	        	<a href="{%url 'index' %}" class="menu-dropdown-title" target="_blank">
+                	My feed
+                </a>
+            </li>	        
+	    </ul>
+	</nav>
+
+	{% block body %}
+	<!-- others pages -->
+	{% endblock %}
+{% endblock %}

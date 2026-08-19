@@ -1,0 +1,186 @@
+<!-- Tip Form -->
+<div class="modal fade" id="updateLocation-{{c.id}}" tabindex="-1" role="dialog" 
+     aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                       <span aria-hidden="true">&times;</span>
+                       <span class="sr-only">Close</span>
+                </button>
+            </div>
+            
+            <div class="modal-body">
+			
+			<form id="update_location_form_{{c.id}}" action="{%url 'update_location' c.id %}" method="post">
+			{% csrf_token %}
+				  <input type="hidden" value="{{c.id}}" id="edit_idTip" class="edit_idTip">
+ 			  	  
+ 			  	  <input type="hidden" value="{{user.id}}" id="location_user_id" name="location_user_id" 
+ 			  	  required="required" class="location_user_id">
+ 			   
+	 			  <input type="hidden" value="{{perfil_logado.id}}" id="location_profile_id" 
+	 			  name="location_profile_id" required="required" class="location_profile_id">
+	 			  
+	 			  <div class="row">
+					<div class="col-md-10 col-sm-10 col-xs-10">
+						<div class="panel panel-default-map">
+							<div class="map-body">
+								<div class="input-group stylish-input-group-on-maps dimension">
+									<input id="edit_address_{{c.id}}" name="address" type="text" class="form-control" 
+									placeholder="Enter the address" required="required"
+									value="{{c.address}}"/>
+									<span class="input-group-addon" style="background: #fff !important;">
+					                    <button class="btn btn-primary btn-sm btn-info" 
+					                    id="edit-get-map-btn-{{c.id}}">
+										    <span class="glyphicon glyphicon-map-marker"></span>
+									    </button>
+					            	</span>
+				            	</div>
+								<div id="edit-map-canvas-{{c.id}}" style="min-height: 400px;"></div>
+							</div>
+						</div>
+					</div>					
+				  </div>			  
+	 			  
+	 			  <input id="edit_date" name="date" type="hidden"  value="{% now 'd/m/Y HH:mm:ss' %}" 
+	 			  required="required" class="date">				  
+				  
+				  <br/>
+				  
+				  <div class="modal-header">				  	
+				  <button type="button" class="btn btn-cancel" data-dismiss="modal">Close</button>
+				  <input class="btn btn-info btn-update-location-{{c.id}}" type="submit" value="Update" disabled/>
+				  </div>
+			</form>	  
+            </div>
+        </div>  
+    </div>
+</div>	
+<!-- End form -->
+
+
+<script>
+ $(document).ready(function () {
+    $('#edit_address_{{c.id}}').keyup(function () {
+        if ($.trim($('#edit_address_{{c.id}}').val()).length < 1) {
+
+        	$('.btn-update-location-{{c.id}}').prop('disabled', true);
+
+        } else {
+
+        	$('.btn-update-location-{{c.id}}').prop('disabled', false);
+
+        }
+    });
+});
+</script>
+      
+<script>
+/* Company location */
+$( document ).ready(function() {
+	"use strict";
+	var edit_geocoder;
+	var edit_map;
+	
+	// setup initial map
+	function initialize() {
+		edit_geocoder = new google.maps.Geocoder();							// create geocoder object
+		var edit_latlng = new google.maps.LatLng(40.6700, -73.9400);			// set default lat/long (new york city)
+		var edit_mapOptions = {												// options for map
+			zoom: 8,
+			center: edit_latlng
+		}
+		edit_map = new google.maps.Map(document.getElementById('edit-map-canvas-{{c.id}}'), edit_mapOptions);	// create new map in the map-canvas div
+	}
+	
+	// function to geocode an address and plot it on a map
+	function codeAddress(address) {
+		edit_geocoder.geocode( { 'address': address}, function(results, status) {
+			if (status == google.maps.GeocoderStatus.OK) {
+				edit_map.setCenter(results[0].geometry.location);			// center the map on address
+				var marker = new google.maps.Marker({					// place a marker on the map at the address
+					map: edit_map,
+					position: results[0].geometry.location
+				});
+			} else {
+				alert('Geocode was not successful for the following reason: ' + status);
+			}
+		});
+	}
+	google.maps.event.addDomListener(window, 'load', initialize);		// setup initial map
+	$(document).ready(function() {
+		// get map button functionality
+		$("#edit-get-map-btn-{{c.id}}").click(function(event){
+			event.preventDefault();			
+			var edit_address = $("#edit_address_{{c.id}}").val();							// grab the address from the input field
+			codeAddress(edit_address);										// geocode the address
+		});
+	});
+	
+	$('#updateLocation-{{c.id}}').on('shown.bs.modal', function() {
+		edit_geocoder = new google.maps.Geocoder();							// create geocoder object
+		var edit_latlng = new google.maps.LatLng(40.6700, -73.9400);			// set default lat/long (new york city)
+		var edit_mapOptions = {												// options for map
+			zoom: 8,
+			center: edit_latlng
+		}
+		edit_map = new google.maps.Map(document.getElementById('edit-map-canvas-{{c.id}}'), edit_mapOptions);	// create new map in the map-canvas div
+	});
+	
+});
+</script>	
+		          
+
+<!-- AJAX UPDATE LOCATION FORM SUBMIT -->
+	<script>
+	$( document ).ready(function() {
+	$("#update_location_form_{{c.id}}").submit(function(event){
+	    event.preventDefault(); //prevent default action
+	    var wasabooref = "{{url}}";   
+	    var tip = $(this).data("id"); 
+	    var post_url = $(this).attr("action"); //get form action url
+	    var request_method = $(this).attr("method"); //get form GET/POST method
+	    var form_data = new FormData(this); //Encode form elements for submission
+	    
+	    $(':input[type="submit"]').prop('disabled', true);
+	    
+	    $.ajax({
+	    	url : post_url,
+	        type: request_method,
+	        data : form_data,
+	        dataType : 'html',
+	        contentType: false,
+	        processData: false,
+	        success: function(response) { //on success
+	        	//LOAD SCRIPTS WITHOUT AJAX CALLS
+	        	$.getScript( '/static/js/scripts-loader.js');	        	
+	        	
+	            // AJAX CALLS
+	        	$.getScript( '/static/js/show-references.js');
+	        	$.getScript( '/static/js/show-back.js');
+	        	$.getScript( '/static/js/favoriting-card.js');
+	        	$.getScript( '/static/js/desfavoriting-card.js');
+	        	$.getScript( '/static/js/hide-card.js');
+	        	$.getScript( '/static/js/publish-card.js');
+	        	$.getScript( '/static/js/counting-favoritings.js');
+	        	$.getScript( '/static/js/who-favorited.js');
+	        	$.getScript( '/static/js/delete-card-btn-yes.js');
+	        	$.getScript( '/static/js/save-to-folder.js');
+	        	$.getScript( '/static/js/delete-from-folder.js');
+	        	$.getScript( '/static/js/jquery.jscroll.js');
+	        	$.getScript( '/static/js/delete-location.js');
+	        	
+	        	// LOAD HTML
+	        	$('.profile-waterfall').html(jQuery(response).find('.profile-waterfall').html());
+	        	
+	        	// CLOSE MODAL
+	        	$('.close').click();
+	        	$('body').removeClass('modal-open');
+	        	$('.modal-backdrop').remove();	
+	        	$(':input[type="submit"]').prop('disabled', false);
+	        }
+	    });
+	});
+	});
+	</script>

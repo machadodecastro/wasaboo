@@ -1,0 +1,28 @@
+	<!-- Delete a WHO AM I profile information --> 
+	$( document ).ready(function() {	
+		$(".delete-whoami").on('click',function (){    
+	    	self = $(this);
+	    	var wasabooref = $(this).data("url");
+	    	var tip = $(this).data("id"); 
+	    	$.ajax({
+		    	   type: "GET", 
+		    	   url: "//"+wasabooref+"/delete-whoami/"+tip+"/",
+		    	   dataType: 'json',
+		    	   data: {tip: tip},
+		    	   async: true,
+		    	   contentType: "application/json; charset=utf-8",
+		    	   success: function (data, textStatus, jqXHR) { 
+			            if (data.teste == "removedwhoami") { 
+			            	$('.card-'+tip).fadeTo(1, 0);
+			            	$('.card-'+tip).remove();
+			            }else{
+			            	//alert("Error");
+			            }
+		    		   		
+		    		   },
+		                error: function(rs, e) {
+		                    //alert(rs.responseText);
+		                }
+		    	   });    	
+		});
+	});

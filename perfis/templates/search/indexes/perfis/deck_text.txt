@@ -1,0 +1,5 @@
+{% autoescape off %}
+{{ object.deck_name }}
+{{ object.author_name }}
+{{ object.date }}
+{% endautoescape %}

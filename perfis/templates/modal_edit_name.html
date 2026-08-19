@@ -1,0 +1,47 @@
+<!-- Modal for editing profile name-->
+<div class="modal fade" id="updateProfileName" tabindex="-1" role="dialog" 
+     aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                       <span aria-hidden="true">&times;</span>
+                       <span class="sr-only">Close</span>
+                </button>
+            </div>
+            
+            <div class="modal-body">
+			
+ 			  	  
+ 			  	  <input type="hidden" value="{{perfil.id}}" required="required" id="profileID" name="profileID">
+ 			   
+	 			  <input type="text" value="{{perfil.nome}}" id="nome" name="nome" required="required"
+	 			  class="profile-name-text" placeholder="Update your name">
+	 			  
+				  <br/><br/>
+				  	
+				  <button type="button" class="btn btn-default btn-cancel" data-dismiss="modal">Cancel</button>
+				  <button type="button" class="btn btn-info edit-profile-name" data-url="{{url}}" 
+				  data-id="{{perfil.id}}" data-nome="{{perfil.nome}}">Update</button>
+				  
+				  <script>
+				  $(document).ready(function () {
+					    $('#nome').keyup(function () {
+					        if ($.trim($('#nome').val()).length < 1) {
+
+					        	$('.edit-profile-name').prop('disabled', true);
+
+					        } else {
+
+					        	$('.edit-profile-name').prop('disabled', false);
+
+					        }
+					    });
+					});
+		          </script>		    	          
+
+                
+            </div>
+        </div>  
+    </div>
+</div>	<!-- End tip form -->

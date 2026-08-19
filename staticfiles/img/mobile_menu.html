@@ -1,0 +1,102 @@
+<div class="modal-container">
+    <div class="modal fade" id="mobile_menu_{{perfil_logado.id}}" tabindex="-1" role="dialog" 
+    aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static" data-reference="{{tip.reference}}">
+        <div class="modal-dialog">
+            <div class="modal-content">
+	  
+				<div class="mobile_bar">
+					<button type="button" class="mobile-user back-feed" data-dismiss="modal"> 
+					</button>
+					
+					<a href="{% url 'index' %}" onclick="goBack()"> 
+						<div class="mobile-user home-feed"></div>    
+					</a>
+				</div>
+				{% if user.is_authenticated %}
+				<a href="{% url 'exibir' perfil_logado.id %}">
+					<div class="mobile_menu_options">
+					    Published
+					</div>
+				</a>
+				
+				<a href="{% url 'hided' perfil_logado.id %}">
+					<div class="mobile_menu_options">
+						Hided
+					</div>
+				</a>
+				
+				<a href="{% url 'favorites' perfil_logado.id %}">
+					<div class="mobile_menu_options">
+						<img class="user pbfavorite"> Favorites
+					</div>
+				</a>
+				
+				<a href="{% url 'followers' perfil_logado.id %}">
+					<div class="mobile_menu_options">
+					    Followers
+					</div>
+				</a>
+				
+				<a href="{% url 'contacts' perfil_logado.id %}">
+					<div class="mobile_menu_options">
+					    Following
+					</div>
+				</a>
+				
+				<a href="{% url 'removed_cards' perfil_logado.id %}">
+					<div class="mobile_menu_options">
+					    Removed
+					</div>
+				</a>
+				
+				<a href="{% url 'accepted_cards' perfil_logado.id %}">
+					<div class="mobile_menu_options">
+					    Accepted
+					</div>
+				</a>
+				
+				<a href="{% if perfil_logado.type = 'c' %}
+				      	       {% url 'company' perfil_logado.id %}
+				             {% else %}
+				        	   {% url 'whoami' perfil_logado.id %} 
+				        	 {% endif %}"
+					class="menu-dropdown-title">
+					<div class="mobile_user_options">	
+				    	<img class="profile"/> My Profile
+					</div>
+				</a>
+				
+				<a href="{% url 'decks' perfil_logado.id %}" class="menu-dropdown-title">
+					<div class="mobile_user_options">   	
+				    	<img class="flag-menu"/> Campaigns
+					</div>
+				</a>
+				
+				<a href="{% url  'config' perfil_logado.id %}" class="menu-dropdown-title">
+					<div class="mobile_settings_options">
+				    	<img class="engine"/> Settings
+					</div>
+				</a>
+				
+				<a href="{% url  'stats' perfil_logado.id %}" class="menu-dropdown-title">
+					<div class="mobile_settings_options">
+				        <img class="stats"/> Stats
+					</div>
+				</a>
+				
+				<a href="/logout/" class="menu-dropdown-title">
+					<div class="mobile_logout_options">
+						<img class="power-off"> Log out
+					</div>
+				</a>
+				{% else %}
+				<a href="/login/" class="menu-dropdown-title">
+					<div class="mobile_logout_options">
+						Log in
+					</div>
+				</a>
+				{% endif %}
+	        </div>
+	    </div>
+    </div>
+</div>

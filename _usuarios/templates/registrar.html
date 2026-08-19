@@ -1,0 +1,94 @@
+{% extends "base_usuario.html" %}
+
+{% block body %}
+	<style>
+	.form-group {
+	  position: relative!important;
+	}
+	.form-group input[type="password"] {
+	  padding-right: 30px!important;
+	}
+	.form-group .glyphicon {
+	  right: 30px!important;
+	  position:absolute!important;
+	  top:10px!important;
+	  cursor: pointer!important;
+	}
+	</style>
+
+	{% if form.errors %}
+        <div class="alert alert-danger">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
+                &times;
+            </button>
+            {{form.non_field_errors}}
+        </div>
+    {% endif %}
+
+	<form id="form-signin" class="form-signin" role="form" action="{% url 'registrar' %}" method="post">
+    {% csrf_token %}
+	
+		{{confirm_message}}
+		
+
+		
+		<h2 class="form-signin-heading">Create your account</h2>
+
+		<br/>
+		
+		<input type="text" id="id_email" name="email" class="account-input" 
+			placeholder="Email *" autofocus>
+			
+		<br/>
+
+		<input type="text" id="id_nome" name="nome" class="account-input" 
+			placeholder="Name *">
+
+		<br/>
+		
+		<div class="form-group">
+			<input type="password" id="id_senha" name="senha" class="account-input" 
+			placeholder="Password - at least 8 characters *">
+			<span class="glyphicon glyphicon-eye-open fa-2x"></span>
+		</div>
+
+		<br/>
+		
+		
+		<div class="btn-group">
+			<input type="radio" name="type" id="female" autocomplete="off" value="f" checked> <span> Female </span> <span>&nbsp;&nbsp;&nbsp;</span>
+			<input type="radio" name="type" id="male" autocomplete="off" value="m"> <span> Man </span> <span>&nbsp;&nbsp;&nbsp;</span>
+			<span> | &nbsp;&nbsp;&nbsp;</span>
+			<input type="radio" name="type" id="company" autocomplete="off" value="c"> <span> Company </span>
+		</div>
+
+		<input type="hidden" name="stealth" id="stealth" value="0">
+		<br/>
+		<br/>
+		<br/>	
+
+		<div class="btn-group g-recaptcha" data-sitekey="6LcaiTkUAAAAAIHSA6rhyYVOEPp-EbY3cCzaoBot"></div>
+		
+		<br/>
+		<br/>
+
+		<button class="btn btn-login btn-primary btn-block" type="submit">
+			Create
+		</button>
+		
+		<br/>
+		
+		<p class="footer-menu-item"><a href="{% url 'login' %}"><span>Back</span></a></p>
+	</form>
+	<script>
+	$(".glyphicon-eye-open").on("click", function() {
+		$(this).toggleClass("glyphicon-eye-close");
+		  var type = $("#id_senha").attr("type");
+		if (type == "text"){ 
+		  $("#id_senha").prop('type','password');}
+		else{ 
+		  $("#id_senha").prop('type','text'); }
+	});
+	</script>
+
+{% endblock %}

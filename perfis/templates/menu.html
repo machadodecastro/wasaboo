@@ -1,0 +1,500 @@
+{% block body %}
+
+	<!-- Modal for show who favorited the tip-->
+	{% include "modal_who_favorited.html" %}
+	
+<div class="row content">
+<div class="{% if hotcard %} 
+				{% if perfil.id == perfil_logado.id %} 
+					{% for b in my_background_image %}
+						{% if b.bkg_upload != '0'  %}  
+							col-profile-personalized 
+						{% else %} 
+							col-profile-large 
+						{% endif %}
+					{% endfor %}
+				{% else %}
+					{% for b in has_background_image %}
+						{% if b.bkg_upload != '0' %}  
+							col-profile-personalized 
+						{% else %} 
+							col-profile-large 
+						{% endif %}
+					{% endfor %}
+				{% endif %}
+			{% else %}
+				{% if perfil.id == perfil_logado.id %} 
+					{% for b in my_background_image %}
+						{% if b.bkg_upload != '0'  %}  
+							col-profile-personalized 
+						{% else %} 
+							col-profile 
+						{% endif %}
+					{% endfor %}
+				{% else %}
+					{% for b in has_background_image %}
+						{% if b.bkg_upload != '0' %}  
+							col-profile-personalized 
+						{% else %} 
+							col-profile 
+						{% endif %}
+					{% endfor %}
+				{% endif %}
+			{% endif %}"
+
+   	style="{% if perfil.id == perfil_logado.id %}
+		    {% for b in my_background_image %}
+		        {% if b.bkg_upload != '0'  %}  
+		             background-image:url('{{ MEDIA_URL }}{{b.bkg_upload}}') 
+		        {% endif %}
+		    {% endfor %}
+	  {% else %}
+		    {% for b in has_background_image %}
+		        {% if b.bkg_upload != '0'  %}  
+		            background-image:url('{{ MEDIA_URL }}{{b.bkg_upload}}')  
+		        {% endif %}
+		    {% endfor %}
+	  {% endif %}">
+	
+	{% if perfil.id == perfil_logado.id %} 
+	
+	{% for a in my_avatar_image %}
+		<!-- Modal for editing profile picture-->
+		{% include "modal_edit_picture.html" %}
+	{% endfor %}
+	
+	{% for b in my_background_image %}
+		<!-- Modal to update profile background-->
+		{% include "modal_edit_background.html" %}
+		<div class="mobile-menu-tools">
+		<a href="#updateBackgroundPicture-{{b.id}}"
+      	   data-toggle="modal"
+      	   class="custom-tooltip-left background-landscape add_more_label background-landscape-{{b.id}}"
+      	   data-url="{{url}}" 					       	        
+       	   data-id = "{{b.id}}" 
+           data-tt="tooltip" 
+       	   data-placement="right" 
+       	   title="Change landscape">
+		       <div class="background-landscape"></div>
+		</a>
+		
+		{% if perfil.color = '1' %}
+		<a href="#"
+      	   class="custom-tooltip-left black-brush add_more_label black-brush-{{b.id}}" 
+      	   data-url="{{url}}" 							       	        
+       	   data-id = "{{b.id}}" 
+       	   data-user = "{{request.user.id}}"
+       	   data-profile = "{{request.user.perfil.id}}"
+           data-tt="tooltip" 
+       	   data-placement="left" 
+       	   title="Black text color">
+		       <div class="black-brush"></div>
+		</a>
+		<a href="#"
+      	   class="custom-tooltip-left white-brush add_more_label white-brush-{{b.id}}" 
+      	   data-url="{{url}}" 					       	        
+       	   data-id = "{{b.id}}" 
+       	   data-user = "{{request.user.id}}"
+       	   data-profile = "{{request.user.perfil.id}}"
+           data-tt="tooltip" 
+       	   data-placement="left" 
+       	   title="White text color"
+       	   style="display:none">
+		       <div class="white-brush"></div>
+		</a>
+		{% else %}
+		<a href="#"
+      	   class="custom-tooltip-left white-brush add_more_label white-brush-{{b.id}}" 
+      	   data-url="{{url}}" 					       	        
+       	   data-id = "{{b.id}}" 
+       	   data-user = "{{request.user.id}}"
+       	   data-profile = "{{request.user.perfil.id}}"
+           data-tt="tooltip" 
+       	   data-placement="left" 
+       	   title="White text color">
+		       <div class="white-brush"></div>
+		</a>
+		<a href="#"
+      	   class="custom-tooltip-left black-brush add_more_label black-brush-{{b.id}}" 
+      	   data-url="{{url}}" 							       	        
+       	   data-id = "{{b.id}}" 
+       	   data-user = "{{request.user.id}}"
+       	   data-profile = "{{request.user.perfil.id}}"
+           data-tt="tooltip" 
+       	   data-placement="left" 
+       	   title="Black text color"
+       	   style="display:none">
+		       <div class="black-brush"></div>
+		</a>		
+		{% endif %}
+	</div>
+	
+		<div class="menu-tools">
+		<a href="#updateBackgroundPicture-{{b.id}}"
+      	   data-toggle="modal"
+      	   class="custom-tooltip-left background-landscape add_more_label background-landscape-{{b.id}}"
+      	   data-url="{{url}}" 					       	        
+       	   data-id = "{{b.id}}" 
+           data-tt="tooltip" 
+       	   data-placement="left" 
+       	   title="Change landscape">
+		       <div class="background-landscape"></div>
+		</a>
+		
+		<br/>
+		{% if perfil.color = '1' %}
+		<a href="#"
+      	   class="custom-tooltip-left black-brush add_more_label black-brush-{{b.id}}" 
+      	   data-url="{{url}}" 							       	        
+       	   data-id = "{{b.id}}" 
+       	   data-user = "{{request.user.id}}"
+       	   data-profile = "{{request.user.perfil.id}}"
+           data-tt="tooltip" 
+       	   data-placement="left" 
+       	   title="Black text color">
+		       <div class="black-brush"></div>
+		</a>
+		<a href="#"
+      	   class="custom-tooltip-left white-brush add_more_label white-brush-{{b.id}}" 
+      	   data-url="{{url}}" 					       	        
+       	   data-id = "{{b.id}}" 
+       	   data-user = "{{request.user.id}}"
+       	   data-profile = "{{request.user.perfil.id}}"
+           data-tt="tooltip" 
+       	   data-placement="left" 
+       	   title="White text color"
+       	   style="display:none">
+		       <div class="white-brush"></div>
+		</a>
+		{% else %}
+		<a href="#"
+      	   class="custom-tooltip-left white-brush add_more_label white-brush-{{b.id}}" 
+      	   data-url="{{url}}" 					       	        
+       	   data-id = "{{b.id}}" 
+       	   data-user = "{{request.user.id}}"
+       	   data-profile = "{{request.user.perfil.id}}"
+           data-tt="tooltip" 
+       	   data-placement="left" 
+       	   title="White text color">
+		       <div class="white-brush"></div>
+		</a>
+		<a href="#"
+      	   class="custom-tooltip-left black-brush add_more_label black-brush-{{b.id}}" 
+      	   data-url="{{url}}" 							       	        
+       	   data-id = "{{b.id}}" 
+       	   data-user = "{{request.user.id}}"
+       	   data-profile = "{{request.user.perfil.id}}"
+           data-tt="tooltip" 
+       	   data-placement="left" 
+       	   title="Black text color"
+       	   style="display:none">
+		       <div class="black-brush"></div>
+		</a>		
+		{% endif %}
+		<br/>
+		
+		<a href="#" class="custom-tooltip-left hotOutdoor" 
+		   style="display: inline-block;"
+		   data-tt="tooltip" 
+       	   data-placement="left" 
+       	   title="Show Hot Outdoor">						        
+             <img class="user hot-card">
+        </a>
+        <a href="#" class="custom-tooltip-left hotOutdoorOff" 
+           style="display: none;"
+           data-tt="tooltip" 
+       	   data-placement="left" 
+       	   title="Hide Hot Outdoor">						        
+             <img class="user hot-card-off" >
+        </a>
+		</div>
+    {% endfor %}
+    {% endif %}
+	
+	{% include "hotcard.html" %}
+		
+    <div class="profile-data-block">   
+        <div class="image-data-block">
+	    {% if perfil.id == perfil_logado.id %}
+		
+	    	<a data-toggle="modal" data-target="#updateProfilePicture" class="dropdown-toggle">
+		    	{% if perfil.type = 'f' %}
+		  			{% for a in my_profile_image %}
+		       		    {% if a.upload != "0"  %}
+			       		    	<div class="profile-user">
+			       		    		<img src="{{a.upload}}" alt="user picture">
+			       		    		<p class="img__description__photo">Edit photo</p>
+			       		    	</div>
+		       		    {% else %}
+			       		    	<div class="profile-user woman">
+			       		    		<p class="img__description__default">Edit photo</p>
+			       		    	</div>
+			       		{% endif %}
+		       		{% endfor %}
+		       		
+		    	{% elif perfil.type = 'm' %}
+		  			{% for a in my_profile_image %}
+		       		    {% if a.upload != "0"  %}
+			       		    	<div class="profile-user">
+			       		    		<img src="{{a.upload}}" alt="user picture">
+			       		    		<p class="img__description__photo">Edit photo</p>
+			       		    	</div>
+		       		    {% else %}
+			       		    	<div class="profile-user man">
+			       		    		<p class="img__description__default">Edit photo</p>
+			       		    	</div>
+			       		{% endif %}
+		       		{% endfor %}
+		        	
+		        {% else %}
+		  			{% for a in my_profile_image %}
+		       		    {% if a.upload != "0"  %}
+			       		    	<div class="profile-user">
+			       		    		<img src="{{a.upload}}" alt="user picture">
+			       		    		<p class="img__description__photo">Edit photo</p>
+			       		    	</div>
+		       		    {% else %}
+			       		    	<div class="profile-user company">
+			       		    		<p class="img__description__default">Edit photo</p>
+			       		    	</div>
+			       		{% endif %}
+		       		{% endfor %}
+				{% endif %}
+	        </a>
+	        
+	     <!-- if different profile -->   
+	     {% else %}
+	     
+	    	{% if perfil.type = 'f' %}
+		  			{% for a in has_profile_image %}
+		       		    {% if a.upload != "0"  %}
+			       		    	<div class="profile-followed">
+			       		    		<img src="{{a.upload}}" alt="user picture">
+			       		    	</div>
+		       		    {% else %}
+			       		    	<div class="profile-followed woman">
+			       		    	</div>
+			       		{% endif %}
+		       		{% endfor %}  	
+	       	
+	       	{% elif perfil.type = 'm' %}
+		  			{% for a in has_profile_image %}
+		       		    {% if a.upload != "0"  %}
+			       		    	<div class="profile-followed">
+			       		    		<img src="{{a.upload}}" alt="user picture">
+			       		    	</div>
+		       		    {% else %}
+			       		    	<div class="profile-followed man">
+			       		    	</div>
+			       		{% endif %}
+		       		{% endfor %}
+	        	
+	        {% else %}
+		  			{% for a in has_profile_image %}
+		       		    {% if a.upload != "0"  %}
+			       		    	<div class="profile-followed">
+			       		    		<img src="{{a.upload}}" alt="user picture">
+			       		    	</div>
+		       		    {% else %}
+			       		    	<div class="profile-followed company">
+			       		    	</div>
+			       		{% endif %}
+		       		{% endfor %}
+		       	{% endif %}
+	     	{% endif %}
+	        
+	        <br/>
+	        
+	        
+	        <input type="hidden" id="profileId" value="{{perfil.id}}">
+		        <h1 class="{% if perfil.color = '0' %}profile-name{% else %}profile-name-white{% endif %}
+		                   profile-name profile-name-{{request.user.id}}">
+		        	{{perfil.nome}}
+		        	
+		        	{% if perfil.id == perfil_logado.id %}
+		        	<a data-toggle="modal" data-target="#updateProfileName" class="dropdown-toggle">
+		        		<span class="editlink">Edit</span>
+		        	</a>
+		        	{% endif %}
+		        </h1>	
+
+		        <br/><br/>
+		        
+	        	{% if perfil.id == perfil_logado.id %}
+	        		
+	        		{% for p in has_short_description %}
+		        		<div class="edit-short-description">
+		        		    {% if p.description %}
+		        		    <a data-toggle="modal" data-target="#updateShortDescription" class="dropdown-toggle">
+		        		    	<span class="{% if perfil.color = '0' %}
+		        		    				     edit-description
+		        		    				 {% else %}
+		        		    				     edit-description-white
+		        		    				 {% endif %}
+		        		    				 edit-description 
+		        		    	             edit-description-{{request.user.perfil.id}}">
+		        		    		{{ p.description }}
+		        		    	</span>
+		        		    </a>
+		        		    {% endif %}
+		        		</div>
+	        		{% empty %}
+	        			<div class="edit-short-description">
+		        		    <a data-toggle="modal" data-target="#updateShortDescription" class="dropdown-toggle">
+		        				<span class="edit-description">About you</span>
+		        			</a>        			
+	        			</div>
+	        		{% endfor %}
+		        	
+		        <br/>
+  
+		        {% with request.resolver_match.url_name as url_name %}
+			        {% if perfil.id == perfil_logado.id %}
+				        	{% if perfil.type = 'f' or perfil.type = 'm' %}
+				        		{% if url_name == 'whoami' or url_name == 'education' or url_name == 'knows' or url_name == 'jobs' or url_name == 'live' %}
+				        		<div class="btn-group mobile-my-cards" role="group" aria-label="Button group with nested dropdown">
+							        <div class="btn-group" role="group">
+									    <button id="btnGroupDrop1" type="button" class="btn btn-secondary dropdown-toggle  btn-profile" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+									      My Outdoors
+									    </button>
+									    <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+									      <a class="dropdown-item" href="{% url 'exibir' perfil.id %}">Published</a>
+									      <a class="dropdown-item" href="{% url 'hided' perfil.id %}">Hided</a>
+									      <a class="dropdown-item" href="{% url 'favorites' perfil.id %}">Favorites</a>
+									    </div>
+								    </div>
+							    </div>
+						        {% else %}
+						        <a href="{% url 'whoami' perfil.id %}" class="followstatus
+						        {% if url_name == 'whoami' or url_name == 'education' or url_name == 'knows' or url_name == 'jobs' or url_name == 'live' %} active-button {% endif %}">						        
+						        	<input type="button" class="btn btn-profile" value="+ Profile"/>
+						        </a>
+						        {% endif %}
+						     {% else %}
+						     	{% if url_name == 'company' or url_name == 'location' %}
+				        		<div class="btn-group mobile-my-cards" role="group" aria-label="Button group with nested dropdown">
+							        <div class="btn-group" role="group">
+									    <button id="btnGroupDrop1" type="button" class="btn btn-secondary dropdown-toggle  btn-profile" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+									      My Outdoors
+									    </button>
+									    <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+									      <a class="dropdown-item" href="{% url 'exibir' perfil.id %}">Published</a>
+									      <a class="dropdown-item" href="{% url 'hided' perfil.id %}">Hided</a>
+									      <a class="dropdown-item" href="{% url 'favorites' perfil.id %}">Favorites</a>
+									    </div>
+								    </div>
+							    </div>
+						        {% else %}
+						        <a href="{% url 'company' perfil.id %}" class="followstatus
+						        {% if url_name == 'company' %} active-button {% endif %}">						        
+						        	<span class="edit"></span>
+						        	<input type="button" class="btn btn-profile" value="+ Profile"/>
+						        </a>	
+						        {% endif %}				     
+						     {% endif %}
+			        {% endif %}	        
+		        {% endwith %}
+		        	
+		        	{% else %} <!-- if different profile -->
+		        	
+		        		{% for p in has_short_description %}
+		        		<div class="edit-short-description">
+		        		    {% if p.description %}
+		        		    	<span class="{% if perfil.color = '0' %}
+		        		    				     read-description
+		        		    				 {% else %}
+		        		    				     read-description-white
+		        		    				 {% endif %}">{{ p.description }}</span>
+		        		    	<br/><br/>
+		        		    {% endif %}
+		        		</div>
+		        		    {% empty %}
+		        				<span class="{% if perfil.color = '0' %}
+		        		    				     read-description
+		        		    				 {% else %}
+		        		    				     read-description-white
+		        		    				 {% endif %}">No description</span>
+		        				<br/><br/>
+		        		{% endfor %}	        	
+		        	{% endif %}	   	        		        	
+		         
+		        <br/>
+			    
+				{% if perfil.id != perfil_logado.id %}
+					{%for c in is_contact %}
+						{% if c.followed %}					
+		             	  <input type="button" class="btn btn-danger nofollow" data-id="{{perfil.id}}" id="nofollowing" 
+		             	  name="nofollowing" value="Stop following" />
+						  <input type="button" class="btn btn-info follow" data-id="{{perfil.id}}" id="following" 
+		             	  name="following" value="Start following" style="display:none;"/>
+		             	{% endif %}	            
+		            	
+		            	{% empty %}
+	
+		             	  <input type="button" class="btn btn-info follow" data-id="{{perfil.id}}" id="following" 
+		             	  name="following" value="Start following" />
+						  <input type="button" class="btn btn-danger nofollow" data-id="{{perfil.id}}" id="nofollowing" 
+		             	  name="nofollowing" value="Stop following" style="display:none;"/> 						  
+		            {% endfor %}
+		            
+		            {% if perfil.type = 'f' or perfil.type = 'm' %}
+				        		{% if url_name == 'whoami' or url_name == 'education' or url_name == 'knows' or url_name == 'jobs' %}
+						        <a href="{% url 'exibir' perfil.id %}">
+						     		<span class="edit"></span>
+						        	<input type="button" class="btn btn-profile" value="Outdoors"/>
+						     	</a>
+						        {% else %}
+						        <a href="{% url 'whoami' perfil.id %}" class="followstatus
+						        {% if url_name == 'whoami' or url_name == 'education' or url_name == 'knows' or url_name == 'jobs' %} active-button {% endif %}">						        
+						        	<input type="button" class="btn btn-profile" value="+ Profile"/>
+						        </a>
+						        {% endif %}
+						     {% else %}
+						     	{% if url_name == 'company' or url_name == 'location' %}
+						     	<a href="{% url 'exibir' perfil.id %}">
+						     		<span class="edit"></span>
+						        	<input type="button" class="btn btn-profile" value="Outdoors"/>
+						     	</a>
+						        {% else %}
+						        <a href="{% url 'company' perfil.id %}" class="followstatus
+						        {% if url_name == 'company' %} active-button {% endif %}">						        
+						        	<span class="edit"></span>
+						        	<input type="button" class="btn btn-profile" value="+ Profile"/>
+						        </a>
+						        {% endif %}					     
+			        {% endif %}
+			        
+			        <div class="btn-group mobile-my-cards" role="group" aria-label="Button group with nested dropdown">
+				        <div class="btn-group" role="group">
+						    <button id="btnGroupDrop1" type="button" class="btn btn-secondary dropdown-toggle btn-campaign" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						      Campaigns
+						    </button>
+						    <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+						    {% for outdoor in campaigns %}
+								<a class="dropdown-item" href="{% url 'bysubject' outdoor.author outdoor.deck %}">{{ outdoor.campaign }}</a>
+							{% endfor %}
+						    </div>
+					    </div>
+				    </div>			        
+			  	{% endif %}
+			  	
+			</div>	 
+		</div>
+	</div>
+</div>		
+
+<script>
+$( document ).ready(function() {	
+	$(".hotOutdoor").on('click',function (){        	
+   	    $("#hotOutdoor-{{tip.id}}").css('display','block');
+   	    $(".hotOutdoor").css('display','none');
+   	    $(".hotOutdoorOff").css('display','block');
+	});
+	$(".hotOutdoorOff").on('click',function (){        	
+   	    $("#hotOutdoor-{{tip.id}}").css('display','none');
+   	    $(".hotOutdoor").css('display','block');
+   	    $(".hotOutdoorOff").css('display','none');
+	});
+});
+</script>
+{% endblock %}

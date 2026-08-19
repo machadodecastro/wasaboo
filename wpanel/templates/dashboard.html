@@ -1,0 +1,178 @@
+{% extends "wpanel.html" %}
+{% block body %}
+
+<div class="row">
+    <div class="col-lg-4">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title"><img class="profile"/> Users </h3>
+            </div>
+            <div class="panel-body">
+                <div class="list-group">
+                    <a href="{% url 'users' %}" class="list-group-item">
+                        <span class="badge">{% for u in users_count %} {{ u.amount }} {% endfor %}</span>
+                        All Users
+                    </a>   
+                    
+                    <a href="{% url 'superusers' %}" class="list-group-item">
+                        <span class="badge">{% for u in superusers_count %} {{ u.amount }} {% endfor %}</span>
+                        Super Users
+                    </a> 
+                    
+                    <a href="{% url 'users_in_stealth' %}" class="list-group-item">
+                        <span class="badge">{% for u in users_stealth_count %} {{ u.amount }} {% endfor %}</span>
+                        Users in Stealth Mode
+                    </a>  
+                    
+                    <a href="{% url 'users_masculine' %}" class="list-group-item">
+                        <span class="badge">{% for u in users_masculine_count %} {{ u.amount }} {% endfor %}</span>
+                        Masculine Profiles
+                    </a> 
+                    
+                    <a href="{% url 'users_feminine' %}" class="list-group-item">
+                        <span class="badge">{% for u in users_feminine_count %} {{ u.amount }} {% endfor %}</span>
+                        Feminine Profiles
+                    </a>  
+                    
+                    <a href="{% url 'users_company' %}" class="list-group-item">
+                        <span class="badge">{% for u in users_company_count %} {{ u.amount }} {% endfor %}</span>
+                        Company Profiles
+                    </a>  
+                    
+					<a href="{% url 'users_short_description' %}" class="list-group-item">
+                        <span class="badge">{% for u in users_short_description_count %} {{ u.amount }} {% endfor %}</span>
+                        Short Descriptions
+                    </a>                    
+ 	            </div>
+	        </div>
+	    </div>    
+	</div>
+	
+	
+	<div class="col-lg-4">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title"><img class="card"/> Cards </h3>
+            </div>
+            <div class="panel-body">
+                <div class="list-group">
+                    <a href="{%url 'cards' %}" class="list-group-item">
+                        <span class="badge">{% for c in cards_count %} {{ c.amount }} {% endfor %}</span>
+                        All Cards
+                    </a> 
+                    <a href="{%url 'played_cards' %}" class="list-group-item">
+                        <span class="badge">{% for c in played_cards_count %} {{ c.amount }} {% endfor %}</span>
+                        Played Cards
+                    </a> 
+                    <a href="{%url 'removed_cards' %}" class="list-group-item">
+                        <span class="badge">{% for c in removed_cards_count %} {{ c.amount }} {% endfor %}</span>
+                        Removed Cards
+                    </a>   
+ 	            </div>
+	        </div>
+	    </div>    
+	</div>
+	
+	<div class="col-lg-4">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title"><img class="myfavorites"/> Favorites </h3>
+            </div>
+            <div class="panel-body">
+                <div class="list-group">
+                    <a href="{%url 'users_favorites' %}" class="list-group-item">
+                        <span class="badge">{% for fav in favorites_count %} {{ fav.amount }} {% endfor %}</span>
+                        Favorites
+                    </a>   
+ 	            </div>
+	        </div>
+	    </div>    
+	</div>	
+	
+	<div class="col-lg-4">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title"><img class="user-following"/> Followers </h3>
+            </div>
+            <div class="panel-body">
+                <div class="list-group">
+                    <a href="{%url 'users_followers' %}" class="list-group-item">
+                        <span class="badge">{% for f in followers_count %} {{ f.amount }} {% endfor %}</span>
+                        Followers
+                    </a>   
+ 	            </div>
+	        </div>
+	    </div>    
+	</div>	
+	
+	<div class="col-lg-4">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title"><img class="user-followed"/> Followed </h3>
+            </div>
+            <div class="panel-body">
+                <div class="list-group">
+                    <a href="{%url 'users_followed' %}" class="list-group-item">
+                        <span class="badge">{% for f in followers_count %} {{ f.amount }} {% endfor %}</span>
+                        Followed
+                    </a>   
+ 	            </div>
+	        </div>
+	    </div>    
+	</div>	
+	
+	<div class="col-lg-4">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title"><img class="folder"/> Decks </h3>
+            </div>
+            <div class="panel-body">
+                <div class="list-group">
+                    <a href="{%url 'users_decks' %}" class="list-group-item">
+                        <span class="badge">{% for d in decks_count %} {{ d.amount }} {% endfor %}</span>
+                        Decks
+                    </a>   
+ 	            </div>
+	        </div>
+	    </div>    
+	</div>
+	
+	<div class="col-lg-4">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title"> + Profile </h3>
+            </div>
+            <div class="panel-body">
+                <div class="list-group">
+                    <a href="{%url 'users_whoami' %}" class="list-group-item">
+                        <span class="badge">{% for w in whoami_count %} {{ w.amount }} {% endfor %}</span>
+                        Who Am I
+                    </a> 
+                    <a href="{%url 'users_education' %}" class="list-group-item">
+                        <span class="badge">{% for e in education_count %} {{ e.amount }} {% endfor %}</span>
+                        Education
+                    </a>   
+                    <a href="{%url 'users_knows' %}" class="list-group-item">
+                        <span class="badge">{% for k in knows_count %} {{ k.amount }} {% endfor %}</span>
+                        Knows
+                    </a> 
+                    <a href="{%url 'users_jobs' %}" class="list-group-item">
+                        <span class="badge">{% for j in jobs_count %} {{ j.amount }} {% endfor %}</span>
+                        Jobs
+                    </a> 
+                    <a href="{%url 'users_company_about' %}" class="list-group-item">
+                        <span class="badge">{% for c in company_count %} {{ c.amount }} {% endfor %}</span>
+                        Company
+                    </a> 
+                    <a href="{%url 'users_location' %}" class="list-group-item">
+                        <span class="badge">{% for m in location_count %} {{ m.amount }} {% endfor %}</span>
+                        Location
+                    </a> 
+ 	            </div>
+	        </div>
+	    </div>    
+	</div>		
+   
+</div>
+
+{% endblock %}

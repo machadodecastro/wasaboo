@@ -1,0 +1,165 @@
+{% extends "base.html" %}
+	
+{% block body %}
+<body  style="background-color: #EEE;">
+<div id="Center">
+  <div class="chat-room">
+  
+    {% if user.is_authenticated %}
+      {% with perfil.id as perfil %}
+        {% for c in chat_room %}
+            {% if c.profileID == perfil %}                 
+                   
+                   <ul id="myULCards" style="float: left;width: 365px;border-radius: 8px;padding: 20px;border-radius: 8px;">
+                   <li class="cards card-{{c.outdoorID}}">
+				     <div class="main card-layout">
+						<div class="fotorama fotorama-{{c.id}}" data-width="100%" data-nav="thumbs" data-loop="true">						    		
+						    	{% if c.imagem and c.hide_image == '0' %}	
+						    		<img class="outdoor outdoor-{{c.outdoorID}} 
+						    		{%if c.direction = '0'%}landscape{%else%}portrait{%endif%}" 
+						    		src="{{ MEDIA_URL }}{{c.imagem}}" data-id="{{c.id}}"
+						    		alt="card picture"/>
+								{% endif %}
+								
+								{% if c.imagem2 and c.hide_image2 == '0' %}	
+						    		<img class="outdoor outdoor-{{c.outdoorID}} 
+						    		{%if c.direction2 = '0'%}landscape{%else%}portrait{%endif%}" 
+						    		src="{{ MEDIA_URL }}{{c.imagem2}}" data-id="{{c.id}}"
+						    		alt="card picture"/>
+								{% endif %}
+								
+								{% if c.imagem3 and c.hide_image3 == '0' %}	
+						    		<img class="outdoor outdoor-{{c.outdoorID}} 
+						    		{%if c.direction3 = '0'%}landscape{%else%}portrait{%endif%}" 
+						    		src="{{ MEDIA_URL }}{{c.imagem3}}" data-id="{{c.id}}"
+						    		alt="card picture"/>
+								{% endif %}
+								
+								{% if c.imagem4 and c.hide_image4 == '0' %}	
+						    		<img class="outdoor outdoor-{{c.outdoorID}} 
+						    		{%if c.direction4 = '0'%}landscape{%else%}portrait{%endif%}" 
+						    		src="{{ MEDIA_URL }}{{c.imagem4}}" data-id="{{c.id}}"
+						    		alt="card picture"/>
+								{% endif %}
+						    	{% if c.price > '0,00' and c.price != 'None' %}
+						    	<span class="price-number">
+						    	  {% if c.coin == '1' %}
+						    	    <img src="/static/img/united-states.png"> U$
+						    	  {% elif c.coin == '2' %}
+						    	    <img src="/static/img/european-union.png"> &euro;
+						    	  {% else %}
+						    	    <img src="/static/img/brazil.png"> R$
+						    	  {% endif %}
+						    	  {{ c.price }}
+						    	</span>
+						    	<span class="price-number-tag"></span>
+						    	{% endif %}
+						</div>							    
+
+				        <!-- Main title -->
+				        {% if c.content %}
+				        <a href="{%url 'show_tip' c.slug c.outdoorID %}" style="cursor:zoom-in">
+			    			<div class="title-content title-content-{{c.id}}" 
+		              	    style="white-space: pre-line; word-wrap: break-word;" wrap="hard" contenteditable="">
+		              	    	{{c.content|linebreaks}}
+		                    </div>
+						</a>
+						{% endif %}
+						
+						<!-- Description -->
+				        {% if c.reference %}
+		                  <div class="panel reference-content">
+					          {{c.reference|safe}}
+					      </div>
+	                    {% endif %}
+                     </div>
+                   </li>
+                   </ul>
+                   
+                   
+                <div class="chat-talk">
+                
+	                <a href="{% url 'exibir' c.profileID %}">
+	                   {% if c.type = "f" %}
+				       		    {% if c.upload != "0" %}
+				       		    	<img src="{{c.upload}}" class="user">
+				       		    {% else %}
+				       		    	<img class="user woman">
+				       		    {% endif %}					       	
+				       	{% elif c.type = "m" %}
+				       		    {% if c.upload != "0" %}
+				       		    	<img src="{{c.upload}}" class="user">
+				       		    {% else %}
+				       		    	<img class="user man">
+				       		    {% endif %}					       	
+				       	{% elif c.type = "c" %}
+				       		    {% if c.upload != "0" %}
+				       		    	<img src="{{c.upload}}" class="user">
+				       		    {% else %}
+				       		    	<img class="user company">
+				       		    {% endif %}
+						{% endif %}
+	                   <strong>{{ c.nome }}</strong> está interessad{% if c.type = "f" %}a{% else %}o{% endif %}
+	                </a>
+	                
+	                <br/><br/>
+	                
+	                <div class="messages messages-{{c.outdoorID}}">	  
+	                {% with c.nome as authorName and perfil_logado.id as perfilLogadoID and perfil as perfilID %} 
+					 {% for message in chat_in_room %}
+					     <div style="text-align: left;">
+						   	{% if message.origem == perfil|stringformat:"s" and message.destino == perfilLogadoID|stringformat:"s" %}
+						   	  <span style="color:#337ab7"><strong>{{ authorName }}:</strong> </span>
+						   	  <span class="chat-font"> {{ message.corpo }} </span><br/><br/>
+						   	{% elif message.origem == perfilLogadoID|stringformat:"s" and message.destino == perfil|stringformat:"s" %}
+						   	  <span style="color:orange"><strong>Eu:</strong></span> 
+						   	  <span class="chat-font"> {{ message.corpo }} </span><br/><br/>						   	  
+						   	{% endif %} 
+					     </div>
+					 {% endfor %}
+					{% endwith %}
+	                </div>
+	                  
+		
+					  <textarea class="form-control tipTextArea chat_counter" id="chat-{{c.outdoorID}}" name="chat" 
+					  placeholder="Send a message to {{ c.nome }}" rows="3" style="font-size: 16px;"></textarea>
+					  
+					  <div style="padding-top: 30px;text-align: center;">
+				    	<input type="button" class="btn btn-success btn-send-msg btn-send-msg-{{c.outdoorID}}" disabled 
+				    	value="Send" 
+				    	data-id="{{c.outdoorID}}" 
+				    	data-url = "{{url}}"
+				    	data-destino = "{{ c.profileID }}"
+				    	data-origem = "{{ perfil_logado.id }}"
+				    	data-status = "0"
+				    	data-criacao = "{% now 'Y-m-d H:m:s' %}">
+			    	  </div>
+                </div>
+                
+                <!-- Avoid submit empty content in Chat -->
+				<script>
+				 $(document).ready(function () {
+				    $('#chat-{{c.outdoorID}}').keyup(function () {
+				        if ($.trim($('#chat-{{c.outdoorID}}').val()).length < 1) {
+							$('.btn-send-msg-{{c.outdoorID}}').prop('disabled', true);
+				        } else {
+							
+				        	$('.btn-send-msg-{{c.outdoorID}}').prop('disabled', false);
+				        }
+				    });
+				    $('#chat-{{c.outdoorID}}').keypress(function(event) {
+				        if (event.keyCode == 13) {
+				            event.preventDefault();
+				        }
+				    });
+				});
+				</script>
+
+            {% endif %}  
+        {% endfor %}
+      {% endwith %}	
+    {% endif %}	
+  
+</div>
+</body>
+{% endblock %}

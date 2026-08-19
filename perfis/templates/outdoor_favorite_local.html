@@ -1,0 +1,72 @@
+{% if not tip.removed %}
+  
+  {% if tip.author_profile_id == request.user.perfil.id %}
+
+  {% else %} <!-- another profile -->
+  
+  <div id="fav">
+  {% if tip.isfav == 0 %}
+	<img class="pbfavorite pbfavorite-{{tip.id}} user" 
+	data-url = "{{url}}" 
+	data-id="{{tip.id}}" 
+	data-author="{{tip.author_name}}"
+	id="pbfavoriteTip-{{tip.id}}" name="pbfavoriteTip"/>
+	
+	<img class="favorite favorite-{{tip.id}} user" 
+	data-url = "{{url}}" 
+	data-id="{{tip.id}}"  
+	id="favoriteTip-{{tip.id}}" name="favoriteTip" style="display: none"/>
+  {% else %}
+	<img class="favorite favorite-{{tip.id}} user" 
+	data-url = "{{url}}" 
+	data-id="{{tip.id}}"  
+	id="favoriteTip-{{tip.id}}" name="favoriteTip"/>
+	
+	<img class="pbfavorite pbfavorite-{{tip.id}} user" 
+	data-url = "{{url}}" 
+	data-id="{{tip.id}}" 
+	data-author="{{tip.author_name}}"
+	id="pbfavoriteTip-{{tip.id}}" name="pbfavoriteTip" style="display: none"/>
+  {% endif %}	
+  </div>		
+  
+  {% endif %}
+  
+  <!-- Zoom -->
+  <a href="{{ MEDIA_URL }}{{tip.outdoor}}" 
+     data-fancybox="gallery-{{tip.id}}" 
+     data-width="1500"
+     data-thumbs='{"autoStart":false}'
+     class="gallery">
+  </a>
+  <div style="display: none;">  
+  {% if tip.outdoor2 and tip.hide_image2 == '0' %}   
+  <a href="{{ MEDIA_URL }}{{tip.outdoor2}}" data-fancybox="gallery-{{tip.id}}" 
+     data-width="1500"
+     data-thumb="{{ MEDIA_URL }}{{tip.outdoor2}}"></a>
+  {% endif %}
+  
+  {% if tip.outdoor3 and tip.hide_image3 == '0' %}
+  <a href="{{ MEDIA_URL }}{{tip.outdoor3}}" data-fancybox="gallery-{{tip.id}}" 
+     data-width="1500"
+     data-thumb="{{ MEDIA_URL }}{{tip.outdoor3}}"></a>
+  {% endif %}
+  </div>
+  
+  
+  <!-- Maps -->
+  {% if tip.local %}
+  <a target="_blank" href="http://maps.google.com/?q={{ tip.local }}">
+    <span class="maps"></span>
+  </a>
+  {% endif %}
+  
+  
+  <!-- Attached docs -->
+  {% if tip.docs %} 
+	  <a href="#" data-toggle="modal" data-target="#docs-{{ tip.id }}">
+	    <span class="clip"></span>
+	  </a>
+  {% endif %}
+    
+{% endif %}

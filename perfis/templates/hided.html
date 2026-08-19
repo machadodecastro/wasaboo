@@ -1,0 +1,154 @@
+{% extends "base.html" %}
+
+{% block body %}
+
+{% if perfil.id == perfil_logado.id %}
+<div class="row-profile">
+
+	<!-- Modal for show tips details-->
+	{% include "modal_show_tip.html" %}	
+
+	<!-- Modal for show who favorited the tip-->
+	{% include "modal_who_favorited.html" %}
+
+	<!-- MENU -->	
+	{% include "menu.html" %}
+	
+	<div id="Center"> 	
+	        {% if profilehided %}
+		    <ul class="profile-waterfall">
+	              {% for tip in profilehided %}
+				      
+				      {% include 'modal_edit_card.html' %}
+							
+					  <li class="cards card-{{tip.id}}">
+						<div class="main card-layout {% if tip.notified %} go-play {% endif %}">
+
+							{% with tip.id as card %}
+								{% for n in notifications_count %}
+									{% if n.referenced_card = card %}
+								    <div class="notifications-advertise">
+								    	{{ n.howmany }}
+								    </div>
+								    {% endif %}
+								{% endfor %}	
+							{% endwith %}						
+						  							  
+							  {% include 'card_header_hided.html' %}
+							      
+			                    <!-- Outdoor title -->
+			          		    {% include 'outdoor_title.html' %}
+	
+								{% include 'card_delete_question.html' %}
+	                
+				                {% include 'folder_options.html' %}
+				                    
+								{% include 'folder_container.html' %}
+							
+								<!-- Picture -->					
+								{% include 'outdoor_picture.html' %}							    
+
+					                
+			                  <div class="profile-image">
+							    <div class="image-content">
+							    {% if perfil.id == perfil_logado.id %}
+							    	<a data-toggle="modal" data-target="#updateProfilePicture" class="dropdown-toggle">
+								    	{% if perfil.type = 'f' %}
+								  			{% for a in my_profile_image %}
+								       		    {% if a.upload != "0"  %}
+									       		    	<div>
+									       		    		<img src="{{a.upload}}" class="user">
+									       		    	</div>
+								       		    {% else %}
+									       		    	<div class="user woman"></div>
+									       		{% endif %}
+								       		{% endfor %}
+								       		
+								    	{% elif perfil.type = 'm' %}
+								  			{% for a in my_profile_image %}
+								       		    {% if a.upload != "0"  %}
+									       		    	<div>
+									       		    		<img src="{{a.upload}}" class="user">
+									       		    	</div>
+								       		    {% else %}
+									       		    	<div class="user man"></div>
+									       		{% endif %}
+								       		{% endfor %}
+								        	
+								        {% else %}
+								  			{% for a in my_profile_image %}
+								       		    {% if a.upload != "0"  %}
+									       		    	<div>
+									       		    		<img src="{{a.upload}}" class="user">
+									       		    	</div>
+								       		    {% else %}
+									       		    	<div class="user company"></div>
+									       		{% endif %}
+								       		{% endfor %}
+								       	{% endif %}
+							        </a>
+							        
+							     {% else %}
+							     
+							    	{% if perfil.type = 'f' %}
+								  			{% for a in has_profile_image %}
+								       		    {% if a.upload != "0"  %}
+									       		    	<div>
+									       		    		<img src="{{a.upload}}" class="user">
+									       		    	</div>
+								       		    {% else %}
+									       		    	<div class="user woman"></div>
+									       		{% endif %}
+								       		{% endfor %}  	
+							       	
+							       	{% elif perfil.type = 'm' %}
+								  			{% for a in has_profile_image %}
+								       		    {% if a.upload != "0"  %}
+									       		    	<div>
+									       		    		<img src="{{a.upload}}" class="user">
+									       		    	</div>
+								       		    {% else %}
+									       		    	<div class="user man"></div>
+									       		{% endif %}
+								       		{% endfor %}
+							        	
+							        {% else %}
+								  			{% for a in has_profile_image %}
+								       		    {% if a.upload != "0"  %}
+									       		    	<div>
+									       		    		<img src="{{a.upload}}" class="user">
+									       		    	</div>
+								       		    {% else %}
+									       		    	<div class="user company"></div>
+									       		{% endif %}
+								       		{% endfor %}							        
+								    {% endif %}
+							     {% endif %}			                  
+			                  	 </div>
+			                  	  
+				                <!-- Profile name -->
+					            {% include 'outdoor_profile.html' %}
+								
+             				    <!-- Favorite icon -->
+     					        {% include 'outdoor_favorite_local.html' %}
+     					          
+				    		</div>
+				    		
+				    		<!-- Outdoor Campaign -->
+			      	  	    {% include 'outdoor_campaign.html' %}	
+			      	  	    						            
+					    </div>					                
+	              {% empty %}
+		              <li class="no-published-warning">
+					  	      Hided outdoors do not appear in your feed.
+			              	  You don't have outdoors hided for now.			             
+	              	  </li>
+				  </li>
+	              {% endfor %}
+			</ul>
+	        {% endif %}
+	</div>
+</div>
+{% endif %}
+
+{% endblock %}

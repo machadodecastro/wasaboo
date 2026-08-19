@@ -1,0 +1,40 @@
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+ <!--
+ created with Free Online Sitemap Generator www.xml-sitemaps.com 
+-->
+<url>
+<loc>https://www.wasaboo.com/</loc>
+<lastmod>2018-12-05T14:29:21+00:00</lastmod>
+<priority>1.00</priority>
+</url>
+<url>
+<loc>https://www.wasaboo.com/login/</loc>
+<lastmod>2018-12-05T14:27:23+00:00</lastmod>
+<priority>0.80</priority>
+</url>
+<url>
+<loc>https://www.wasaboo.com/register/</loc>
+<lastmod>2018-12-05T14:29:21+00:00</lastmod>
+<priority>0.80</priority>
+</url>
+<url>
+<loc>https://www.wasaboo.com/about/</loc>
+<lastmod>2018-12-05T14:29:21+00:00</lastmod>
+<priority>0.80</priority>
+</url>
+<url>
+<loc>https://www.wasaboo.com/how_it_works/</loc>
+<lastmod>2018-12-05T14:29:21+00:00</lastmod>
+<priority>0.80</priority>
+</url>
+<url>
+<loc>https://www.wasaboo.com/policy/</loc>
+<lastmod>2018-12-05T14:29:21+00:00</lastmod>
+<priority>0.80</priority>
+</url>
+<url>
+<loc>https://www.wasaboo.com/contact/</loc>
+<lastmod>2018-12-05T14:29:21+00:00</lastmod>
+<priority>0.80</priority>
+</url>
+</urlset>

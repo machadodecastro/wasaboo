@@ -1,0 +1,30 @@
+{% extends "password_reset/base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Password recovery" %}{% endblock %}
+
+{% block content %}
+	<form method="post" action="{{ url }}" class="signin-form">
+		{% csrf_token %}
+
+	    <p class="footer-menu-item"><span style="color:#FFF"> Forgot your password? </span></p>
+		
+		<input id="id_username_or_email" name="username_or_email" type="email" class="account-input" 
+        placeholder="Enter your registered e-mail on Wasaboo *">
+				
+		<p><input class="btn-recover" type="submit" value=""
+				  style="background: url(/static/img/email.png) no-repeat;
+			      border: 0;
+		    	  display: block;
+		    	  height: 64px;
+		    	  width: 64px;
+		    	  background-position: center;
+    			  margin: 0 auto;
+    			  outline: none;"/>
+		</p>
+		
+		<br/>
+		
+		<p class="footer-menu-item"><a href="{% url 'login' %}"><span style="color:#FFF">Back</span></a></p>
+	</form>
+{% endblock %}

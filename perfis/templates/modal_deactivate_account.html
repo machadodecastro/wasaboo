@@ -1,0 +1,36 @@
+<!-- Card Update Form -->
+<div class="modal fade" id="modal_deactivate_account_{{perfil_logado.id}}" tabindex="-1" role="dialog" 
+     aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+            	<span class="title-tip" style="font-size:20px">Deactivate Account</span>
+                
+                <button type="button" class="close" data-dismiss="modal">
+                       <span aria-hidden="true">&times;</span>
+                       <span class="sr-only">Close</span>
+                </button>
+                
+            </div>
+            
+            <div class="modal-body">
+			<div class="modal-header">
+			<form id="update_deck_form_{{tip.id}}" action="#" method="post" 
+			enctype="multipart/form-data">
+			{% csrf_token %}
+
+				  Are you sure? All your outdoors will be deleted!
+				  
+				  <br/><br/><br/><br/>
+						  
+				  <button type="button" class="btn btn-cancel" data-dismiss="modal">Cancel</button>
+				  <input type="button" class="btn btn-danger deactivate_account_confirm" value="Confirm" 
+				  data-url="{{url}}"
+			      data-profile="{{perfil_logado.id}}"/>
+				
+			</form>
+			</div>
+			</div>
+        </div>  
+    </div>
+</div>

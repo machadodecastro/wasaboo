@@ -1,0 +1,17 @@
+<!-- CARD DELETE Question -->
+<div class="confirm-delete-question-in-card confirm-delete-question-in-card-{{tip.id}}" 
+style="display: none;margin-top: 60px;">
+    <br/><br/>
+	<span>Do you really want to delete this outdoor?</span><br/>
+	<span>You will lose the outdoors you enjoyed.</span><br/><br/>
+	<div class="confirm-delete-btn-in-card">
+		<input type="button" class="btn btn-danger btn-no-in-card" value="No" 
+		data-id = "{{tip.id}}"
+		data-content = "{{tip.content|linebreaks}}"
+		data-reference = "{{tip.reference|linebreaks}}">
+		<div></div>
+	   	<input type="button" class="btn btn-success btn-yes-in-card" value="Yes" 
+	   	data-url = "{{url}}"
+	   	data-id = "{{tip.id}}">
+	</div>	    
+</div>

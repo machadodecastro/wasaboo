@@ -1,0 +1,45 @@
+<div class="panel-heading panel-heading-{{tip.id}}">
+    <div class="wrapper">
+		<div>
+			<!-- Number of cards inside deck -->
+		    <a data-id="{{tip.id}}">
+				<span class="cards-inside">
+					{{ tip.howmany }}
+				</span>
+		    </a>
+		</div>
+
+		<div style="margin-top: -10px;">
+		    <a class="add_more_label toolbtn toolbtn-{{tip.id}}" 
+			data-id = "{{tip.id}}">
+			    <span class="down-arrow"/>
+			</a>
+		</div>
+
+		<div></div>
+     </div>
+    
+     <!-- Folder Toolbar -->
+	 <div class="toolbar toolbar-{{tip.id}} slideup">
+	    <div>
+	        <!-- Delete folder option-->
+		    <a class="delete-confirm-deck add_more_label delete-confirm-deck-{{tip.id}}" 
+		    data-id = "{{tip.id}}">
+	   		    <span class="delete"/>
+	        </a>				           
+	    </div>	
+	    
+	    <div></div>
+	    
+	    <div>
+	         <!-- Edit folder name option -->
+	         <a href="#"
+	         class="downcard add_more_label edit-deck edit-deck-{{tip.id}}" 
+	         data-toggle="modal" 
+	         data-target="#updateFolder-{{tip.id}}"
+	         data-id = "{{tip.id}}">
+		         <span class="pencil on-decks"/>
+	         </a>				           
+	     </div>
+	  </div>	
+</div> 

@@ -1,0 +1,18 @@
+{% extends "admin/base.html" %}
+{% load i18n %}
+
+{% block content %}
+
+<div class="logout">
+	
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title"><span class="titulo">Wasaboo</span></h3>
+                            </div>
+                            <div class="panel-body">
+								<i class="fa fa-fw fa-warning fa-2x" ></i> Sess&atilde;o encerrada<br/><br/>
+								<h4><a href="{% url 'admin:index' %}" class="btn btn-danger coc">{% trans 'Log in again' %}</a></h4>  
+							</div>
+                        </div>	
+</div>
+{% endblock %}

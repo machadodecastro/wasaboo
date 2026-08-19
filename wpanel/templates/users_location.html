@@ -1,0 +1,55 @@
+{% extends "wpanel.html" %}
+{% block body %}
+	<table id="tables">
+	  <thead>
+	    <tr>
+	      <th>User ID</th>
+	      <th>Profile ID</th>
+	      <th>Company's Name</th>
+	      <th>Where to find us</th>
+	    </tr>
+	  </thead>
+	  <tbody>	    
+		{% for u in users_location %}
+		<tr>
+			<td>{{ u.usuario_id }}</td>
+			<td>{{ u.profile_id }}</td>
+			<td><a href="{%url 'location' u.profile_id %}" target="_blank">
+			{% if u.type = "f" %}
+	       		    {% if u.upload != "0" %}
+	       		    	<span class="user"><img src="{{u.upload}}" class="user"></span>
+	       		    {% else %}
+	       		    	<span class="user"><img class="user woman"></span>
+	       		    {% endif %}
+	       	
+	       	{% elif u.type = "m" %}
+	       		    {% if u.upload != "0" %}
+	       		    	<span class="user"><img src="{{u.upload}}" class="user"></span>
+	       		    {% else %}
+	       		    	<span class="user"><img class="user man"></span>
+	       		    {% endif %}
+	       	
+	       	{% elif u.type = "c" %}
+	       		    {% if u.upload != "0" %}
+	       		    	<span class="user"><img src="{{u.upload}}" class="user"></span>
+	       		    {% else %}
+	       		    	<span class="user"><img class="user company"></span>
+	       		    {% endif %}
+			{% endif %}
+			{{ u.nome }}</a></td>			
+			<td>
+			{% with u.profile_id as user_profile %}
+				{% for p in location_cards %}
+						{% if p.location_profile_id = user_profile %}
+							<a target="_blank" href="http://maps.google.com/?q={{ p.address }}" title="Map">
+							    {{ p.address }}
+							</a><br/><br/>
+						{% endif %}
+				{% endfor %}
+			{% endwith %}
+			</td>			 
+		</tr>
+		{% endfor %}	    
+	  </tbody>
+	</table>
+{% endblock %}

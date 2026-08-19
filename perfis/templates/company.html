@@ -1,0 +1,102 @@
+{% extends "base.html" %}
+{% block body %}
+
+	<!-- Modal for editing self description-->
+	{% include "modal_company.html" %}
+
+<div class="row-profile">
+
+	<!-- MENU -->	
+	{% include "menu.html" %}
+    
+	<!-- PROFILE SUB MENU  -->	
+	{% include "menu_profile.html" %}       	
+	
+	<div id="Center">
+		<ul class="profile-waterfall">
+		    {% for c in content %}
+			  
+			  {% include 'modal_edit_company.html' %}
+			  
+			  <li class="cards card-{{c.id}}">
+			    <div class="main card-layout"> 
+			    
+			    	{% if perfil.id == perfil_logado.id %}            
+			        <div class="panel-heading panel-heading-{{c.id}}">
+				          <div class="wrapper">
+								<div></div>
+						
+								<div style="margin-top: -10px;">
+								    <!-- Main Toolbar -->
+								    
+								    <!-- Drop down main toolbar -->
+									<a class="add_more_label toolbtn toolbtn-{{c.id}}" 
+						           	   data-id = "{{c.id}}">
+									   <span class="down-arrow" />
+							        </a>
+								</div>
+						
+						        <div></div>
+				       		</div>
+				      
+				         <!-- Toolbar -->
+				      <div class="toolbar toolbar-{{c.id}} slideup">
+				          <div>
+				          	   <a href="#" 
+					            data-toggle="modal" 
+					            data-target="#updateCompany-{{c.id}}"
+					            data-id = "{{c.id}}" 
+				            	data-author = "{{c.company_user_id}}"
+				            	data-profile = "{{c.company_profile_id}}"
+								data-company = "{{c.company_content}}">
+					            	<span class="pencil"/>
+					            </a>				       	       				           
+				          </div>	
+
+     			          <div></div>		       				         
+				          
+				          {% if tip.author_profile_id == request.user.perfil.id %}	
+				          <div>
+				              <!-- Showing edit toolbar -->
+				      	       <a class="downcard add_more_label rudder rudder-{{c.id}}" 
+				      	       data-id = "{{c.id}}">
+						   	   <span class="points points-{{c.id}}"/>
+				           </a>			           
+				          </div>
+				          {% else %}
+						   <div style="text-align: center;">
+				       	       <a class="delete-company input_label"
+				       	       style="cursor: pointer;"
+					           data-url = "{{url}}"
+					           data-id = "{{c.id}}">
+					               <span class="delete"/>
+					           </a>				           
+				           </div>
+				          {% endif %}
+				          
+				      </div>	
+				     </div> 
+					 {% endif %}
+					 
+	           	  	<div class="title-content">
+	               	  	{{ c.company_content }}
+	               	  	
+	               	  	<br/><br/>
+	               	  	
+		                <div class="date-content">
+			            	Posted {{ c.date|date:'M d, Y' }}
+		                </div>
+	               	</div>
+	              </div> 
+	              </li>              	
+				  {% empty %}
+				  <li class="no-published-warning">
+					  Nothing about us yet
+				  </li>
+			  		  
+			  {% endfor %}
+		  </ul>
+	</div>
+</div>
+	
+{% endblock %}

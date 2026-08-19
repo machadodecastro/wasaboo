@@ -1,0 +1,157 @@
+     <div class="panel-heading panel-heading-{{tip.id}}">
+          <div class="wrapper">
+		<div>
+  	   <!-- Delete card from playing -->
+    	      {% if tip.author_profile_id == request.user.perfil.id %}
+      	      <a class="show-confirm add_more_label show-confirm-{{tip.id}}" 
+      	      data-url = "{{url}}"
+      	      data-id = "{{tip.id}}">
+		   	      <span class="custom-tooltip delete" 
+		   	      data-toggle="tooltip" 
+		   	      data-placement="bottom" 
+		   	      title="Delete outdoor"></span>
+              </a>   
+              {% endif %}
+        </div>
+		
+		<div>
+		    {% if tip.author_profile_id == request.user.perfil.id %}
+	           <div>
+	           	   {% if tip.action == '1' %}
+	           	   	   <a class="custom-tooltip waiting add_more_label waiting-{{tip.id}}" 
+			       	     data-url="{{url}}" data-id="{{tip.id}}"
+			       	     data-toggle="tooltip" data-placement="bottom" title="Waiting">
+					   	   <span class="waiting"></span>
+				       </a>	
+		       	   {% elif tip.action == '2' %}
+			           <a class="btn custom-tooltip scrambled add_more_label scrambled-{{tip.id}}" 
+		       	       data-url="{{url}}" data-id="{{tip.id}}"
+		       	       data-toggle="tooltip" data-placement="bottom" title="Great! Your outdoor was enjoyed">
+				   	       Connected
+			           </a>
+				   {% else %}
+				       <a href="#" 
+				       class="btn custom-tooltip-bottom btn-play add_more_label play-btn-{{tip.id}}" 
+		       	       data-url="{{url}}" data-id="{{tip.id}}" data-mail="{% for m in mail_to %}{{ m.mailed }}{% endfor %}" 
+		       	       data-toggle="tooltip" data-placement="bottom" title="Connect this outdoor">
+		       	         Play
+		       	       </a>
+
+			           <a class="custom-tooltip-bottom waiting add_more_label waiting-{{tip.id}}" 
+		       	       data-url="{{url}}" data-id="{{tip.id}}"
+		       	       data-toggle="tooltip" data-placement="bottom" title="Waiting"
+		       	       style="display: none;">
+				   	     <span class="waiting"></span>
+			           </a>				       				       
+		           {% endif %} 
+	           </div>		       				                   	
+          	{% else %}		          
+			   	   <a href="#" 
+			   	   class="btn custom-tooltip btn-hold add_more_label hold-btn-{{tip.id}}" 
+			   	   data-url="{{url}}" data-id = "{{tip.id}}"
+			   	   data-profile="{% with tip.author as aut %}{% for m in mail_response %}{% if m.author_profile = aut %}{{ m.author_profile }}{% endif %}{% endfor %}{% endwith %}"
+			   	   data-mail="{% with tip.author as aut %}{% for m in mail_response %}{% if m.author_profile = aut %}{{ m.mailed }}{% endif %}{% endfor %}{% endwith %}"
+			   	   data-toggle="tooltip" data-placement="bottom" title="I liked!">
+			   	     Connect
+			   	   </a>	           
+	        {% endif %}	
+		</div>
+		
+		<div>
+	        <!-- References - Read more -->
+			{% if tip.reference %}
+           	<a class="show-references add_more_label show-references-{{tip.id}}"
+           	   data-url = "{{url}}" 
+           	   data-id = "{{tip.id}}" 
+           	   data-reference = "{{tip.reference}}">
+			   <span class="wave">
+				       <span class="dot dot-{{tip.id}}"></span>
+					   <span class="dot dot2 dot-{{tip.id}}"></span>
+					   <span class="dot dot3 dot-{{tip.id}}"></span>
+				</span>
+	        </a>
+	        {% endif %}
+
+			<!-- Back arrow to card frontend -->
+	        <a class="show-back add_more_label show-back-{{tip.id}}"
+	           data-url = "{{url}}"  
+           	   data-id = "{{tip.id}}" 
+           	   data-content = "{{tip.content|linebreaks}}"
+			   style="display:none">
+			   <span class="back" />
+	        </a>
+           </div>
+       </div>
+      				       		        
+     </div>
+     
+<script>
+//Play your outdoor to other
+$( document ).ready(function() {
+	$(".play-btn-{{tip.id}}").on('click',function (){    
+    	self = $(this);
+    	var wasabooref = $(this).data("url");
+    	var card = $(this).data("id");
+    	var mail = $(this).data("mail");
+    	$('.card-'+card).addClass('slide-top');
+    	$('.card-'+card).fadeOut(1000, function(){ $(this).remove();});
+    	$.ajax({
+	    	   type: "GET", 
+	    	   url: "//"+wasabooref+"/play-card/"+card+"/",
+	    	   dataType: 'json',
+	    	   data: {card: card, mail: mail},
+	    	   async: true,
+	    	   cache: false,
+	    	   contentType: "application/json; charset=utf-8",
+	    	   success: function (data, textStatus, jqXHR) { 
+		            if (data.teste == "played") { 		            	
+		            	$('.play-btn-{{tip.id}}').hide();
+			        	$('.waiting-{{tip.id}}').show();
+		            }else{
+		            	//alert("Error");
+		            }
+	    		   		
+	    		   },
+	                error: function(rs, e) {
+	                    //alert(rs.responseText);
+	                }
+	    	   });    	
+	});
+});
+</script> 
+
+<script>
+//Hold the outdoor from other
+$( document ).ready(function() {
+	$(".hold-btn-{{tip.id}}").on('mousedown',function (){    
+    	self = $(this);
+    	var wasabooref = $(this).data("url");
+    	var card = $(this).data("id");
+    	var profile = $(this).data("profile");
+    	$('.card-'+card).addClass('slide-bottom');
+    	$('.card-'+card).fadeOut(1000, function(){ $(this).remove();});
+    	var mail = $(this).data("mail"); 
+    	$.ajax({
+	    	   type: "GET", 
+	    	   url: "//"+wasabooref+"/hold-card/"+card+"/",
+	    	   dataType: 'json',
+	    	   data: {card: card, mail: mail, profile: profile},
+	    	   async: true,
+	    	   cache: false,
+	    	   contentType: "application/json; charset=utf-8",
+	    	   success: function (data, textStatus, jqXHR) { 
+		            if (data.teste == "held") { 
+		            	$('.card-'+card).fadeOut(0, function(){ $(this).remove();});
+		            	
+		            }else{
+		            	//alert("Error");
+		            }
+	    		   		
+	    		   },
+	                error: function(rs, e) {
+	                    //alert(rs.responseText);
+	                }
+	    	   });    	
+	});
+});
+</script>    

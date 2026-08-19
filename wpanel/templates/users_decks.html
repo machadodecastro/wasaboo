@@ -1,0 +1,69 @@
+{% extends "wpanel.html" %}
+{% block body %}
+	<table id="tables">
+	  <thead>
+	    <tr>
+	      <th>User ID</th>
+	      <th>Profile ID</th>
+	      <th>Deck's Author</th>
+	      <th>Deck's Name</th>
+	      <th>Deck's Date</th>
+	    </tr>
+	  </thead>
+	  <tbody>	    
+		{% for u in users_decks %}
+		<tr>
+			<td>{{ u.usuario_id }}</td>
+			<td>{{ u.profile_id }}</td>
+			<td><a href="{%url 'exibir' u.profile_id %}" target="_blank">
+			{% if u.type = "f" %}
+	       		    {% if u.upload != "0" %}
+	       		    	<span class="user"><img src="{{u.upload}}" class="user"></span>
+	       		    {% else %}
+	       		    	<span class="user"><img class="user woman"></span>
+	       		    {% endif %}
+	       	
+	       	{% elif u.type = "m" %}
+	       		    {% if u.upload != "0" %}
+	       		    	<span class="user"><img src="{{u.upload}}" class="user"></span>
+	       		    {% else %}
+	       		    	<span class="user"><img class="user man"></span>
+	       		    {% endif %}
+	       	
+	       	{% elif u.type = "c" %}
+	       		    {% if u.upload != "0" %}
+	       		    	<span class="user"><img src="{{u.upload}}" class="user"></span>
+	       		    {% else %}
+	       		    	<span class="user"><img class="user company"></span>
+	       		    {% endif %}
+			{% endif %}
+			{{ u.nome }}</a></td>			
+			<td>
+			{% with u.profile_id as user_profile %}
+				{% for d in decks_created %}
+					{% if d.author_profile_id = user_profile %}
+					<a href="{%url 'bysubject' d.author_profile_id d.id %}" target="_blank">{{d.deck_name}}						
+						{% for c in cards_in_deck %}
+							{% if c.folder_id = d.id %}
+								( {{ c.amount }} {% if c.amount > 1 %}cards{% else %}card{% endif %} )
+							{% endif %}
+						{% endfor %}
+					</a><br/>
+							{% endif %}
+						{% endfor %}
+					{% endwith %}
+			</td>			 
+			<td>
+			{% with u.profile_id as user_profile %}
+				{% for d in decks_created %}
+					{% if d.author_profile_id = user_profile %}
+						{{d.date}}<br/>
+					{% endif %}
+				{% endfor %}
+			{% endwith %}
+			</td>
+		</tr>
+		{% endfor %}	    
+	  </tbody>
+	</table>
+{% endblock %}

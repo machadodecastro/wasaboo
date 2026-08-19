@@ -1,0 +1,387 @@
+<div class="modal-container">
+  <div class="modal fade updateBackgroundPicture" id="updateBackgroundPicture-{{b.id}}" tabindex="-1" 
+  role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static" >
+  <div class="modal-dialog">
+      <div class="modal-content">
+          <div class="modal-header">
+          	<span class="title-tip" style="font-size:20px">Edit landscape...</span>
+              <button type="button" class="close" data-dismiss="modal">
+                     <span aria-hidden="true">&times;</span>
+                     <span class="sr-only">Close</span>
+              </button>
+          </div>
+          
+          <div class="modal-body">
+				<form id="backgroundupload-{{b.id}}" 
+				action="{%url 'new_background_picture' b.id %}"
+				method="post" enctype="multipart/form-data" data-id="{{b.id}}">
+				{% csrf_token %}	 			  	  
+	 			  	  <input type="hidden" value="{{request.user.id}}" id="bkg_user_id" 
+	 			  	  name="user_id" required="required">
+	 			   
+		 			  <input type="hidden" value="{{perfil_logado.id}}" id="bkg_profile_id" 
+		 			  name="profile_id" required="required">
+		 			  		 			  	 			  
+		               <!-- Tab panes -->
+		               <div class="tab-content">
+		               	  <div class="tab-pane active" id="background-{{b.id}}">
+								  <div class="form-group">
+								  	<div class="fr-popup fr-desktop fr-active" style="position: 
+								  	relative; text-align: center;">				  
+						  				<span class="upload-area-{{b.id}} 
+						  				fr-image-upload-layer fr-active fr-layer" 
+						  				id="fr-image-upload-layer-{{b.id}}">								  											  			
+								  			<img id="bkg-imgPreview-{{b.id}}" 
+								  			class="bkg-imgPreview bkg-imgPreview-{{b.id}}"/>				  				
+								  			
+								  			{% if b.bkg_upload != '0' %}
+							  				<span id="columns-{{b.id}}">
+										    	<figure>
+								  					<img  src="{{MEDIA_URL}}{{b.bkg_upload}}"
+											    	class="outdoor outdoor-{{b.id}} 
+											    	uploaded-preview-image-{{b.id}}"/>
+										    	</figure>
+										    </span>
+										    {% else %}								    
+							  				<span id="bkg-upload-drop-image-{{b.id}}" 
+							  					  class="edit-upload-drop-image">
+							  			    </span><br/>
+							  				{% endif %}
+							  				<span id="temporary-bkg-upload-drop-image-{{b.id}}" 
+							  					  class="edit-upload-drop-image" style="display:none;">
+							  			    </span>
+						  				    
+						  				    
+								  			<span  class="fr-form">
+							  						<input type="file" id="bkg-file-{{b.id}}" 
+							  						name="bkg_upload" accept="image/*" tabindex="-1" 
+							  						aria-labelledby="fr-image-upload-layer" 
+							  						role="button" dir="auto" data-id="{{b.id}}">
+								  			</span>
+								  		</span>
+								  		<span class="fr-image-by-url-layer fr-layer" 
+								  		id="bkg-fr-image-by-url-layer-{{perfil_logado.id}}">
+								  			<span class="fr-input-line">
+								  			</span>
+								  		</span>
+								  		<div class="upload-tools">
+							  				<a href="#" id="rotateImg-{{b.id}}" style="display: none" 
+							  				data-id="{{b.id}}">
+							  					<img class="rotate-to-right"/>
+							  				</a>
+											<a href="#" id="desrotateImg-{{b.id}}" style="display: none" 
+											data-id="{{b.id}}">
+												<img class="rotate-to-left"/>
+											</a>
+											<a href="#" id="rmImg-{{b.id}}" style="display: none" 
+											data-id="{{b.id}}">
+												<img class="remove-picture"/>
+											</a>
+											
+											{% if b.bkg_upload != '0' %}
+					  				          	<input type="button" 
+					  				          	data-url="{{url}}"
+					  				          	data-id="{{b.id}}"
+					  				          	class="btn btn-danger remove-img remove-img-{{b.id}}
+					  				          	change-bkg-default change-bkg-default-{{b.id}}" 
+					  				          	value="Remove image"/>
+					  				        {% endif %}		
+										</div>												
+								  	</div>								  				  	
+								  </div> 			 			  						
+		                  </div><!--/.tab-pane -->	                  
+		               </div><!--/.tab-content -->
+              
+				  
+					  <br/><br/>
+					  
+					  <div class="modal-header">
+					      <button type="button" class="btn btn-cancel btn-cancel-{{b.id}}" 
+					      data-dismiss="modal">Close</button>
+						  <input class="btn btn-success" name="submit" type="submit" 
+						  value="Publish" id="bkg-submit-{{b.id}}" data-id="{{b.id}}"/>
+						  <div id="loader" class="loader-{{b.id}}"></div>
+					  </div> 
+
+					<br/>
+					
+					<span class="wave" style="width:100%;text-align:center;">
+						   <span class="dot dot-{{tip.id}}"></span>
+						   <span class="dot dot2 dot-{{tip.id}}" style="margin-left: 5px;"></span>
+						   <span class="dot dot3 dot-{{tip.id}}" style="margin-left: 5px;"></span>
+					</span>						  
+				</form>	
+				
+<script>
+ $(document).ready(function () {
+    $('.background-landscape-{{b.id}}').on('click',function (){
+    	var card = $(this).data("id");
+    
+	  //##########################################################################
+     		  // Return the first few bytes of the file as a hex string
+ 			  function getBLOBFileHeader(url, blob, callback) {
+ 			    var fileReader = new FileReader();
+ 			    fileReader.onloadend = function(e) {
+ 			      var arr = (new Uint8Array(e.target.result)).subarray(0, 4);
+ 			      var header = "";
+ 			      for (var i = 0; i < arr.length; i++) {
+ 			        header += arr[i].toString(16);
+ 			      }
+ 			      callback(url, header);
+ 			    };
+ 			    fileReader.readAsArrayBuffer(blob);
+ 			  }
+
+ 			  function getRemoteFileHeader(url, callback) {
+ 			    var xhr = new XMLHttpRequest();
+ 			    // Bypass CORS for this demo - naughty, Drakes
+ 			    xhr.open('GET', '//cors-anywhere.herokuapp.com/' + url);
+ 			    xhr.responseType = "blob";
+ 			    xhr.onload = function() {
+ 			      callback(url, xhr.response);
+ 			    };
+ 			    xhr.onerror = function() {
+ 			      alert('A network error occurred!');
+ 			    };
+ 			    xhr.send();
+ 			  }
+
+ 			  function headerCallback(url, headerString) {
+ 			    printHeaderInfo(url, headerString);
+ 			  }
+
+ 			  function remoteCallback(url, blob) {
+ 			    printImage(blob);
+ 			    getBLOBFileHeader(url, blob, headerCallback);
+ 			  }
+
+ 			  function printImage(blob) {
+ 			    // Add this image to the document body for proof of GET success
+ 			    var fr = new FileReader();
+ 			    fr.onloadend = function() {
+ 			    	$("#bkg-imgPreview-"+card).show(); 
+ 			    	$("#bkg-imgPreview-"+card).attr("src", fr.result).css('width', '200');
+ 			    	//$(".fr-image-upload-layer").append($("<img>").attr("src", fr.result).css('width', '300'))
+ 			        //.after($("<div>").text("Blob MIME type: " + blob.type));
+			    	
+ 			    };
+ 			    fr.readAsDataURL(blob);
+ 			  }
+ 			  
+ 			  // Add more from http://en.wikipedia.org/wiki/List_of_file_signatures
+ 			  function mimeType(headerString) {
+ 			    switch (headerString) {
+ 			      case "89504e47":
+ 			        type = "image/png";
+ 			        $("#bkg-imgPreview-"+card).show();
+ 			        $("#bkg-upload-drop-image-"+card).hide();
+ 			        $("#temporary-bkg-upload-drop-image-"+card).hide();
+ 			        $(".uploaded-preview-image-"+card).hide();	    			        
+ 			        $("#rmImg-"+card).show();
+ 			        $("#rotateImg-"+card).show();
+ 			        $("#desrotateImg-"+card).show();
+ 			        $('.warning').hide();
+ 			        $(".remove-img-"+card).hide();
+ 			        $("#hide-image-"+card).val('0');
+ 			        break;
+ 			      case "47494638":
+ 			        type = "image/gif";
+ 			        $("#bkg-imgPreview-"+card).show();
+ 			        $("#bkg-upload-drop-image-"+card).hide();
+ 			        $("#temporary-bkg-upload-drop-image-"+card).hide();
+ 			        $(".uploaded-preview-image-"+card).hide();
+ 			        $("#rmImg-"+card).show();
+ 			        $("#rotateImg-"+card).show();
+ 			        $("#desrotateImg-"+card).show();
+ 			        $('.warning').hide();
+ 			        $(".remove-img-"+card).hide();
+ 			        $("#hide-image-"+card).val('0');
+ 			        break;
+ 			      case "ffd8ffe0":
+ 			      case "ffd8ffe1":
+ 			      case "ffd8ffe2":
+ 			        type = "image/jpeg";
+ 			        $("#bkg-imgPreview-"+card).show();
+ 			        $("#bkg-upload-drop-image-"+card).hide();
+ 			        $("#temporary-bkg-upload-drop-image-"+card).hide();
+ 			        $(".uploaded-preview-image-"+card).hide();
+ 			        $("#rmImg-"+card).show();
+ 			        $("#rotateImg-"+card).show();
+ 			        $("#desrotateImg-"+card).show();
+ 			        $('.warning').hide();
+ 			        $(".remove-img-"+card).hide();
+ 			        $("#hide-image-"+card).val('0');
+ 			        break;
+ 			      default:
+ 			        type = "unknown";    			        
+ 			        $("#bkg-imgPreview-"+card).hide();
+ 			        $("#bkg-upload-drop-image-"+card).show();
+ 			        $("#temporary-bkg-upload-drop-image-"+card).hide();
+ 			        $(".uploaded-preview-image-"+card).show();
+ 			        $("#rmImg-"+card).hide();
+ 			        $("#rotateImg-"+card).hide();
+ 			        $("#desrotateImg-"+card).hide();
+ 			        $("#bkg-file-"+card).val("");
+ 			        $('.warning').remove();
+ 			        var newParagraph = document.createElement("p");
+ 			        newParagraph.innerHTML = "<span class='warning title-tip'><br/><br/>Sorry! The file you tried to upload is not an image</span>";
+ 			        $(".upload-area-"+card).append(newParagraph);
+ 			        break;
+ 			    }
+ 			    return type;
+ 			  }
+
+ 			  function printHeaderInfo(url, headerString) {
+ 			    $("hr").after($("#imgInfo-"+card).text("Real MIME type: " + mimeType(headerString)))
+ 			      .after($("#imgInfo-"+card).text("File header: 0x" + headerString))
+ 			      .after($("#imgInfo-"+card).text(url));
+ 			  }
+
+ 			  /* Demo driver code */
+		  
+ 			  var imageURLsArray = [];
+ 			 
+ 			  // Check for FileReader support
+ 			  if (window.FileReader && window.Blob) {
+ 			    // Load all the remote images from the urls array
+ 			    for (var i = 0; i < imageURLsArray.length; i++) {
+ 			      getRemoteFileHeader(imageURLsArray[i], remoteCallback);
+ 			    }
+
+ 			    /* Handle local files */
+ 			    $("#bkg-file-"+card).on('change', function(event) {
+ 			      var file = event.target.files[0];
+ 			      var card = $(this).data("id");
+ 			      $("#direction-"+card).val('0'); //set image to landscape without click on desrotate
+ 			      if (file.size >= 8 * 1024 * 1024) {
+ 			        $("#bkg-imgPreview-"+card).hide();
+ 			        $("#rmImg-"+card).hide();
+ 			        $("#bkg-upload-drop-image-"+card).show();
+ 			        $("#temporary-bkg-upload-drop-image-"+card).hide();
+ 			        $(".uploaded-preview-image-"+card).show();
+ 			        $("#bkg-file-"+card).val("");
+ 			        $('.warning').remove(); 			       
+ 			        var newParagraph = document.createElement("p");
+ 			        newParagraph.innerHTML = "<span class='warning title-tip'><br/><br/>File size must be at most 8MB</span>";
+ 			        $(".upload-area-"+card).append(newParagraph);
+ 			        //$("#warningNotImage-"+card).hide();
+ 			        //$("#warningNotImage-"+card).remove();
+ 			        //$('<span id="warningNotImage-"'+card+'" class="title-tip">File size must be at most 4MB</span>').appendTo('.fr-image-upload-layer-'+card);
+ 			        return;
+ 			      }
+ 			      remoteCallback(escape(file.name), file);
+ 			    });
+
+ 			  } else {
+ 			    // File and Blob are not supported
+ 			    $("hr").after( $("<div>").text("It seems your browser doesn't support FileReader") );
+ 			  } /* Drakes, 2015 */
+ 			  
+ 			  $("#rmImg-"+card).on('click', function(event) {
+ 				  var card = $(this).data("id");
+ 				  $("#bkg-file-"+card).val("");
+ 				  $("#bkg-imgPreview-"+card).hide();
+ 				  $("#bkg-upload-drop-image-"+card).show();
+ 				  $(".uploaded-preview-image-"+card).show();
+ 				  $(this).hide();
+ 				  $("#rotateImg-"+card).hide();
+		          $("#desrotateImg-"+card).hide();
+		          $(".remove-img-"+card).show();
+ 			  });	
+ 			  
+ 			  $("#rotateImg-"+card).on('mouseover', function(event) {
+				  var card = $(this).data("id");
+				  var value = 0
+				  $("#rotateImg-"+card).rotate({
+				    bind:
+				    {
+				      click: function(){
+				        value =90;
+				        $(".bkg-imgPreview-"+card).rotate({ animateTo:value});
+				        $("#direction-"+card).val('1');
+				      }
+				    }
+				  });
+				});
+		    $("#desrotateImg-"+card).on('mouseover', function(event) {
+				  var card = $(this).data("id");
+				  var value = 0
+				  $("#desrotateImg-"+card).rotate({
+				    bind:
+				    {
+				      click: function(){
+				        value =0;
+				        $(".bkg-imgPreview-"+card).rotate({ animateTo:value});
+				        $("#direction-"+card).val('0');
+				      }
+				    }
+				  });
+			});	
+		    
+	    //##########################################################################
+    });
+});
+</script>
+
+
+				</div>
+			</div>
+		</div>
+	</div>								
+</div>
+
+
+<!-- Reset all NewCard Modal's content -->
+<script>
+$( document ).ready(function() {
+	$('#updateBackgroundPicture-{{b.id}}').on('hidden.bs.modal', function () {
+		$("#bkg-file-{{b.id}}").val("");
+		$("#bkg-imgPreview-{{b.id}}").hide();
+        $("#bkg-upload-drop-image-{{b.id}}").show();
+        $("#temporary-bkg-upload-drop-image-{{b.id}}").hide();
+        $(".uploaded-preview-image-{{b.id}}").show();
+        $("#rmImg-{{b.id}}").hide();
+        $("#rotateImg-{{b.id}}").hide();
+        $("#desrotateImg-{{b.id}}").hide();
+        $('.warning').hide();
+        $(".remove-img-{{b.id}}").show();
+        $("#hide-image-{{b.id}}").val('0');
+		$('.btn-cancel').show();
+	    $(':input[type="submit"]').show();
+	    $(':input[type="submit"]').prop('disabled', false);
+	    $('.loader').css('display','none');
+		$('.dot-'+tip).animate({"animation-duration":"0s"}, 0);
+	});
+	});
+</script>
+
+
+<script>
+$( document ).ready(function() {
+	$("#backgroundupload-{{b.id}}").submit(function(event){	
+		event.preventDefault();
+		var user = $(this).data("id"); 
+		var post_url = $(this).attr("action"); //get form action url
+		var request_method = $(this).attr("method"); //get form GET/POST method
+		var form_data = new FormData(this); //Encode form elements for submission
+		
+		$('.btn-cancel-{{b.id}}').prop('disabled', true);
+		$('#bkg-submit-{{b.id}}').prop('disabled', true);
+		$('#bkg-submit-{{b.id}}').val('Editing...');
+		$('.dot').animate({"animation-duration":"1.3s"}, 0);
+		
+		$.ajax({
+			url : post_url,
+			type: request_method,
+			data : form_data,
+			dataType : 'html',
+			contentType: false,
+			processData: false,
+			success: function(response) {          	
+				location.reload();
+			}
+		});    
+	});
+});
+</script>
+

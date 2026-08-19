@@ -1,0 +1,239 @@
+     <div class="panel-heading panel-heading-{{tip.id}}">
+          <div class="wrapper">
+			<div class="mobile-social-options">
+				<!-- Share in social networks -->
+	            <a class="share-social share-social-{{tip.id}}" data-id="{{tip.id}}">
+					<span class="share" />
+		        </a>
+		        <!-- Facebook -->
+		        <a class="fb-xfbml-parse-ignore fb-option-{{tip.id}}" target="_blank"
+				href="https://www.facebook.com/sharer/sharer.php?u=http://www.wasaboo.com/{{tip.slug}}-{{tip.id}}"
+				style="display: none">					            	
+					<img class="facebook-icon" alt="Facebook icon">
+				</a>
+				{%if tip.outdoor %}
+				<script>
+				$( document ).ready(function() {	
+					$(".fb-option-{{tip.id}}").on('click',function (){
+						FB.ui({
+							method: 'share_open_graph',
+							action_type: 'og.shares',
+							action_properties: JSON.stringify({
+								object : {
+								   'fb:app_id': '402720523540626',
+								   'og:url': 'http://www.wasaboo.com/{{tip.slug}}-{{tip.id}}',
+								   'og:title': '{{tip.content|safe}}',	
+								   'og:image:url': 'http://www.wasaboo.com/media/{{tip.outdoor}}',
+								   'og:image:width': '1200',
+								   'og:image:height': '630'				               
+								}
+							})
+						});
+					});
+				});
+				</script>
+				{% else %}
+				<script>
+				$( document ).ready(function() {	
+					$(".fb-option-{{tip.id}}").on('click',function (){
+						FB.ui({
+							method: 'share_open_graph',
+							action_type: 'og.shares',
+							action_properties: JSON.stringify({
+								object : {
+								   'fb:app_id': '402720523540626',
+								   'og:url': 'http://www.wasaboo.com/{{tip.slug}}-{{tip.id}}',
+								   'og:title': '{{tip.content|safe}}',	
+								   'og:image:url': 'http://www.wasaboo.com/static/img/share_logo_facebook.png',
+								   'og:image:width': '1200',
+								   'og:image:height': '630'				               
+								}
+							})
+						});
+					});
+				});
+				</script>			
+				{% endif %}
+				<!-- Whatsapp -->			
+				<a class="wa-option-{{tip.id}}" 
+				data-text="{{tip.content}}" data-link="http://www.wasaboo.com/{{tip.slug}}-{{tip.id}}" 
+				target="_blank" data-action="share/whatsapp/share" style="display: none;margin-left: 25px; ">
+					<img class="whatsapp-icon" alt="Whatsapp icon">
+				</a>
+				<script>
+				$(document).ready(function() {
+					$(document).on("click",'.wa-option-{{tip.id}}',function() {
+							var text = $(this).attr("data-text");
+							var url = $(this).attr("data-link");
+							var message = encodeURIComponent(text)+" - "+encodeURIComponent(url);
+							var whatsapp_url = "https://api.whatsapp.com/send?text="+message;
+							$('.wa-option-{{tip.id}}').attr('href', whatsapp_url);
+					});
+				});
+				</script>
+			</div>
+		
+		<div style="margin-top: -10px;">
+		    <!-- Main Toolbar -->
+		    
+		    <!-- Drop down main toolbar -->
+			<a class="add_more_label toolbtn toolbtn-{{tip.id}}" 
+           	   data-id = "{{tip.id}}">
+			   <span class="down-arrow" />
+	        </a>
+		</div>
+		
+		<div>
+	        <!-- References - Read more -->
+			{% if tip.reference %}
+           	<a class="show-references add_more_label show-references-{{tip.id}}"
+           	   data-url = "{{url}}" 
+           	   data-id = "{{tip.id}}" 
+           	   data-reference = "{{tip.reference}}">
+			   <span class="wave">
+				       <span class="dot dot-{{tip.id}}"></span>
+					   <span class="dot dot2 dot-{{tip.id}}"></span>
+					   <span class="dot dot3 dot-{{tip.id}}"></span>
+				</span>
+	        </a>
+	        {% endif %}
+
+			<!-- Back arrow to card frontend -->
+	        <a class="show-back add_more_label show-back-{{tip.id}}"
+	           data-url = "{{url}}"  
+           	   data-id = "{{tip.id}}" 
+           	   data-content = "{% if tip.content %}{{tip.content|linebreaks}}{% else %}{% endif %}"
+			   style="display:none">
+			   <span class="back" />
+	        </a>
+           </div>
+       </div>
+      
+         <!-- Toolbar -->
+      <div class="toolbar toolbar-{{tip.id}} slideup">
+          <div>
+          	   <!-- Saving cards into folders -->
+          	   {% if tip.saved %}
+			           <img class="custom-tooltip hearts-on show-folders add_more_label show-folders-{{tip.id}}" 
+			           data-id = "{{tip.id}}" data-toggle="tooltip" data-placement="bottom" title="Deck">
+		       
+				       <img class="custom-tooltip hearts-off choose-folders add_more_label choose-folders-{{tip.id}}" 
+				       data-id = "{{tip.id}}" style="display:none;"
+				       data-toggle="tooltip" data-placement="bottom" title="Save into a deck">
+     		   {% else %}
+			    	   <img class="custom-tooltip hearts-off choose-folders add_more_label choose-folders-{{tip.id}}" 
+			    	   data-id = "{{tip.id}}"
+			    	   data-toggle="tooltip" data-placement="bottom" title="Save into a deck">
+		       
+				       <img class="custom-tooltip hearts-on show-folders add_more_label show-folders-{{tip.id}}" 
+				       data-id = "{{tip.id}}" style="display:none;"
+				       data-toggle="tooltip" data-placement="bottom" title="Deck">
+      			{% endif %}				       	       				           
+          </div>	
+          
+          <div>
+              <a href="{%url 'show_connected' tip.slug tip.id %}" 
+              class="custom-tooltip upcards add_more_label upcards-{{tip.id}}"
+              data-toggle="tooltip" data-placement="bottom" title="Upcards">
+                  <div class="upcards-counter upcards-counter-{{tip.id}}"
+                  data-url = "{{url}}"
+				  data-id="{{tip.id}}">
+                  	   <input type="text" class="upcards" 
+	              	     data-url = "{{url}}"
+	              	     data-id="{{tip.id}}" 
+	              	     id="upcarded" name="upcarded" value="{{tip.id}}" 
+	              	     style="display:none;">
+                  </div>
+              </a>
+          </div>
+          
+          {% if tip.author_profile_id == request.user.perfil.id %}	
+          <div>
+              <!-- Showing edit toolbar -->
+      	       <a class="downcard add_more_label rudder rudder-{{tip.id}}" data-id = "{{tip.id}}">
+		   	   <span class="custom-tooltip points points-{{tip.id}}"
+		   	   data-toggle="tooltip" data-placement="bottom" title="More options"></span>
+           </a>			           
+          </div>
+          {% else %}
+		   <div>
+       	       <a class="custom-tooltip downcard add_more_label rfg-{{tip.id}}" data-id = "{{tip.id}}"
+       	       data-tt="tooltip" data-placement="bottom" title="Remove card">
+			   	   <span class="rfg"></span>
+	           </a>				           
+           </div>
+          {% endif %}
+          
+      </div>	
+      
+         <!-- Edit Toolbar -->
+      <div class="edit-toolbar edit-toolbar-{{tip.id}}">
+          <div>
+              <!-- Deleting the card -->
+      	       <a class="show-confirm add_more_label show-confirm-{{tip.id}}" data-id = "{{tip.id}}">
+		   	   <span class="custom-tooltip delete" data-toggle="tooltip" data-placement="bottom" title="Delete card"/>
+           </a>				           
+          </div>				       
+          <div>
+           	   <!-- Publishing the card -->
+           	   {% if url_name == 'hided' %}
+			       <a class="custom-tooltip publish-tip input_label eye-to-publish-{{tip.id}}" 
+			       style="cursor: pointer;" 
+			       data-url = "{{url}}"
+			       data-id = "{{tip.id}}" 
+			       data-toggle="tooltip" 
+			       data-placement="bottom" 
+			       title="Publish card">
+				       <span class="eye-to-publish"/>
+				   </a>
+			   {% else %}
+			       <a class="custom-tooltip publish-no-fade input_label eye-to-publish-{{tip.id}}" 
+			       style="cursor: pointer;" 
+			       data-url = "{{url}}"
+			       data-id = "{{tip.id}}" 
+			       data-toggle="tooltip" 
+			       data-placement="bottom" 
+			       title="Publish card">
+				       <span class="eye-to-publish"/>
+				   </a>	
+				   <a class="custom-tooltip hide-no-fade downcard add_more_label eye-{{tip.id}}" 
+	   	           data-url = "{{url}}" 
+	   	           data-id = "{{tip.id}}" 
+	   	           style= "display: none;" 
+	   	           data-toggle="tooltip" 
+	   	           data-placement="bottom" 
+	   	           title="Hide card">
+	  	               <span class="eye"/>
+	               </a>		   
+			   {% endif %}
+          </div>
+          <div>
+              <!-- Show modal to edit -->
+      	       <a   href="#updateCard-{{tip.id}}"
+      	       	data-toggle="modal"
+      	        class="custom-tooltip pencil add_more_label pencil-{{tip.id}}" 					       	        
+       	        data-id = "{{tip.id}}" 
+				data-upload = "{{tip.upload}}"
+            	data-author = "{{tip.author_user_id}}"
+            	data-profile = "{{tip.author_profile_id}}"
+            	data-name = "{{tip.author_name}}"
+            	data-hided = "{{tip.hided}}"
+            	data-type = "{{tip.type}}"
+            	data-text = "{{tip.content}}"
+            	data-reference = "{{tip.reference}}"
+            	data-link = "{{tip.link}}"
+            	data-tt="tooltip" 
+       	        data-placement="bottom" 
+       	        title="Edit">
+		   	        <span class="pencil"></span>
+           </a>
+          </div>
+          <div>
+              <!-- Returning to main toolbar -->
+      	       <a class="custom-tooltip downcard add_more_label backtools backtools-{{tip.id}}" data-id = "{{tip.id}}">
+		   	   <span class="points points-{{tip.id}}"/>
+           </a>				           
+          </div>				           
+      </div>
+      				       		        
+     </div>

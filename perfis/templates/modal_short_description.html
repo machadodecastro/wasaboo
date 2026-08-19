@@ -1,0 +1,99 @@
+<!-- Modal for editing profile description-->
+<div class="modal fade" id="updateShortDescription" tabindex="-1" role="dialog" 
+     aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                       <span aria-hidden="true">&times;</span>
+                       <span class="sr-only">Close</span>
+                </button>
+            </div>
+            
+            <div class="modal-body">
+			
+ 			  	  <input type="hidden" value="{{perfil.id}}" required="required" id="profileID" name="profile_id">
+ 			   
+	 			  <textarea id="short_description" name="description" rows="5" cols="90" 
+	 			  class="textarea-description tipTextArea" required="required" autofocus
+	 			  placeholder="Write a short description about you">
+	 			  {% spaceless %}
+	 			  	{% for p in has_short_description %}
+	        		    {% if p.has_description %}
+	        		    	{{p.description}}
+	        		    {% endif %}
+	        		 {% endfor %}
+	        	  {% endspaceless %}
+	        	  </textarea>
+	 			  
+				  <br/><br/>
+				  	
+				  <button type="button" class="btn btn-default btn-cancel" data-dismiss="modal">Cancel</button>
+				  
+				  {% for p in has_short_description %}
+	        	  	{% if p.has_description %}
+					  <button type="button" class="btn btn-danger deletelink" 
+					  data-url="{{url}}" data-id="{{perfil.id}}">Remove</button>
+					  
+	        	  	  <button type="button" class="btn btn-info update-short-description" 
+					  data-url="{{url}}" data-id="{{perfil.id}}">Update</button>
+	        	  	{% endif %}
+	        	  	{% empty %}
+					  <button type="button" class="btn btn-info publish-short-description" 
+					  data-url="{{url}}" data-id="{{perfil.id}}">Publish</button>
+				  {% endfor %}
+				  <script>
+				  $(document).ready(function () {
+					  //remove white spaces from textarea
+					  var name = $('#short_description').text(); 
+					  name = name.trim();
+					  $('#short_description').text(name);
+					  
+					    $('#short_description').keyup(function () {
+					        if ($.trim($('#short_description').val()).length < 1) {
+
+					        	$('.publish-short-description').prop('disabled', true);
+
+					        } else {
+
+					        	$('.publish-short-description').prop('disabled', false);
+
+					        }
+					        
+					        if ($.trim($('#short_description').val()).length < 1) {
+
+					        	$('.update-short-description').prop('disabled', true);
+
+					        } else {
+
+					        	$('.update-short-description').prop('disabled', false);
+
+					        }					        
+					    });
+					    
+					    $('#short_description').keypress(function(event) {
+					        if (event.keyCode == 13) {
+					            event.preventDefault();
+					        }
+					    });
+					});
+		          </script>	
+		          
+            </div>
+        </div>  
+    </div>
+</div>	<!-- End tip form -->
+
+<script>
+$(document).ready(function () {
+	jQuery(document).ready(function($) {
+        $('#short_description').keyup(function(event) {
+            var textBox = event.target;
+            var start = textBox.selectionStart;
+            var end = textBox.selectionEnd;
+            textBox.value = textBox.value.charAt(0).toUpperCase() + textBox.value.slice(1);
+            textBox.setSelectionRange(start, end);
+        });
+    });
+});
+</script>

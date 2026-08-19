@@ -1,0 +1,90 @@
+<ul id="hotOutdoor-{{tip.id}}" style="display: none">
+{% if perfil.id == perfil_logado.id %}
+	{% for tip in hotcard %}            
+	                         
+	      <li class="cards card-{{tip.id}} hotcard">
+		  <div class="main card-layout {% if tip.notified %} go-play {% endif %}">
+	
+				{% with tip.id as card %}
+					{% for n in notifications_count %}
+						{% if n.referenced_card = card %}
+					    <div class="notifications-advertise">
+					    	{{ n.howmany }}
+					    </div>
+					    {% endif %}
+					{% endfor %}	
+				{% endwith %}
+	
+	
+			      <a href="{% if not user.is_authenticated %}{% url 'login' %}{% endif %}" 
+			      class="hotcard-title" style="cursor:default;">Hot Outdoor</a>
+			      
+			      <!-- Outdoor title -->
+			      {% include 'outdoor_title.html' %}  
+						
+				  <!-- Picture -->					
+				  {% include 'outdoor_picture.html' %}
+				  
+			      <!-- Favorite icon -->
+				  {% if not tip.removed %}
+			          {% if tip.author_profile_id == request.user.perfil.id %}
+					    <a href="{%url 'who_favorited_list' tip.id %}" 
+	      				           id="favoritings-{{tip.id}}"
+						   class="favoritings favoritings-{{tip.id}} like like-{{tip.id}}"
+						   data-toggle="modal"
+						   data-target="#whoFavorited" 
+						   data-url = "{{url}}"
+						   data-id="{{tip.id}}">
+							   <input type="text" class="likes" 
+							   data-url = "{{url}}"
+							   data-id="{{tip.id}}" 
+							   id="favoriteTip-{{tip.id}}" name="favoriteTip" value="{{tip.id}}" 
+							   style="display:none;">
+		                </a>
+			          {% endif %}
+			      {% endif %}
+		          							    			    
+		  </div>
+		  </li>
+	{% endfor %}
+
+{% else %}
+
+	{% for tip in others_hotcard %}            
+	                         
+	      <li class="cards card-{{tip.id}} hotcard">
+		  <div class="main card-layout {% if tip.notified %} go-play {% endif %}">
+	
+			      <a href="{% if not user.is_authenticated %}{% url 'login' %}{% endif %}" class="hotcard-title" style="cursor:default;">
+			      	Hot Outdoor
+			      </a>			   
+	      						 			  	        
+		        <!-- Main text -->
+		        <a href="{% if not user.is_authenticated %}{% url 'login' %}{% endif %}" style="cursor:default;"
+		        class="{% if tip.notified and tip.author_profile_id == perfil_logado.id %}notifications-control{% endif %}" data-url = "{{url}}" data-id = "{{tip.id}}">
+	    			<div class="title-content title-content-{{tip.id}}-x" 
+	             	    style="white-space: pre-line; word-wrap: break-word;" wrap="hard" contenteditable=""
+	             	    data-id = "{{tip.id}}" data-content = "{{tip.content|linebreaks}}">
+	             	    	{{tip.content|linebreaks}}
+	                   </div>
+				</a>
+				
+				<!-- Picture -->					
+				{% if tip.outdoor and tip.hide_image == '0' %}
+				<a href="{% if not user.is_authenticated %}{% url 'login' %}{% endif %}" style="cursor:default;" 
+				class="picture-{{tip.id}}-x {% if tip.notified and tip.author_profile_id == perfil_logado.id %}notifications-control{% endif %}">
+				    <div id="columns" style="width: 100%;text-align: center;">
+				    	<figure>
+				    		<img class="outdoor outdoor-{{tip.id}}
+				    		{%if tip.direction = '0'%}landscape{%else%}portrait{%endif%}" 
+				    		src="{{ MEDIA_URL }}{{tip.outdoor}}" data-id="{{tip.id}}"/>
+					    </figure>
+				    </div>
+				</a> 
+			    {% endif %}								    			    
+		  </div>
+		  </li>
+	{% endfor %}
+	
+{% endif %}
+</ul>

@@ -1,0 +1,290 @@
+{% extends "base.html" %}
+{% block body %}
+
+{% if perfil.id == perfil_logado.id %}
+<div class="row-profile">
+
+<!-- MENU -->	
+{% include "menu.html" %}
+
+	<!-- Modal for deactivating account-->
+	{% include "modal_deactivate_account.html" %}
+
+    {% if perfil.id == perfil_logado.id %}    
+    
+	<div class="profile-config-container">
+			<h4><strong>Account Settings</strong></h4>
+			<hr/><br/>
+			
+			<span class="col1">Profile e-mail: </span>
+			<div class="col2 mobile-mail-info">{{request.user.email}}</div>
+			
+			<br/><br/><br/><br/>
+			
+			<span class="col1">Password: </span>
+			<div class="col2">
+			<form method="post" action="{%url 'password_reset_recover' %}" class="signin-form" id="form-recover-{{perfil_logado.id}}">
+				{% csrf_token %}
+				
+				<input id="id_username_or_email" name="username_or_email" type="email" class="account-input" 
+		        value="{{request.user.email}}" style="display:none;">
+						
+				<p><input class="btn btn-cancel btn-recover mobilie-btn-recover" type="submit" value="Change Password"></p>
+			</form>
+			</div>
+			             		   
+			
+			<br/><br/><br/><br/>
+			
+			<span class="col1">Profile type: </span>
+			<div class="col2 mobile-type-options">
+					{%if perfil.type == 'm' or perfil.type == 'f' %}
+						<strong>Person</strong>
+						<span class="label-type">change to:</span>
+						<a href="#" class="company-type" 
+						data-url="{{url}}"
+						data-profile="{{perfil_logado.id}}">
+							Company
+						</a>						
+					{% else %}
+						<strong>Company</strong>
+						<span class="label-type">change to:</span>
+						<a href="#" class="female-type" 
+						data-url="{{url}}"
+						data-profile="{{perfil_logado.id}}">
+							Female
+						</a>
+						<span class="label-type">or</span>
+						<span class="label-type"></span>
+						<a href="#" class="male-type" 
+						data-url="{{url}}"
+						data-profile="{{perfil_logado.id}}">
+							Male
+						</a>
+					{% endif %}
+			</div>
+			
+		
+		<br/><br/><br/><br/>
+
+		
+		<form id="form-profile-edit" class="form-profile-edit" role="form" action="#" method="post">
+			<h4>
+				<strong>
+					<span class="col1 mobile-hidefeed-title">Hide from feed</span>
+					<span class="question_mark" data-toggle="tooltip" data-placement="right" 
+               			title="Hide your published outdoors from your feed. Other can still see you.">	
+           			</span>
+           		</strong>
+           	</h4>
+			
+			<hr/><br/>
+			
+			{% if perfil_logado.stealth == '0' %}
+				<input type="button" class="btn btn-cancel activate_stealth mobilie-btn-stealth" value="Hide my outdoors" 
+				data-url="{{url}}"
+			    data-profile="{{perfil_logado.id}}"/>
+		    {% else %}
+			    <input type="button" class="btn btn-success deactivate_stealth mobilie-btn-stealth" value="Show my outdoors" 
+				data-url="{{url}}"
+			    data-profile="{{perfil_logado.id}}"/>
+		    {% endif %}
+		</form>
+		
+		<br/><br/><br/><br/>
+		
+		<form id="form-profile-edit" class="form-profile-edit" role="form" action="#" method="post">
+			<h4>
+				<strong>
+					Deactivate Account
+					<span class="question_mark" data-toggle="tooltip" data-placement="right" 
+               			title="Deactivating your account you'll loose all your outdoors and saved content. 
+               			       Followers won't be able seeing your profile any more and your outdoors will 
+               			       disappear to them">	
+           			</span>
+           		</strong>
+           	</h4>
+           	
+			<hr/><br/>
+			
+			<a data-toggle="modal" data-target="#modal_deactivate_account_{{perfil_logado.id}}">
+			    <input type="button" class="btn btn-danger deactivate_account mobilie-btn-deactivate" 
+			    value="Deactivate Account" />
+			</a>
+		</form>
+	</div>
+	{% endif %}    
+</div>
+{% endif %}
+
+
+<script>
+$( document ).ready(function() {
+	$(".company-type").on('click',function(){ 
+    	self = $(this);
+
+    	var wasabooref = $(this).data("url");
+    	var profile = $(this).data("profile");
+    	$.ajax({
+    	   type: "GET", 
+    	   dataType: 'json', 
+    	   data: {profile:profile},
+    	   url: "//"+wasabooref+"/update_type_company/"+profile+"/",
+    	   async: true,
+    	   contentType: "application/json; charset=utf-8",
+    	   success: function (data, textStatus, jqXHR) {
+	            if (data.teste == "updatedtype") {
+	            	location.reload();
+	            }else{
+	            	//alert("Error");
+	            }
+    		   },
+                error: function(rs, e) {
+                    //alert(rs.responseText);
+                }
+    	   });    	
+	});
+});
+
+$( document ).ready(function() {
+	$(".female-type").on('click',function(){ 
+    	self = $(this);
+
+    	var wasabooref = $(this).data("url");
+    	var profile = $(this).data("profile");
+    	$.ajax({
+    	   type: "GET", 
+    	   dataType: 'json', 
+    	   data: {profile:profile},
+    	   url: "//"+wasabooref+"/update_type_female/"+profile+"/",
+    	   async: true,
+    	   contentType: "application/json; charset=utf-8",
+    	   success: function (data, textStatus, jqXHR) {
+	            if (data.teste == "updatedtype") {
+	            	location.reload();
+	            }else{
+	            	//alert("Error");
+	            }
+    		   },
+                error: function(rs, e) {
+                    //alert(rs.responseText);
+                }
+    	   });    	
+	});
+});
+
+
+$( document ).ready(function() {
+	$(".male-type").on('click',function(){ 
+    	self = $(this);
+
+    	var wasabooref = $(this).data("url");
+    	var profile = $(this).data("profile");
+    	$.ajax({
+    	   type: "GET", 
+    	   dataType: 'json', 
+    	   data: {profile:profile},
+    	   url: "//"+wasabooref+"/update_type_male/"+profile+"/",
+    	   async: true,
+    	   contentType: "application/json; charset=utf-8",
+    	   success: function (data, textStatus, jqXHR) {
+	            if (data.teste == "updatedtype") {
+	            	location.reload();
+	            }else{
+	            	//alert("Error");
+	            }
+    		   },
+                error: function(rs, e) {
+                    //alert(rs.responseText);
+                }
+    	   });    	
+	});
+});
+</script>
+
+<script>
+$( document ).ready(function() {
+	$(".activate_stealth").on('click', function(){
+	        	self = $(this);
+	        	var wasabooref = $(this).data("url");
+	        	var profile = $(this).data("profile");
+	        	$.ajax({
+	        	   type: "GET", 
+	        	   dataType: 'json', 
+	        	   data: {profile:profile},
+	        	   url: "//"+wasabooref+"/activate_stealth_mode/"+profile+"/",
+	        	   async: true,
+	        	   contentType: "application/json; charset=utf-8",
+	        	   success: function (data, textStatus, jqXHR) {
+	    	            if (data.teste == "stealth_activated") {
+	    	            	location.reload();
+	    	            }else{
+	    	            	//alert("Error");
+	    	            }
+	        		   },
+	                    error: function(rs, e) {
+	                        //alert(rs.responseText);
+	                    }
+	        	   });    			
+	});
+});
+</script>
+
+
+<script>
+$( document ).ready(function() {
+	$(".deactivate_stealth").on('click', function(){
+	        	self = $(this);
+	        	var wasabooref = $(this).data("url");
+	        	var profile = $(this).data("profile");
+	        	$.ajax({
+	        	   type: "GET", 
+	        	   dataType: 'json', 
+	        	   data: {profile:profile},
+	        	   url: "//"+wasabooref+"/deactivate_stealth_mode/"+profile+"/",
+	        	   async: true,
+	        	   contentType: "application/json; charset=utf-8",
+	        	   success: function (data, textStatus, jqXHR) {
+	    	            if (data.teste == "stealth_deactivated") {
+	    	            	location.reload();
+	    	            }else{
+	    	            	//alert("Error");
+	    	            }
+	        		   },
+	                    error: function(rs, e) {
+	                        //alert(rs.responseText);
+	                    }
+	        	   });    			
+	});
+});
+</script>
+
+
+<script>
+$( document ).ready(function() {
+	$(".deactivate_account_confirm").on('click', function(){
+	        	self = $(this);
+	        	var wasabooref = $(this).data("url");
+	        	var profile = $(this).data("profile");
+	        	$.ajax({
+	        	   type: "GET", 
+	        	   dataType: 'json', 
+	        	   data: {profile:profile},
+	        	   url: "//"+wasabooref+"/deactivate_account/"+profile+"/",
+	        	   async: true,
+	        	   contentType: "application/json; charset=utf-8",
+	        	   success: function (data, textStatus, jqXHR) {
+	    	            if (data.teste == "account_deactivated") {
+	    	            	location.reload();
+	    	            }else{
+	    	            	//alert("Error");
+	    	            }
+	        		   },
+	                    error: function(rs, e) {
+	                        //alert(rs.responseText);
+	                    }
+	        	   });    			
+	});
+});
+</script>
+{% endblock %}

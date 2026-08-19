@@ -1,0 +1,58 @@
+{% extends "wpanel.html" %}
+{% block body %}
+	<table id="tables">
+	  <thead>
+	    <tr>
+	      <th>Card</th>
+	      <th>Author</th>
+	      <th>Content</th>
+	      <th>Link</th>
+	      <th>Date</th>
+	      <th>Updated</th>
+	      <th>Media</th>
+	    </tr>
+	  </thead>
+	  <tbody>	    
+		{% for c in cards %}
+		<tr>
+			<td><a href="{%url 'show_tip' c.slug c.id %}" target="_blank">{{ c.id }}</a></td>
+			<td><a href="{%url 'exibir' c.author_profile_id %}" target="_blank">
+			{% if c.type = "f" %}
+	       		    {% if c.upload != "0" %}
+	       		    	<span class="user"><img src="{{c.upload}}" class="user"></span>
+	       		    {% else %}
+	       		    	<span class="user"><img class="user woman"></span>
+	       		    {% endif %}
+	       	
+	       	{% elif c.type = "m" %}
+	       		    {% if c.upload != "0" %}
+	       		    	<span class="user"><img src="{{c.upload}}" class="user"></span>
+	       		    {% else %}
+	       		    	<span class="user"><img class="user man"></span>
+	       		    {% endif %}
+	       	
+	       	{% elif c.type = "c" %}
+	       		    {% if c.upload != "0" %}
+	       		    	<span class="user"><img src="{{c.upload}}" class="user"></span>
+	       		    {% else %}
+	       		    	<span class="user"><img class="user company"></span>
+	       		    {% endif %}
+			{% endif %}
+			{{ u.nome }}
+			{{ c.author_name }}</a></td>
+			<td>{{ c.content }}</td>
+			<td><a href="{{ c.link }}" target="_blank">{{ c.link }}</a></td>
+			<td>{{ c.date|date:'M d, Y H:m' }}</td>
+			<td>{{ c.updated_date|date:'M d, Y H:m' }}</td>
+			<td>
+				{% if c.outdoor %}
+					<img class="outdoor" src="{{ MEDIA_URL }}{{c.outdoor}}"/>
+				{% else %}
+					No image
+				{% endif %}
+			</td>
+		</tr>
+		{% endfor %}	    
+	  </tbody>
+	</table>
+{% endblock %}

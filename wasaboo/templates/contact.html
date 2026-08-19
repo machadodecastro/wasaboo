@@ -1,0 +1,55 @@
+{% extends "sobre.html" %}
+{% load i18n admin_static %}
+{% load url from future %}
+
+{% block body %}
+<div class="modal-body">
+ <div id="page-wrapper">
+
+	<div class="container">	
+            <div id="c_form">
+                <br /><br /><br /><br />
+                <form name="theform" action="{%url 'contact' %}" method="post" id="theform">
+                {% csrf_token %}
+                    <div id="name_email">
+						
+						<select name="topic" id="subject" class="contact-input">
+						  <option value="help">I need help with my account</option>
+						  <option value="copyright">I want to report copyright infringement</option>
+						  <option value="trademark">I want to report trademark infringement</option>
+						  <option value="infringements">I want to report other infringement</option>						  
+						  <option value="ads">I want to report an ad that I saw</option>
+						  <option value="safety">I have a safety concern</option>
+						  <option value="bugs">I want to report a bug</option>
+						  <option value="feedback">General feedback</option>
+						</select>
+						
+						<br/><br/>
+						
+                        <input type="text" name="name" value="" id="name" class="contact-input"
+                        placeholder="Name..."/>
+                        
+                        <br/><br/>
+                        
+                        <input type="text" name="email" value="" id="Email" class="contact-input"
+                        placeholder="E-mail..."/>
+                    </div><!-- end name_email -->
+                    
+                    <br/>
+                    
+                    <div id="message">
+                        <textarea name="message" rows="8" cols="37" class="contact-input"
+                        placeholder="Message..."  style="resize:none"></textarea>
+
+                    </div><!-- end message -->
+                    
+                    <button type="submit" value="Submit" class="btn btn-login btn-primary mobile-contact-send-btn">Send</button>
+                    
+                </form>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+{% endblock %}

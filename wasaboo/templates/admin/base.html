@@ -1,0 +1,128 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="Description" content="Create an account and enjoy Wasaboo. Publish and play outdoors.">
+	
+	<title>{% block title %}Wasaboo{% endblock %}</title>
+    
+    <!-- Bootstrap Core CSS -->
+    <link href="{% static 'css/bootstrap.css'%}" rel="stylesheet">
+    <script src="{% static 'js/jquery-1.12.3.js'%}"></script>
+    {% block sb_admin_bootstrap_css %}<link href="{% static 'css/bootstrap.min.css'%}" rel="stylesheet">{% endblock sb_admin_bootstrap_css %}
+
+    <!-- Custom CSS -->
+    {% block sb_admin_css %}<link href="{% static 'css/sb-admin.css'%}" rel="stylesheet">{% endblock sb_admin_css %}
+
+    <!-- Custom Fonts -->
+    {% block sb_admin_fonts_css %}<link href="{% static 'font-awesome/css/font-awesome.min.css'%}" rel="stylesheet" type="text/css">{% endblock sb_admin_fonts_css %}
+
+	<link rel="shortcut icon" href="/static/img/favicon.ico"/>
+	<link rel="stylesheet" href="{% static 'login/css/normalize.css' %}">
+	<link rel='stylesheet prefetch' href='http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css'>
+	
+	<link rel="stylesheet" type="text/css" media="screen and (max-width: 360px)" href="{%static 'login/css/mobile_style.css' %}">
+	<link rel="stylesheet" type="text/css" media="screen and (min-width: 361px) and (max-width: 784px)" href="{%static 'login/css/mobile_style.css' %}">
+	<link rel="stylesheet" type="text/css" media="screen and (min-width: 785px)" href="{%static 'login/css/style.css' %}">  
+
+	<link rel="stylesheet" href="{% static 'css/sobre.css' %}">
+	
+	<script>
+	function trim(){
+		$("#txtBusca").val($.trim($("#txtBusca").val()));
+	}
+	</script>
+       
+    <!-- load jQuery -->
+	<script src="/static/js/jquery.js"></script>
+		
+        
+	{% block extrastyle %}{% endblock %}
+	
+	<!--[if lte IE 7]><link rel="stylesheet" type="text/css" href="{% block stylesheet_ie %}{% static "admin/css/ie.css" %}{% endblock %}" /><![endif]-->
+	{% if LANGUAGE_BIDI %}
+		<link rel="stylesheet" type="text/css" href="{% block stylesheet_rtl %}{% static "admin/css/rtl.css" %}
+	{% endblock %}" />{% endif %}
+	
+	<script type="text/javascript">window.__admin_media_prefix__ = "{% filter escapejs %}{% static "admin/" %}{% endfilter %}";</script>
+	<script type="text/javascript" src="{% static "admin/js/jquery-1.3.1.min.js" %}"></script>	
+	<script type="text/javascript" language="javascript" src="{% static "admin/js/jquery.dropdownPlain.js" %}"></script>
+	{% block extrahead %}{% endblock %}
+	
+			
+	<script src='https://www.google.com/recaptcha/api.js'></script>
+	
+	<!-- GSuite -->
+	<meta name="google-site-verification" content="Cbg2BXjXnYHLgBilA-zms-uuMHBoY1Si8_9EwYUYENY" />
+	
+	<!-- Google Search Console -->
+	<meta name="google-site-verification" content="-LV_ElJ15XQBhGotiemoZKH6Bz8KzOCXrnRn7JoUR2I" />
+
+</head>
+
+ 
+<body class="body-hiddenSearch">
+
+	<header class="header">
+		<div class="container-bar">
+				<img src="{%static "img/wasaboo_logo.png" %}" alt="wasaboo">
+				<img src="{%static "img/wasaboo_text.png" %}" alt="wasaboo">	
+		</div>
+	</header>
+		
+		<div class="container">
+			<section class="sign">
+				<section class="text-about">
+					<h2 class="title"></h2>
+					<p class="subtitle"></p>			
+
+
+		            {% block body %}
+		            <!-- (login.html) -->
+		            {% endblock %} 
+
+				</section>
+				<!-- 
+				<section class="forgotPassword">
+					<h2 class="title">Recuperar senha</h2>
+					<p class="subtitle">Esqueceu sua senha? Digite seu e-mail que enviaremos um link para definir uma nova senha.</p>
+					
+					<form class="forgotPassword-form" action="/auth/sendPasswordRecoveryEmail" method="post">
+						<input type="email" required="" placeholder="E-mail" id="email" name="email" class="input forgot-password-email" value="">
+			
+						<button class="forgotPassword-btn" type="submit">
+								Recuperar
+							</button>
+						</form>
+					</section>
+					-->
+			</section>
+		</div>
+			
+		<footer class="footer">
+			<ul>	
+				<li class="footer-menu-item"><a href="{%url 'public' %}">Home</a></li>
+				<li class="footer-menu-item"><a href="{%url 'index' %}">Login</a></li>		
+				<li class="footer-menu-item"><a href="{%url 'about' %}">About</a></li>
+				<li class="footer-menu-item"><a href="{%url 'politics' %}">Privacy</a></li>
+				<li class="footer-menu-item"><a href="{%url 'contact' %}">Contact</a></li>
+			</ul>
+		</footer>
+		
+</body>
+    
+    <script src="{% static "scripts/vendor/bootstrap-min.js" %}"></script>
+    
+	<script>
+	  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+	  ga('create', 'UA-42101548-1', 'wasaboo.com');
+	  ga('require', 'displayfeatures');
+	    	ga('send', 'pageview');
+    </script>    
+</html>
+

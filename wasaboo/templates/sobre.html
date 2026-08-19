@@ -1,0 +1,30 @@
+{% extends "admin/base.html" %}
+{% load i18n admin_static %}
+{% load url from future %}
+
+{% block title %}Wasaboo{% endblock %}
+
+{% block extrastyle %}{{ block.super }}{% endblock %}
+
+{% block content %}
+	{% with request.resolver_match.url_name as url_name %}
+	
+		{% block body %}
+		{% endblock %}
+	                    
+		<footer class="footer">
+			<ul>
+				<li class="footer-menu-item"><a href="{%url 'login' %}">Login</a></li>
+				<li class="footer-menu-item"><a href="{%url 'about' %}">About</a></li>
+				<li class="footer-menu-item"><a href="{%url 'politics' %}">Privacy</a></li>
+				<li class="footer-menu-item"><a href="{%url 'contact' %}">Contact</a></li>
+			</ul>
+		</footer>
+				
+    {% endwith %}              
+{% endblock %}		
+
+
+{% block js %}
+    {{ block.super }}
+{% endblock %}

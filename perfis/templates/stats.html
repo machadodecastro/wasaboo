@@ -1,0 +1,125 @@
+{% extends "base.html" %}
+{% block body %}
+
+{% if perfil.id == perfil_logado.id %}
+<div class="row-profile">
+
+<!-- MENU -->	
+{% include "menu.html" %}
+
+    {% if perfil.id == perfil_logado.id %}    
+    
+	<div class="profile-config-container">
+	    <h4><strong>Stats</strong></h4>
+	    <ul>
+			<a href="{% url 'exibir' perfil_logado.id %}">
+				<li class="list-stats">
+	                  <strong>Published</strong>
+                      <span class="list_count"> 
+						{% if published %}
+							{% for p in published %}
+								<span class="list-number"> {{ p.howmany }}</span>
+							{% endfor %}
+						{% endif %}
+				      </span>
+				</li>
+			</a>
+              
+			<a href="{% url 'hided' perfil_logado.id %}">              
+				<li class="list-stats">                  
+                      <strong>Hided</strong>
+                      <span class="list_count">
+					      {% if hided %}
+    					      {% for h in hided %}
+    						      <span class="list-number"> {{ h.howmany }}</span>
+    						  {% endfor %}
+    				      {% endif %}	    					
+    			      </span>                  
+				</li>
+			</a>
+            
+			<a href="{% url 'favorites' perfil_logado.id %}">
+				<li class="list-stats">                  
+                      <strong>Favorites</strong>
+                      <span class="list_count">
+                          {% if favorites_count %}
+	    					  {% for f in favorites_count %}
+	    						  <span class="list-number"> {{ f.howmany }}</span>
+	    					  {% endfor %}
+    					  {% endif %}
+                      </span>                  
+				</li>
+            </a>
+            
+			<a href="{% url 'followers' perfil_logado.id %}">
+				<li class="list-stats">                  
+                      <strong>Followers</strong>
+                      <span class="list_count">
+                          {% if followers_howmany %}
+    						  {% for f in followers_howmany %}
+	    						  <span class="list-number"> {{ f.howmany }}</span>
+	    					  {% endfor %}
+	    				  {% endif %}
+                      </span>                  
+				</li>
+            </a>
+			
+			<a href="{% url 'contacts' perfil_logado.id %}">
+				<li class="list-stats">                  
+                      <strong>Following</strong>
+                      <span class="list_count">
+                          {% if contacts %}
+    						  {% for c in contacts %}
+						          <span class="list-number"> {{ c.howmany }}</span>
+						      {% endfor %}
+	    				  {% endif %}
+                      </span>                  
+				</li>	
+            </a>
+			
+			<a href="{% url 'decks' perfil_logado.id %}">
+				<li class="list-stats">
+                      <strong>Campaigns</strong>
+                      <span class="list_count">
+                          {% if deck_of_cards %}
+    						  {% for d in deck_of_cards %}
+						          <span class="list-number"> {{ d.howmany }}</span>
+						      {% endfor %}
+	    				  {% endif %}
+                      </span>                  
+				</li>	 
+            </a>
+			
+			
+			<a href="{% url 'removed_cards' perfil_logado.id %}">
+				<li class="list-stats">                  
+                      <strong>Removed outdoors</strong>
+                      <span class="list_count">
+                          {% if removed_count %}
+    						  {% for r in removed_count %}
+						          <span class="list-number"> {{ r.howmany }}</span>
+						      {% endfor %}
+	    				  {% endif %}
+                      </span>                  
+				</li>   
+            </a>
+			
+			<a href="{% url 'accepted_cards' perfil_logado.id %}">
+				<li class="list-stats">                  
+                      <strong>Accepted outdoors</strong>
+                      <span class="list_count">
+                          {% if accepted_count %}
+    						  {% for a in accepted_count %}
+						          <span class="list-number"> {{ a.howmany }}</span>
+						      {% endfor %}
+	    				  {% endif %}
+                      </span>                  
+				</li>                                       
+			</a>
+          </ul>			
+	</div>
+	{% endif %}    
+</div>
+{% endif %}
+
+{% endblock %}

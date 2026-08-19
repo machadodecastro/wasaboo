@@ -1,0 +1,121 @@
+{% extends "base.html" %}
+
+{% block body %}
+
+{% if perfil.id == perfil_logado.id %}
+<div class="row-profile">
+	
+	<!-- Modal for show tips details-->
+	{% include "modal_show_tip.html" %}	
+	
+	<!-- MENU -->	
+	{% include "menu.html" %}
+	
+    <div id="Center">
+    {% if favorites %}
+    <ul class="profile-waterfall">
+              {% for tip in favorites %}
+              
+              {% include 'docs.html' %}
+              
+              {% include 'modal_remove_card.html' %}
+              
+              {% if not tip.removed %}
+			  <li class="cards card-{{tip.id}}">
+			    <div class="main card-layout">
+			    
+			      {% if tip.world == '1' %} 
+				<a href="#" class="checkbox-map-on" data-url="{{url}}" data-profile="{{perfil_logado.id}}" data-map="1">
+				  <div class="world-advertise">
+				    <img class="fire-options"/>
+				  </div>
+				</a>
+				{% elif tip.world == '2' %}
+				<a href="#" class="fys-on" data-url="{{url}}" data-profile="{{perfil_logado.id}}" data-map="2">
+				  <div class="world-advertise">
+				    <img class="fys-options"/>
+				  </div>
+				</a>
+				{% elif tip.world == '3' %}
+				<a href="#" class="adidas-on" data-url="{{url}}" data-profile="{{perfil_logado.id}}" data-map="3">
+				  <div class="world-advertise">
+				    <img class="nike-options"/>
+				  </div>
+				</a>
+				{% else %}
+				{% endif %}
+				  
+				  {% include 'card_header.html' %}
+			       
+			      <!-- Outdoor title -->
+			      {% include 'outdoor_title.html' %}
+						
+				  <!-- Picture -->					
+				  {% include 'outdoor_picture.html' %}
+		          
+		          {% include 'card_delete_question.html' %}
+	                
+	              {% include 'folder_options.html' %}
+	                    
+				  {% include 'folder_container.html' %} 
+				  
+				  {% include 'chat_container.html' %}
+		          		          
+				  <!-- Profile image -->
+                  <div class="profile-image">
+                  	  <a href="{% url 'exibir' tip.author %}">
+				          <div class="image-content">
+							    	{% if tip.type = 'f' %}
+							       		    {% if tip.upload != "0"  %}
+								       		    	<div>
+								       		    		<img src="{{tip.upload}}" class="user">
+								       		    	</div>
+							       		    {% else %}
+								       		    	<div class="user woman"></div>
+								       		{% endif %}
+							       		
+							    	{% elif tip.type = 'm' %}
+							       		    {% if tip.upload != "0"  %}
+								       		    	<div>
+								       		    		<img src="{{tip.upload}}" class="user">
+								       		    	</div>
+							       		    {% else %}
+								       		    	<div class="user man"></div>
+								       		{% endif %}
+							        	
+							    	{% elif tip.type = 'c' %}
+							       		    {% if tip.upload != "0"  %}
+								       		    	<div>
+								       		    		<img src="{{tip.upload}}" class="user">
+								       		    	</div>
+							       		    {% else %}
+								       		    	<div class="user company"></div>
+								       		{% endif %}
+							       	{% endif %}
+			              </div>
+                  	  </a>
+                  	  
+                  	  <!-- Profile name -->
+					  {% include 'outdoor_profile.html' %}
+          				    
+          			  <!-- Favorite icon -->
+     				  {% include 'outdoor_favorite_local.html' %} 
+     					  
+		      	  </div>
+		      	  
+		      	  <!-- Outdoor Campaign -->
+			      {% include 'outdoor_campaign.html' %}
+	    </li>
+	    {% endif %}	
+	    {% empty %}
+              	  <li class="no-published-warning">
+				  	      No favorite card		             
+              	  </li>		  
+        {% endfor %}	
+    </ul>    
+    {% endif %} 
+  	</div> 
+</div>
+{% endif %}
+
+{% endblock %}

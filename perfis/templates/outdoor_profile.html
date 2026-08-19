@@ -1,0 +1,25 @@
+<div class="author-content">
+  <a href="{% url 'exibir' tip.author %}">
+    {{ tip.name }} {% with tip.author_profile_id as authorID %}{% for j in job %} {% if j.jobs_profile_id = authorID and j.status_work == '1' %} @ {{ j.company }} {% endif %}{% endfor %}{% endwith %}
+  </a>
+  
+  <br/> 
+  
+  <!-- Card update and creation date --> 
+  {% if tip.updated_date != tip.date %}
+  <div class="date-content">
+    Updated {{ tip.updated_date|date:'M d, Y' }}
+    <a data-toggle="tooltip" data-placement="top" 
+    title="Posted {{ tip.date|date:'M d, Y' }}">
+	  <span class="clock"></span>
+    </a>
+</div>
+             
+  {% else %}
+             
+  <div class="date-content">
+    Posted {{ tip.date|date:'M d, Y' }}			                  	
+  </div>
+  {% endif %}
+             
+</div>

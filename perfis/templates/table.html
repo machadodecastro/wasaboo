@@ -1,0 +1,202 @@
+{% extends "base.html" %}
+	
+{% block body %} 
+<div class="row content">
+<div id="Center">   
+ <br/>         
+            	<input type="text" id="myHolds" onkeyup="searchHolds()" 
+		        placeholder="Filter played outdoors to me...">
+		  
+				<ul id="myULHolds" class="table-waterfall">
+				{% for tip in table %}
+						      
+				      {% if not tip.removed %}        
+		              <li class="cards card-{{tip.id}}">
+					    <div class="main card-layout">
+						  
+						    {% include 'card_header_in_card.html' %}
+					        
+					        <!-- Outdoor title -->
+	          			    {% include 'outdoor_title.html' %}  
+				
+						    <!-- Picture -->					
+						    {% include 'outdoor_picture.html' %}								
+		
+							{% include 'card_delete_question.html' %}
+			                
+			                {% include 'folder_options.html' %}
+			                    
+							{% include 'folder_container.html' %}                    
+							
+						  <!-- Profile image -->
+		                  <div class="profile-image">
+		                  	  <a href="{% url 'exibir' tip.author %}">
+						          <div class="image-content">
+								    {% if perfil.id == perfil_logado.id %}
+								    	<a data-toggle="modal" data-target="#updateProfilePicture" class="dropdown-toggle">
+									    	{% if tip.type = 'f' %}
+									       		    {% if tip.upload != "0"  %}
+										       		    	<div>
+										       		    		<img src="{{tip.upload}}" class="user">
+										       		    	</div>
+									       		    {% else %}
+										       		    	<div class="user woman"></div>
+										       		{% endif %}
+									       		
+									    	{% elif tip.type = 'm' %}
+									       		    {% if tip.upload != "0"  %}
+										       		    	<div>
+										       		    		<img src="{{tip.upload}}" class="user">
+										       		    	</div>
+									       		    {% else %}
+										       		    	<div class="user man"></div>
+										       		{% endif %}
+									        	
+									    	{% elif tip.type = 'c' %}
+									       		    {% if tip.upload != "0"  %}
+										       		    	<div>
+										       		    		<img src="{{tip.upload}}" class="user">
+										       		    	</div>
+									       		    {% else %}
+										       		    	<div class="user company"></div>
+										       		{% endif %}
+									       	{% endif %}
+								        </a>
+								        
+								      {% else %}
+								     
+									    	{% if tip.type = 'f' %}
+									       		    {% if tip.upload != "0"  %}
+										       		    	<div>
+										       		    		<img src="{{tip.upload}}" class="user">
+										       		    	</div>
+									       		    {% else %}
+										       		    	<div class="user woman"></div>
+										       		{% endif %}
+									       		
+									    	{% elif tip.type = 'm' %}
+									       		    {% if tip.upload != "0"  %}
+										       		    	<div>
+										       		    		<img src="{{tip.upload}}" class="user">
+										       		    	</div>
+									       		    {% else %}
+										       		    	<div class="user man"></div>
+										       		{% endif %}
+									        	
+									    	{% elif tip.type = 'c' %}
+									       		    {% if tip.upload != "0"  %}
+										       		    	<div>
+										       		    		<img src="{{tip.upload}}" class="user">
+										       		    	</div>
+									       		    {% else %}
+										       		    	<div class="user company"></div>
+										       		{% endif %}
+									       	{% endif %}
+								     {% endif %}
+					              </div>
+		                  	  </a>
+		                  	  
+					          <!-- Profile name -->
+						      {% include 'outdoor_profile.html' %}  
+		          				    
+		 					  <!-- Favorite icon -->
+		       				    {% if tip.author_profile_id == request.user.perfil.id %}
+		       				    <div id="favoritings"
+				          	    class="favoritings favoritings-{{tip.id}} like like-{{tip.id}}"
+				          	    data-toggle="modal"
+		             		    data-target="#whoFavorited" 
+		                        data-url = "{{url}}"
+		                        data-id="{{tip.id}}">
+			              	        <input type="text" class="likes" 
+			              	        data-url = "{{url}}"
+			              	        data-id="{{tip.id}}" 
+			              	        id="favoriteTip" name="favoriteTip" value="{{tip.id}}" 
+			              	        style="display:none;">
+				                </div>
+		       				    {% else %} <!-- another profile -->
+		       				    <div id="fav">
+		       				    		{% if tip.isfav == 0 %}
+		        				    			<img class="pbfavorite pbfavorite-{{tip.id}} user" 
+		        				    			data-url = "{{url}}" 
+		        				    			data-id="{{tip.id}}" 
+		        				    			data-author="{{tip.author_name}}"
+		        				    			id="pbfavoriteTip" name="pbfavoriteTip"/>
+		        				    			
+		        				    			<img class="favorite favorite-{{tip.id}} user" 
+		        				    			data-url = "{{url}}" 
+		        				    			data-id="{{tip.id}}"  
+		        				    			id="favoriteTip" name="favoriteTip" style="display: none"/>
+		       				    		{% else %}
+		        				    			<img class="favorite favorite-{{tip.id}} user" 
+		        				    			data-url = "{{url}}" 
+		        				    			data-id="{{tip.id}}"  
+		        				    			id="favoriteTip" name="favoriteTip" />
+		        				    			
+		        				    			<img class="pbfavorite pbfavorite-{{tip.id}} user" 
+		        				    			data-url = "{{url}}" 
+		        				    			data-id="{{tip.id}}" 
+		        				    			data-author="{{tip.author_name}}"
+		        				    			id="pbfavoriteTip" name="pbfavoriteTip" style="display: none"/>
+		        				    		{% endif %}	
+		       				    </div>		
+		       				    {% endif %}								            		
+		
+				      	  </div>			    
+					    </div>
+					  </li>
+					  {% endif %}
+		              {% empty %}
+		              
+		 	      	  <li class="no-published-warning">
+			  	      	  Nobody shared anything yet		             
+		           	  </li>                
+				{% endfor %}
+				</ul>
+</div>
+</div>
+{% endblock %}             
+
+<script>
+$( document ).ready(function() {
+	$('#hold_card_{{tip.id}}').on('hidden.bs.modal', function() {	        	
+	    $.ajax({
+	        dataType : 'html',
+	        contentType: false,
+	        processData: false,
+	        success: function(response) { //on success
+	        	//LOAD SCRIPTS WITHOUT AJAX CALLS
+	        	$.getScript( '/static/js/scripts-loader.js');
+	        	
+	            // AJAX CALLS
+	            $.getScript( '/static/js/upcards.js');
+	            $.getScript( '/static/js/show-references.js');
+	        	$.getScript( '/static/js/show-back.js');
+	        	$.getScript( '/static/js/favoriting-card.js');
+	        	$.getScript( '/static/js/desfavoriting-card.js');
+	        	$.getScript( '/static/js/hide-card.js');
+	        	$.getScript( '/static/js/publish-card.js');
+	        	$.getScript( '/static/js/counting-favoritings.js');
+	        	$.getScript( '/static/js/who-favorited.js');
+	        	$.getScript( '/static/js/delete-card-btn-yes.js');
+	        	$.getScript( '/static/js/save-to-folder.js');
+	        	$.getScript( '/static/js/delete-from-folder.js');
+	        	$.getScript( '/static/js/jquery.jscroll.js');
+	        	$.getScript( '/static/js/focus.js');
+	        	$.getScript( '/static/js/words-count-edit-tip.js');
+	        	$.getScript( '/static/js/remove-card.js');
+	        	
+	        	// LOAD HTML
+	        	$('.card-waterfall').html(jQuery(response).find('.card-waterfall').html());
+	        	$('.my-upcards-waterfall').html(jQuery(response).find('.my-upcards-waterfall').html());
+	        	$('.table-waterfall').html(jQuery(response).find('.table-waterfall').html());
+	        	//location.reload();
+	        	
+	        	// CLOSE MODAL	        	
+	        	$('body').removeClass('modal-open');
+	        	$('.close').click();
+	        }
+	    });
+	});
+});
+</script>
+

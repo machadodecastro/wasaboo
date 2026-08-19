@@ -1,0 +1,4 @@
+{% autoescape off %}
+{{ object.upload }}
+{{ object.profile_id }}
+{% endautoescape %}

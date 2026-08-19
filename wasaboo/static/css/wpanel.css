@@ -1,0 +1,303 @@
+.header {
+	position: fixed;
+	width: 100%;
+    background-color: #eee;
+    color: #454d4d;
+    border-bottom: 1px solid #e5e9ea;
+    z-index: 10;
+    font-size: 75%;
+    font-family: "Open Sans";
+    height: 65px;
+    box-shadow: 0 3px 2px -2px rgba(200,200,200,0.2);
+}
+.panel-header {
+	background-color: #8fc3ef;
+	padding: 10px;
+	width: 100%;
+	min-width: 1200px;
+}
+.container-bar {
+    margin: 0 auto;
+    width: 80%;
+    min-width: 400px;
+    padding: 3px;
+}
+.container {
+    margin-left: auto;
+    margin-right: auto;
+    width: 80%;
+    min-width: 400px;
+    padding: 30px;
+}
+
+
+#menu ul {
+	min-width: 1200px;
+    padding:0px;
+    margin:0px;
+    background-color:#EDEDED;
+    list-style:none;
+}
+#menu ul li { display: inline; }
+
+#menu ul li a {
+    padding: 2px 10px;
+    display: inline-block;
+
+    /* visual do link */
+    background-color:#EDEDED;
+    color: #333;
+    text-decoration: none;
+    border-bottom:3px solid #EDEDED;
+}
+
+#menu ul li a:hover {
+    background-color:#D6D6D6;
+    color: #FFF;
+    border-bottom:3px solid #f6a7e1;
+}
+#menu ul li a .activated {
+    background-color:#D6D6D6;
+    color: #6D6D6D;
+    border-bottom:3px solid #EA0000;
+}
+
+
+/*Profile dropdown main menu*/
+.dropdown-menu {
+    position: absolute;
+    top: 100%;
+    z-index: 1000;
+    display: none;
+    float: right;
+    min-width: 150px;
+    padding: 0;
+    margin: 2px -70px 0;
+    font-size: 14px;
+    text-align: left;
+    list-style: none;
+    background-color: #fff;
+    -webkit-background-clip: padding-box;
+    background-clip: padding-box;
+    border: 1px solid #ccc;
+    border: 1px solid rgba(0,0,0,.15);
+    border-radius: 4px;
+    -webkit-box-shadow: 0 6px 12px rgba(0,0,0,.175);
+    box-shadow: 0 6px 12px rgba(0,0,0,.175);
+}
+.open>.dropdown-menu {
+    display: block;
+    z-index: 2;
+}
+
+.dropdown-menu-notifications{
+	left: -30px;
+}
+.dropdown ul.dropdown-menu {
+    border-radius:4px;
+    box-shadow: 5px;
+    margin-top: 5px;
+    z-index: 2;
+}
+.dropdown-menu>li>a {
+    display: block;
+    padding: 10px 20px;
+    /*border-bottom: 1px solid #eeee;*/
+    clear: both;
+    font-weight: 400;
+    line-height: 1.42857143;
+    color: #333;
+    white-space: nowrap;
+}
+
+
+.container p {
+    /*text-align: left;
+	font-family: 'Source Serif Pro',serif;
+    color: #3d464d;
+    margin: 0;
+    line-height: 31.5px;
+    font-size: 1.35em;
+    width: 90%;*/
+    padding: 17px;
+	font-family: 'q_serif',Georgia,Times,"Times New Roman","Hiragino Kaku Gothic Pro","Meiryo",serif;
+    font-weight: normal;
+    color: #262626;
+    font-size: 18px;
+    line-height: 1.5;
+    text-align: justify;
+    color: #333;        
+}
+#page-wrapper {
+    width: 100%;
+    padding: 0;
+    background-color: #fff;
+}
+.warning-label {
+    color: #999;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size: 30px;
+    margin-top: 60px;
+    text-align: center;
+    font-weight: normal;
+}
+.centralized {
+	margin: 0 auto;
+    text-align: center!important;
+}
+
+.row {
+	padding: 10px;
+}
+
+.dashboard-label {
+	color: #FFF;
+    float: right;
+    margin: 15px;
+    font-size: 25px;
+    font-family: sans-serif;
+}
+.dashboard {
+	width: 64px;
+	height: 64px;
+	margin: 0 10px 0 0;
+	content: url(/static/img/dashboard.png);
+	background-image: url(/static/img/dashboard.png);
+	display: inline-block;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
+    float: right;
+}
+
+.profile {
+	width: 16px;
+	height: 16px;
+	margin: 0 10px 0 0;
+	content: url(/static/img/profile.png);
+	background-image: url(/static/img/profile.png);
+	display: inline-block;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
+}
+
+.card {
+    width: 24px;
+	height: 24px;
+	margin: 0 10px 0 0;
+	content: url(/static/img/tip_icon.png);
+	background-image: url(/static/img/tip_icon.png);
+	display: inline-block;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;    
+}
+
+.myfavorites{
+	width: 24px;
+	height: 24px;
+	content: url(/static/img/myfavorites.png);
+	background-image: url(/static/img/myfavorites.png);
+	display: inline-table;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
+}
+
+.user-following {
+	width: 24px;
+	height: 24px;
+	content: url(/static/img/user_following.png);
+	background-image: url(/static/img/user_following.png);
+	display: inline-table;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
+}
+.user-followed {
+	width: 24px;
+	height: 24px;
+	content: url(/static/img/user_followed.png);
+	background-image: url(/static/img/user_followed.png);
+	display: inline-table;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
+}
+
+.folder{
+	width: 20px;
+	height: 20px;
+	margin: 0 10px 0 0;
+	content: url(/static/img/folder.png);
+	background-image: url(/static/img/folder.png);
+	display: inline-block;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
+}
+
+.bkg-default {
+    width: 100px;
+    margin: 0;
+    padding: 20px;
+    text-align: center;
+    background-image: url('/static/img/default_profile_background.png');
+    height: auto;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+}
+
+.outdoor {
+	width: 100px;
+	height: auto;
+}
+
+
+/*----TABLE----*/
+#tables {
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+    min-width: 1200px;
+}
+
+#tables td, #tables th {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
+#tables tr:nth-child(even){background-color: #f2f2f2;}
+
+#tables tr:hover {background-color: #ddd;}
+
+#tables th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: #555;
+    color: white;
+}
+
+
+/*---AVATARS---*/
+.user {
+  display: inline-table;
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+}
+.man {
+    background-image: url('/static/img/man_profile.png');
+}
+.woman {
+    background-image: url('/static/img/woman_profile.png');
+}
+.company {
+    background-image: url('/static/img/company.png');
+}

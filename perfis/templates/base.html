@@ -1,0 +1,748 @@
+{% load opengraph_tags %}
+{% load staticfiles %}
+{% block content %}
+{% with request.resolver_match.url_name as url_name %}
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en"  xmlns:fb="https://www.facebook.com/2008/fbml">
+  <head prefix="og: https://ogp.me/ns# article: https://ogp.me/ns/article#">
+	
+    <!-- Codecs -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    
+    
+    <!-- Mobile and Responsive settings -->
+    <meta name="viewport" content="width=device-width">
+    
+    <title>Wasaboo</title>
+  
+    <!-- Font-awesome -->
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    
+    <!-- Fancybox -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+    <script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+    
+    <!-- Leaflet -->    
+    <script  src='https://api.mapbox.com/mapbox.js/v3.1.1/mapbox.js'></script>
+    <link href='https://api.mapbox.com/mapbox.js/v3.1.1/mapbox.css' rel='stylesheet' />
+    <script  src="{%static 'js/L.Control.Locate.js' %}" ></script>
+    <link rel="stylesheet" href="{%static 'css/L.Control.Locate.mapbox.min.css' %}" />
+
+	{% if url_name == 'windy' %}  
+    <script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js"></script>
+        <script src="https://api4.windy.com/assets/libBoot.js"></script>
+        <style>
+            #windy {
+                width: 100%;
+                height: 100%;
+                margin-top:70px;
+            }
+        </style>
+    {% endif %}
+	
+	<!-- URLs Canonicas -->
+    <link rel="canonical" href="http://www.wasaboo.com"/>
+	
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="/static/img/favicon.ico"/>
+    
+    
+    <!-- Bootstrap Core CSS -->
+    <link href="{% static 'css/bootstrap.css' %}" rel="stylesheet" media="all">
+    <link href="{% static 'css/bootstrap.min.css'%}" rel="stylesheet" media="all">   
+    
+	<link rel="stylesheet" type="text/css" media="screen and (max-width: 360px)" href="{%static 'css/portrait.css' %}">
+	<link rel="stylesheet" type="text/css" media="screen and (min-width: 361px) and (max-width: 784px)" href="{%static 'css/portrait.css' %}">
+	<link rel="stylesheet" type="text/css" media="screen and (min-width: 785px)" href="{%static 'css/main.css' %}">  
+    <!-- <link href="{% static 'css/main.css' %}" rel="stylesheet" media="all"> -->
+    <link href="{% static 'css/main.scss' %}" rel="stylesheet">
+    
+    <!-- Crop profile image CSS -->
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300,400,400italic,600,700' rel='stylesheet' type='text/css' media="all">
+    <link  type="text/css" href="{% static 'css/prism.css' %}" rel="Stylesheet"/>
+    <link  type="text/css" href="{% static 'css/sweetalert.css' %}" rel="Stylesheet"/>
+    <link  type="text/css" href="{% static 'css/croppie.css' %}" rel="Stylesheet"/>
+    <link  type="text/css" href="{% static 'css/demo.css' %}" rel="Stylesheet"/>
+    
+    <!-- jQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
+    
+    <!-- Image Gallery -->
+	<link  href="{%static 'css/fotorama.css' %}" rel="stylesheet">
+	<script src="{%static 'js/fotorama.js' %}"></script>
+
+    <!-- Loading Spinner -->
+	<style>
+		.loader,
+        .loader:after {
+            border-radius: 50%;
+            width: 10em;
+            height: 10em;
+        }
+        .loader {            
+            margin: 300px auto;
+            font-size: 10px;
+            position: relative;
+            text-indent: -9999em;
+            border-top: 1.1em solid rgba(255, 255, 255, 0.2);
+            border-right: 1.1em solid rgba(255, 255, 255, 0.2);
+            border-bottom: 1.1em solid rgba(255, 255, 255, 0.2);
+            border-left: 1.1em solid #ffffff;
+            -webkit-transform: translateZ(0);
+            -ms-transform: translateZ(0);
+            transform: translateZ(0);
+            -webkit-animation: load8 1.1s infinite linear;
+            animation: load8 1.1s infinite linear;
+        }
+        @-webkit-keyframes load8 {
+            0% {
+                -webkit-transform: rotate(0deg);
+                transform: rotate(0deg);
+            }
+            100% {
+                -webkit-transform: rotate(360deg);
+                transform: rotate(360deg);
+            }
+        }
+        @keyframes load8 {
+            0% {
+                -webkit-transform: rotate(0deg);
+                transform: rotate(0deg);
+            }
+            100% {
+                -webkit-transform: rotate(360deg);
+                transform: rotate(360deg);
+            }
+        }
+        #loadingDiv {
+            position:absolute;
+            top:0;
+            left:0;
+            width:100%;
+            height:100%;
+            background-color:#eee;
+        }
+	</style>
+	  
+    <script type="text/javascript">
+	$(window).load(function() {
+		$(".se-pre-con").fadeOut("slow");
+	});
+	</script>
+	
+    <!-- Deck of Cards Dashboard -->
+    <script src="{% static 'js/newWaterfall.js' %}"></script>
+    <script src="{% static 'js/profileNewWaterfall.js' %}"></script>
+    <script src="{% static 'js/cardNewWaterfall.js' %}"></script>
+    <script type="text/javascript">
+
+        // Waterfall for index
+        $(document).ready(function ()
+        {
+            $('#waterfall').NewWaterfall({
+                width: 360,
+                delay: 100,
+                scrollbottom :true,
+            });
+        });
+        // Waterfall for other pages in profile
+        $(document).ready(function ()
+        {
+            $('.profile-waterfall').ProfileNewWaterfall({
+                width: 360,
+                delay: 100,
+            });
+        });
+        // Waterfall to main card
+        $(document).ready(function ()
+        {
+            $('.card-waterfall').CardNewWaterfall({
+                width: 600,
+                delay: 100,
+            });
+        });
+     // Waterfall for my upcards
+        $(document).ready(function ()
+        {
+            $('.my-upcards-waterfall').ProfileNewWaterfall({
+                width: 360,
+                delay: 100,
+            });
+        });
+     // Waterfall for upcards
+        $(document).ready(function ()
+        {
+            $('.upcards-waterfall').ProfileNewWaterfall({
+                width: 360,
+                delay: 100,
+            });
+        });
+     // Waterfall for played cards
+        $(document).ready(function ()
+        {
+            $('.played-waterfall').ProfileNewWaterfall({
+                width: 360,
+                delay: 100,
+            });
+        });
+     // Waterfall for cards on the table
+        $(document).ready(function ()
+        {
+            $('.table-waterfall').ProfileNewWaterfall({
+                width: 360,
+                delay: 100,
+            });
+        });
+
+        function random(min, max)
+        {
+            return min + Math.floor(Math.random() * (max - min + 1))
+        }
+        var loading = false;
+        var dist = 500;
+        var num = 1;
+
+        setInterval(function ()
+        {
+            if ($(window).scrollTop() >= $(document).height() - $(window).height() - dist && !loading)
+            {
+                loading = true;
+
+                //$("#waterfall").append("<li><div style='height:" + random(50, 300) + "px'>" + num + "</div></li>");
+                //num++;
+
+                loading = false;
+            }
+        }, 60);        
+    </script>    
+    <!-- END -->
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="{% static 'js/bootstrap.min.js' %}"></script> 
+    
+    <!-- jQuery Rotate Image-->
+    <script  src="{% static 'js/jQueryRotate.js' %}"></script>
+
+    <link rel="stylesheet" type="text/css" href="{% static 'css/reset2.0.min.css' %}" media="all">
+
+	<script  src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+	<script type="text/javascript">
+	  (adsbygoogle = window.adsbygoogle || []).push({
+		google_ad_client: "ca-pub-6545973381379182",
+		enable_page_level_ads: true
+	  });
+	</script>
+	
+	<!-- Google Search Console -->
+	<meta name="google-site-verification" content="-LV_ElJ15XQBhGotiemoZKH6Bz8KzOCXrnRn7JoUR2I" />
+
+  </head>
+
+  <body>
+  
+  	<!-- Go to top of page -->
+	<img onclick="topFunction()" id="topBtn"/>  	
+      
+     {% include 'menu_options.html' %} 
+
+     <script type="text/javascript">
+     $('#searchclear').click(function () {
+         $('#autosearch').val('');
+     });
+     </script>
+     
+     <!-- Index page -->  
+     {% block body %}
+     {% endblock %}         
+     
+	<!-- Modal for create a new folder-->
+	{% include "modal_create_deck.html" %}	
+
+	<!-- Modal for create a new tip-->
+	{% include "modal_create_tip.html" %}	
+				
+	<!-- Modal for editing profile name-->
+	{% include "modal_edit_name.html" %}
+
+	<!-- Modal for editing short description-->
+	{% include "modal_short_description.html" %}
+	
+
+	<!-- Call modal to show cards references in PROFILE  --> 
+	<script type="text/javascript">
+	$( document ).ready(function() {	
+		$(".show-favorites-references").on('click',function (){    
+	    	self = $(this);
+	    	var wasabooref = "{{url}}";
+	    	var tip = $(this).data("id"); 
+	    	var show = $(this).data("reference");
+	    	$.ajax({
+		    	   type: "GET", 
+		    	   url: "//"+wasabooref+"/show-references/"+tip+"/",
+		    	   dataType: 'json',
+		    	   data: {tip: tip, show:JSON.stringify(show)},
+		    	   async: true,
+		    	   contentType: "application/json; charset=utf-8",
+		    	   success: function (data, textStatus, jqXHR) {   
+			            if (data.teste == "showreferences") { 
+			            	
+			            	$('.title-content-'+tip).froalaEditor('html.set', show);
+			            	$(".show-favorites-references-"+tip).hide();
+			            	$(".show-favorites-back-"+tip).show();
+	
+			            }else{
+			            	//alert("Error");
+			            }
+		    		   },
+		                error: function(rs, e) {
+		                    //alert(rs.responseText);
+		                }
+		    	   });    	
+		});
+	});
+	</script>
+	<!-- END -->
+	
+	<!-- Back to card frontend in PROFILE -->
+	<script type="text/javascript">
+	$( document ).ready(function() {	
+		$(".show-favorites-back").on('click',function (){    
+	    	self = $(this);
+	    	var wasabooref = "{{url}}";
+	    	var tip = $(this).data("id"); 
+	    	var content = $(this).data("content");
+	    	var show = $(this).data("reference");
+	    	$.ajax({
+		    	   type: "GET", 
+		    	   url: "//"+wasabooref+"/show-content/"+tip+"/",
+		    	   dataType: 'json',
+		    	   data: {tip: tip, content:JSON.stringify(content)},
+		    	   async: true,
+		    	   contentType: "application/json; charset=utf-8",
+		    	   success: function (data, textStatus, jqXHR) {   
+			            if (data.teste == "showcontent") {
+			            	 
+			            	$('.title-content-'+tip).froalaEditor('html.set', content);
+			            	$(".show-favorites-references-"+tip).show();
+			            	$(".show-favorites-back-"+tip).hide();
+			            }else{
+			            	//alert("Error");
+			            }
+		    		   },
+		                error: function(rs, e) {
+		                    //alert(rs.responseText);
+		                }
+		    	   });    	
+		});
+	});
+	</script>
+	<!-- END -->
+	
+	
+	
+	
+	<!-- Following a contact in PROFILE --> 
+	<script type="text/javascript">
+	$( document ).ready(function() {	
+		$(".follow").on('click',function(){
+			//event.preventDefault();
+	    	self = $(this);
+	
+	    	var wasabooref = "{{url}}";
+	    	var followedUser = $(this).data("id"); 	
+	    	$.ajax({
+		    	   type: "GET", 
+		    	   dataType: 'json', 
+		    	   url: "//" + wasabooref + "/tips-follow/"+followedUser+"/",
+		    	   async: true,
+		    	   contentType: "application/json; charset=utf-8",
+		    	   success: function (data, textStatus, jqXHR) {
+			            if (data.teste == "follow") {
+			            	//self.val("Following");
+			            	//location.reload();
+							$('.nofollow').show();
+			            	$('.follow').hide();
+			            }else{
+			            	//alert("Error");
+			            }
+		    		   },
+		                error: function(rs, e) {
+		                    //alert(rs.responseText);
+		                }
+		    	   });    	
+		});
+	});
+	</script>
+	<!-- END -->
+	
+	<!-- Stop following a contact in PROFILE --> 
+	<script type="text/javascript">
+	$( document ).ready(function() {	
+		$(".nofollow").on('click',function(){
+			//event.preventDefault();
+	    	self = $(this);
+	
+	    	var wasabooref = "{{url}}";
+	    	var nofollowedUser = $(this).data("id"); 	
+	    	$.ajax({
+		    	   type: "GET", 
+		    	   dataType: 'json', 
+		    	   url: "//" + wasabooref + "/tips-nofollow/"+nofollowedUser+"/",
+		    	   async: true,
+		    	   contentType: "application/json; charset=utf-8",
+		    	   success: function (data, textStatus, jqXHR) {
+			            if (data.teste == "nofollow") {
+			            	//self.val("Stop following");
+			            	//location.reload();
+							$('.follow').show();
+			            	$('.nofollow').hide();
+			            }else{
+			            	//alert("Error");
+			            }
+		    		   },
+		                error: function(rs, e) {
+		                    //alert(rs.responseText);
+		                }
+		    	   });    	
+		});
+	});
+	</script>
+	<!-- END -->
+	
+	
+	<!-- UPDATE profile name in PROFILE --> 
+	<script  src="{% static 'js/update-profile-name.js' %}"></script>
+	
+	
+	<!-- Publish(INSERT) short description text in PROFILE --> 
+	<script  src="{% static 'js/publish-short-description.js' %}"></script>
+	
+	
+	<!-- UPDATE short description text in PROFILE --> 
+	<script  src="{% static 'js/update-short-description.js' %}"></script>
+	
+	
+	<!-- DELETE short description text in PROFILE --> 
+	<script  src="{% static 'js/delete-short-description.js' %}"></script>
+	
+	
+	<!-- Crop Profile Image -->
+	<script  src="{% static 'js/croppie.js' %}"></script>
+	<script  src="{% static 'js/prism.js' %}"></script>
+	<script type="text/javascript">	
+	$( document ).ready(function() {  
+		var $uploadCrop;
+		function readFile(input) {
+ 			if (input.files && input.files[0]) {
+	            var reader = new FileReader();
+	            
+	            reader.onload = function (e) {
+					$('.upload-demo').addClass('ready');
+	            	$uploadCrop.croppie('bind', {
+	            		url: e.target.result
+	            	}).then(function(){
+	            		console.log('jQuery bind complete');
+	            	});
+	            }
+	            
+	            reader.readAsDataURL(input.files[0]);
+	        }
+	        else {
+		        //swal("Sorry - you're browser doesn't support the FileReader API");
+		    }
+		}
+
+		$uploadCrop = $('#upload-demo').croppie({ 
+			viewport: {
+				width: 140,
+				height: 140,
+				type: 'circle'
+			},
+			enableExif: true
+		});
+
+		$('#upload').on('change', function() { readFile(this); });
+		$('.upload-result').on('click', function(ev) {			
+			$uploadCrop.croppie('result', { 
+				type: 'canvas',
+				size: 'viewport'
+			}).then(function(resp) {
+		    	var perfil = $("#profileId").val();
+		    	$('.upload-'+perfil).val(resp);
+		    	$('#formbase64-'+perfil).submit();
+			});	
+		});
+	});
+	</script>
+	<!-- END -->
+	
+	
+	<!-- Script for limit words in cards -->
+	<script  src="{% static 'js/words-count-tip.js' %}"></script>
+	
+	
+	<!-- Script for limit words in edit cards -->
+	<script  src="{% static 'js/words-count-edit-tip.js' %}"></script>
+	
+
+	<!-- Script for limit words in short description -->
+	<script  src="{% static 'js/words-count-short-description.js' %}"></script>
+	
+	
+	<!-- Script for limit words in Who Am I profile page -->
+	<script  src="{% static 'js/words-count-whoami.js' %}"></script>
+	
+	
+	<!-- Script for limit words in Chat -->
+	<script  src="{% static 'js/words-count-chat.js' %}"></script>
+	
+	
+	<!-- Script for delete WhoAmI profile information -->
+	<script  src="{% static 'js/delete-whoami.js' %}"></script>
+	
+	
+	<!-- Script for delete Education profile information -->
+	<script  src="{% static 'js/delete-education.js' %}"></script>
+	
+	
+	<!-- Script for delete Topics profile information -->
+	<script  src="{% static 'js/delete-knows.js' %}"></script>
+	
+	
+	<!-- Script for delete Jobs profile information -->
+	<script  src="{% static 'js/delete-jobs.js' %}"></script>
+	
+	
+	<!-- Script for limit words in Company profile page -->
+	<script  src="{% static 'js/words-count-company.js' %}"></script>
+	
+	
+	<!-- Script for delete Company profile information -->
+	<script  src="{% static 'js/delete-company.js' %}"></script>
+	
+	
+	<!-- Script for delete Company Location profile information -->
+	<script  src="{% static 'js/delete-location.js' %}"></script>
+	
+	
+	<!-- Script for focus in textarea when it opens -->
+	<script  src="{% static 'js/focus.js' %}"></script>
+	
+	
+	<!-- Script to show or hide profile name Edit link -->
+	<script  src="{% static 'js/hide-profile-name-edit-link.js' %}"></script>
+	
+	
+	<!-- Script to list graduation years drop down since 1900-->
+	<script  src="{% static 'js/graduation-years.js' %}"></script> 
+	
+	
+	<!-- Script to list start years of jobs-->
+	<script  src="{% static 'js/job-start-year.js' %}"></script>
+	
+	
+	<!-- Script to list end years of jobs-->
+	<script  src="{% static 'js/job-end-year.js' %}"></script>
+	
+	
+	<!-- Script to NEW Map canvas-->
+	<script  src="{% static 'js/company-location.js' %}"></script>
+	
+	<!-- Script to Google Maps API-->
+	<script  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDfT-MMldunvho30LHPjl-IQRnnk3PBaeg"></script>
+	
+	
+	<!-- Upload image rules -->
+	<script  src="{% static 'js/upload-image.js' %}"></script>
+	
+	
+	<!-- WYSIWYG Editor external CSS. -->
+	<!-- <link  type="text/css" href="{% static 'css/toolbar-options.min.css' %}" rel="Stylesheet"/> -->
+	<link  type="text/css" href="{% static 'css/codemirror.min.css' %}" rel="Stylesheet"/>
+	
+	
+	<!-- WYSIWYG Editor style. -->
+	<link  type="text/css" href="{% static 'css/froala_editor.pkgd.min.css' %}" rel="Stylesheet"/>
+	<link  type="text/css" href="{% static 'css/froala_style.min.css' %}" rel="Stylesheet"/>
+	
+	
+	<!-- WYSIWYG Editor external JS libs. -->
+	<script  src="{% static 'js/codemirror.min.js' %}"></script>
+	<script  src="{% static 'js/xml.min.js' %}"></script>
+	
+	
+	<!-- WYSIWYG Editor JS files. -->
+	<script  src="{% static 'js/froala_editor.pkgd.min.js' %}"></script>
+	
+	
+	<!-- WYSIWYG Editor Image Plugin -->
+	<link  type="text/css" href="{% static 'css/image.min.css' %}" rel="Stylesheet"/>
+	<script  src="{% static 'js/image.min.js' %}"></script>
+	
+	
+	<link  type="text/css" href="{% static 'css/line_breaker.min.css' %}" rel="Stylesheet"/>
+	<script  src="{% static 'js/line_breaker.min.js' %}"></script>
+
+
+	<!-- Autocomplete search --> 
+	<script  src="{% static 'js/autocomplete-search.js' %}"></script>
+	
+	
+	<!-- Disable search button if text is empty -->
+	<script  src="{% static 'js/search-btn-disabled.js' %}"></script>
+	
+	<!-- Keep Alert Modal hidden -->
+	<!-- <script src="{% static 'js/alert.js' %}"></script> -->
+	
+		
+	<!-- Go to Top Button -->
+	<script  src="{% static 'js/go-top.js' %}"></script>
+	
+	
+	<!-- Activate several scripts like froalas and toolbar options -->
+	<script  src="{% static 'js/scripts-loader.js' %}"></script>
+	
+	
+	<!-- Show references about a card -->
+	<script  src="{% static 'js/show-references.js' %}"></script>
+	
+	
+	<!-- Back to card frontend -->
+	<script  src="{% static 'js/show-back.js' %}"></script>
+	
+	
+	<!-- Favoriting a card -->
+	<script  src="{% static 'js/favoriting-card.js' %}"></script>
+	
+	
+	<!-- Desfavoriting a card -->
+	<script  src="{% static 'js/desfavoriting-card.js' %}"></script>
+	
+	
+	<!-- Hide a card -->
+	<script  src="{% static 'js/hide-card.js' %}"></script>
+	
+	
+	<!-- Hide a card -->
+	<script  src="{% static 'js/publish-card.js' %}"></script>
+	
+	
+	<!-- Delete a card -->
+	<script  src="{% static 'js/delete-card-btn-yes.js' %}"></script>
+	
+	
+	<!-- Delete card's notifications -->
+	<script  src="{% static 'js/notifications-control.js' %}"></script>
+	
+	
+	<!-- Remove a card from user's feed -->
+	<script  src="{% static 'js/remove-card.js' %}"></script>
+	
+	
+	<!-- Restore a card to user's feed -->
+	<script  src="{% static 'js/restore-card.js' %}"></script>
+	
+	
+	<!-- Counting how many favoritings a card has -->
+	<script  src="{% static 'js/counting-favoritings.js' %}"></script>
+	
+	
+	<!-- Counting upcards -->
+	<script  src="{% static 'js/upcards.js' %}"></script>
+	
+	
+	<!-- Save card to folder -->
+	<script  src="{% static 'js/save-to-folder.js' %}"></script>
+
+	
+	<!-- Folder toolbar options -->
+	<script  src="{% static 'js/folder-toolbar.js' %}"></script>
+
+	
+	<!-- Remove card from folder -->
+	<script  src="{% static 'js/delete-from-folder.js' %}"></script>
+
+			
+	<!--  autoTrigger on scroll until after the third request is loaded -->
+	<script  type="text/javascript" src="{% static 'js/jquery.jscroll.js' %}"></script>
+	
+	<!--  Change profile background to default -->
+	<script  type="text/javascript" src="{% static 'js/default-background.js' %}"></script>
+	
+	<!--  Change profile text colors -->
+	<script  type="text/javascript" src="{% static 'js/text-color.js' %}"></script>	
+	
+	<!-- OUTDOOR main form submit -->
+	<script  src="{% static 'js/main-form-submit.js' %}"></script>
+	
+	
+	<!-- Turn ON MY FEED without WORLDS -->
+	<script  type="text/javascript" src="{% static 'js/myfeed-on.js' %}"></script>
+	
+	<!-- Turn ON/OFF MY FEED + WORLDS -->
+	<script  type="text/javascript" src="{% static 'js/world-on.js' %}"></script>
+
+	<!-- MAP WORLD Leaflet Mapbox -->
+	<script  type="text/javascript" src="{% static 'js/map-world.js' %}"></script>
+	    
+    <!-- Turn ON MAP WORLD -->
+	<script  type="text/javascript" src="{% static 'js/map-on.js' %}"></script>
+	
+	<!-- Turn ON FYS WORLD -->
+	<script  type="text/javascript" src="{% static 'js/fys-on.js' %}"></script>
+	
+	<!-- Turn ON ADIDAS WORLD -->
+	<script  type="text/javascript" src="{% static 'js/adidas-on.js' %}"></script>
+	
+	<!-- Money mask -->
+	<script  type="text/javascript" src="{% static 'js/jquery.maskMoney.js' %}"></script>
+	<script type="text/javascript">
+	$("#price").maskMoney({
+	      prefix:'$ ', 
+	      allowNegative: true, 
+	      thousands:'.', 
+	      decimal:',', 
+	      affixesStay: false});
+    </script>
+    
+    <!-- Select with thumbnails -->
+    <script  type="text/javascript" src="{% static 'js/selectpicker.js' %}"></script>
+    
+    <!-- Script to send message at Chat -->
+	<script  src="{% static 'js/send-message.js' %}"></script>
+	
+	
+	<!-- Include Embed.ly platform JS. -->
+	<script src="{% static 'js/third_party/embedly.min.js' %}"></script>
+	<script async src="https://cdn.embedly.com/widgets/platform.js" charset="UTF-8"></script>
+    <script type="text/javascript">
+      // Sets up the default key for the embedly jQuery Plugin.
+      $.embedly.defaults.key = '6b7042b76ab14d0a9e1eb29beb0d055b';
+    </script>
+	
+	
+    <!-- Attaching PDF files -->
+	<script  type="text/javascript" src="{% static 'js/file.min.js' %}"></script>
+	<script>
+	  new FroalaEditor('.new_reference', {
+	    // Set the file upload URL.
+	    fileUploadURL: '/media',
+	    embedlyScriptPath: 'https://cdn.embedly.com/widgets/platform.js'
+	  });
+	</script>
+	<script>
+	  new FroalaEditor('.reference', {
+	    // Set the file upload URL.
+	    fileUploadURL: '/media',
+	    embedlyScriptPath: 'https://cdn.embedly.com/widgets/platform.js'
+	  });
+	</script>
+	
+	
+</body>
+</html>
+{% endwith %}
+{% endblock %}

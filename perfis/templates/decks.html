@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% block body %}
+
+{% if perfil.id == perfil_logado.id %}
+<div class="row-profile">
+
+	<!-- MENU -->	
+	{% include "menu.html" %}
+		
+	<div id="Center">             
+	    
+	    <ul class="profile-waterfall">
+		    {% for tip in decks %}
+		    	{% if tip.fid == request.user.perfil.id %}
+		    	
+		    	{% include 'modal_update_deck.html' %}
+		    	
+		    	<li class="cards card-{{tip.id}}">
+				    <div class="main card-layout">
+						 
+						 {% include 'folder_header.html' %}
+						 
+			             <a href="{% url 'deck' tip.id %}" class="deck-label-{{tip.id}}">
+			              	<div class="follower-following">
+			              		{{ tip.deck }}       
+			                        
+		                        {% with tip.id as deck %}
+		                          {% for f in folder %}
+		                            {% if f.id = deck %}
+		                              {{ f.card_id}}
+		                            {% endif %}
+		                          {% endfor %}
+		                        {% endwith %}
+		                        
+			              		<div class="follower-last-post">
+				    				<br/>
+				    				{{ tip.date|date:'M d, Y' }}
+			              		</div>
+			              	</div>
+			             </a>
+			             
+			             {% include 'folder_delete_question.html' %}
+			                   
+		             </div>
+		     	</li>
+		     	{% endif %}
+			{% endfor %}
+			
+			{% for d in folders %}
+				{% if d.howmany = 0 %}
+					<li class="no-published-warning">
+					  	   No campaign created
+					</li>
+				{% endif %}
+			{% endfor %}
+	    </ul>
+	</div>
+</div>
+{% endif %}
+{% endblock %}
+

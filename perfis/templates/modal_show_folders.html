@@ -1,0 +1,37 @@
+<!-- Folders Modal -->
+<div class="modal fade" id="showFolder-{{tip.id}}" tabindex="-1" role="dialog" 
+     aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+          		<span class="profile-name profile-title" id="myModalLabel">
+               	   Choose folder to save your card
+                </span>
+                <button type="button" class="close" data-dismiss="modal">
+                       <span aria-hidden="true">&times;</span>
+                       <span class="sr-only">Close</span>
+                </button>
+            </div>
+            
+            <div class="modal-body">
+			
+				{% for deck in decks %}								    
+				    <option value="{{ deck.id }}" class="folder-option">{{ deck.deck_name }}</option>
+				{% empty %}
+				    <span>You don't have folders yet</span>
+			    {% endfor %}	
+            
+                <div class="confirm-folder-btn">
+       	    		<input type="button" class="btn btn-danger btn-cancel" value="Cancel" 
+       	    		data-id="{{tip.id}}" data-content="{{tip.content|linebreaks}}">
+       	    		<div></div>
+           	    	<input type="button" class="btn btn-success btn-folder btn-folder-{{tip.id}}" 
+           	    	value="Save" data-id="{{tip.id}}" data-content="{{tip.content|linebreaks}}"
+           	    	data-folder = "{{tip.folder_id}}" disabled>
+       	    	</div>
+	              	    	    
+            </div>
+        </div>  
+    </div>
+</div>	<!-- End modal -->
+

@@ -1,0 +1,180 @@
+{% extends "base_usuario.html" %}
+{% load i18n admin_static %}
+{% load url from future %}
+
+{% block title %}Wasaboo - login{% endblock %}
+
+{% block extrastyle %}{{ block.super }}{% endblock %}
+
+{% block bodyclass %}login{% endblock %}
+
+{% block nav-global %}{% endblock %}
+
+{% block content_title %}{% endblock %}
+
+{% block breadcrumbs %}{% endblock %}
+
+{% block content %}
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+		
+	<script>
+	  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+	  ga('create', 'UA-42101548-1', 'wasaboo.com');
+	  ga('require', 'displayfeatures');
+	    	ga('send', 'pageview');
+    </script>
+</head>
+
+ 
+<body class="body-hiddenSearch">
+
+	<header class="header">
+		<div class="container-bar">
+			
+			<a href="#">
+				<img src="{%static "img/wasaboo_logo.png" %}" alt="wasaboo">
+				<img src="{%static "img/wasaboo_text.png" %}" alt="wasaboo">	
+			</a>
+			
+			<!-- <div class="header-unlogged">
+				<div class="header-cta">
+					<a class="header-cta-button" href="#">
+						Cadastro
+					</a>
+				</div>
+			</div> -->
+				
+				<!-- 
+				<a class="header-login" href="#">
+					Login
+				</a>
+				-->
+			</div>
+		</div>
+	</header>
+
+
+
+	<div class="container">
+		<section class="sign">
+		<section class="signin">
+			<h2 class="title"></h2>
+			<p class="subtitle"></p>
+			
+			{% if form.errors and not form.non_field_errors and not form.this_is_the_login_form.errors %}
+			<div class="alert alert-danger">
+			<p class="errornote">
+			Os dados introduzidos n&atilde;o conferem.
+			</p>
+			</div>
+			{% endif %}
+			
+			
+			{% if form.non_field_errors or form.this_is_the_login_form.errors %}
+			<div class="alert alert-danger">
+			{% for error in form.non_field_errors|add:form.this_is_the_login_form.errors %}
+			<p class="errornote">
+			    {{ error }}
+			</p>
+			{% endfor %}
+			</div>
+			{% endif %}			
+			<form class="signin-form" action="{{ app_path }}" method="post">
+			{% csrf_token %}
+				<!-- 	
+				<label>E-mail</label>
+				<input class="fill-with-cached-email" type="email" required="" name="email" id="login-email" value="" autofocus="">
+				
+				<label>Password</label>
+				<input type="password" required="" name="password">
+				
+					
+				
+				<button class="btn-login" type="submit">
+					Login
+				</button>
+	
+				 
+				<a class="btn-facebook-login" href="https://www.facebook.com/dialog/oauth?client_id=137282243010732&amp;redirect_uri=https://cursos.alura.com.br/facebook/auth&amp;scope=email,public_profile&amp;response_type=code">
+					Entrar com Facebook
+				</a>
+				
+	
+				<a class="forgotPassword-link">
+					Forgot my login
+				</a>
+				-->
+
+				    <label>
+				    	   {% trans 'E-Mail:' %}
+				    	   
+				    	   {% if not form.this_is_the_login_form.errors %}
+						      	{{ form.username.errors }}
+						   {% endif %}
+				    	   
+				   	</label> 
+					{{ form.username }}
+
+				    
+				    					
+					
+					<label>
+						   {% trans 'Password:' %} 
+						   
+						   {% if not form.this_is_the_login_form.errors %}
+						   		{{ form.password.errors }}
+						   {% endif %}
+					</label>
+					{{ form.password }}
+					
+					
+					<input type="hidden" name="this_is_the_login_form" value="1" />
+				    <input type="hidden" name="next" value="{{ next }}" />					
+
+					  {% url 'admin_password_reset' as password_reset_url %}
+					  {% if password_reset_url %}
+					  <div class="password-reset-link">
+					    <a href="{{ password_reset_url }}">{% trans 'Forgotten your password or username?' %}</a>
+					  </div>
+					  {% endif %}
+					<button class="btn-login" type="submit">
+						Entrar
+					</button>
+					
+					<button class="btn-login" type="submit">
+						Criar conta
+					</button>										
+			</form>
+		</section>
+		
+	
+		
+		<!-- 
+		<section class="forgotPassword">
+			<h2 class="title">Recuperar senha</h2>
+			<p class="subtitle">Esqueceu sua senha? Digite seu e-mail que enviaremos um link para definir uma nova senha.</p>
+			
+			<form class="forgotPassword-form" action="/auth/sendPasswordRecoveryEmail" method="post">
+				<input type="email" required="" placeholder="E-mail" id="email" name="email" class="input forgot-password-email" value="">
+	
+				<button class="forgotPassword-btn" type="submit">
+						Recuperar
+					</button>
+				</form>
+			</section>
+			-->
+
+	</section>
+	
+</body>
+{% endblock %}
+
+
+
+
+

@@ -1,0 +1,156 @@
+{% block body %} 
+
+<div class="container">
+  <div class="row content">
+
+	<div id="Center">				
+		<ul class="profile-waterfall">
+									
+			{% for tip in nike %}
+			
+				{% include 'docs.html' %}
+				
+				{% include 'modal_edit_card.html' %}
+				
+				{% include 'modal_remove_card.html' %}
+								
+				{% include 'my_upcards.html' %}
+				
+				{% include 'upcards.html' %}
+												
+				
+				<li class="cards card-{{tip.id}}" data-url="{{url}}" data-id="{{tip.id}}">
+				    <div class="main card-layout {% if tip.notified %} go-play {% endif %}">
+					  					  
+					  {% include 'card_header.html' %}
+												
+			          <!-- Outdoor title -->
+			          {% include 'outdoor_title.html' %}  
+						
+					  <!-- Picture -->					
+					  {% include 'outdoor_picture.html' %}
+					  						
+		              {% include 'card_delete_question.html' %}      
+		                    
+		              {% include 'folder_options.html' %}	      
+		                    
+					  {% include 'folder_container.html' %}	
+					  
+					  {% include 'chat_container.html' %}
+					  
+					  <!-- Profile image -->
+	                  <div class="profile-image">
+	                  	  <a href="{% url 'exibir' tip.author %}" aria-label="user profile link">
+	                  	  <div class="image-content">
+	                  	      	{% if tip.type = "f" %}
+						       		    {% if tip.upload != "0" %}
+						       		    	<span class="user"><img src="{{tip.upload}}" class="user" alt="user picture"></span>
+						       		    {% else %}
+						       		    	<span class="user woman"></span>
+						       		    {% endif %}
+						       	
+						       	{% elif tip.type = "m" %}
+						       		    {% if tip.upload != "0" %}
+						       		    	<span class="user"><img src="{{tip.upload}}" class="user" alt="user picture"></span>
+						       		    {% else %}
+						       		    	<span class="user man"></span>
+						       		    {% endif %}
+						       	
+						       	{% elif tip.type = "c" %}
+						       		    {% if tip.upload != "0" %}
+						       		    	<span class="user"><img src="{{tip.upload}}" class="user" alt="user picture"></span>
+						       		    {% else %}
+						       		    	<span class="user company"></span>
+						       		    {% endif %}
+								{% endif %}
+	                  	  </div>
+	                  	  </a>
+	                  	  
+	                  	  <!-- Profile name -->
+					      {% include 'outdoor_profile.html' %}  
+			              
+			              <!-- Favorite icon -->
+	    				  {% include 'outdoor_favorite_local.html' %}     			  
+	         			  
+			      	  	</div>
+			      	  
+			      	    {% if tip.author_profile_id != perfil_logado.id %}
+						  <section class="card-action">
+							  <a class="btn custom-tooltip push-buy add_more_label buy-btn-{{tip.id}}" 
+							  href="#" data-id = "{{tip.id}}"  data-toggle="modal" data-target="#CC">
+								  Buy
+							  </a>
+						  </section>
+						{% endif %}
+				      
+				      
+			      	  <!-- Outdoor Campaign -->
+			      	  {% include 'outdoor_campaign.html' %}
+			      	  				      	  	
+				    </div>
+				  </li>
+				
+				{% empty %}
+				
+					<!-- empty index -->
+					<div class="empty-feed"></div>
+			  
+			{% endfor %}
+			
+			</ul>
+			 			
+	    </div>
+  </div>
+</div>
+
+
+<!-- MODAL CREDIT CARD -->
+<div class="modal fade" id="CC" tabindex="-1" role="dialog" 
+     aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+          		<span class="profile-name profile-title" id="myModalLabel">
+                </span>
+                <button type="button" class="close" data-dismiss="modal">
+                       <span aria-hidden="true">&times;</span>
+                       <span class="sr-only">Close</span>
+                </button>
+            </div>
+            
+            <div class="modal-body">
+			
+			<form  id="cc_form" action="" method="post">
+			{% csrf_token %}
+ 			<ul class="list-unstyled">  	  
+			  <li class="cards">
+			    <div class="main card-layout">
+				  					  
+				  <div>
+		            <a href="#">                
+		                <img data-u="image" class="outdoor landscape" src="/static/img/paypal.png"/>
+		    		</a>
+		    		<div class="title-content"><b>Name:</b> Igor Machado de Castro</div> 
+		    		<div class="title-content"><b>Credit:</b> ....8129</div>
+		    		<div class="title-content"><img class="landscape" src="/static/img/visa.png"/></div>		    				    		
+		          </div>
+			    </div>
+			  </li>
+		     </ul> 
+		      
+		     <br/>
+			 <br/>
+				  
+			 <div class="modal-header">	
+			 <input class="btn push-buy" type="submit" value="Confirm"/>
+			 </div>
+
+			</form>	
+                
+            </div>
+        </div>  
+    </div>
+</div>	
+
+
+{% endblock %}

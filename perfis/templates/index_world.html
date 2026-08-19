@@ -1,0 +1,150 @@
+{% block body %} 
+	
+	<div class="container cards-{{perfil.id}}">
+	  <div class="row content">		
+		<div id="Center">
+		
+		{% if following_worlds %}
+			<ul class="profile-waterfall">
+									
+			{% for tip in following_worlds %}
+				
+				{% include 'docs.html' %}
+				
+				{% include 'modal_edit_card.html' %}
+				
+				{% include 'modal_remove_card.html' %}
+								
+				{% include 'my_upcards.html' %}
+				
+				{% include 'upcards.html' %}
+												
+				
+				{% if not tip.stealthed %}
+				<li class="cards card-{{tip.id}}" data-url="{{url}}" data-id="{{tip.id}}">
+				    <div class="main card-layout {% if tip.notified %} go-play {% endif %}">
+						
+						{% if tip.world == '1' %} 
+						<a href="{% url 'index' %}" class="checkbox-map-on" data-url="{{url}}" data-profile="{{perfil_logado.id}}" data-map="1">
+						  <div class="world-advertise">
+						    <img class="fire-options"/>
+						  </div>
+						</a>
+						{% elif tip.world == '2' %}
+						<a href="{% url 'index' %}" class="fys-on" data-url="{{url}}" data-profile="{{perfil_logado.id}}" data-map="2">
+						  <div class="world-advertise">
+						    <img class="fys-options"/>
+						  </div>
+						</a>
+						{% elif tip.world == '3' %}
+						<a href="{% url 'index' %}" class="adidas-on" data-url="{{url}}" data-profile="{{perfil_logado.id}}" data-map="3">
+						  <div class="world-advertise">
+						    <img class="nike-options"/>
+						  </div>
+						</a>
+						{% else %}
+						{% endif %}
+					  
+						{% with tip.id as card %}
+							{% for n in notifications_count %}
+								{% if n.referenced_card = card %}
+							    <div class="notifications-advertise">
+							    	{{ n.howmany }}
+							    </div>
+							    {% endif %}
+							{% endfor %}	
+						{% endwith %}
+											
+					  {% include 'card_header.html' %}
+						
+												
+			          <!-- Outdoor title -->
+			          {% include 'outdoor_title.html' %}  
+						
+					  <!-- Picture -->					
+					  {% include 'outdoor_picture.html' %}
+					  						
+		              {% include 'card_delete_question.html' %}      
+		                    
+		              {% include 'folder_options.html' %}	      
+		                    
+					  {% include 'folder_container.html' %}	
+					  
+					  {% include 'chat_container.html' %}
+					  
+					  <!-- Profile image -->
+	                  <div class="profile-image">
+	                  	  <a href="{% url 'exibir' tip.author %}" aria-label="user profile link">
+	                  	  <div class="image-content">
+	                  	      	{% if tip.type = "f" %}
+						       		    {% if tip.upload != "0" %}
+						       		    	<span class="user"><img src="{{tip.upload}}" class="user" alt="user picture"></span>
+						       		    {% else %}
+						       		    	<span class="user woman"></span>
+						       		    {% endif %}
+						       	
+						       	{% elif tip.type = "m" %}
+						       		    {% if tip.upload != "0" %}
+						       		    	<span class="user"><img src="{{tip.upload}}" class="user" alt="user picture"></span>
+						       		    {% else %}
+						       		    	<span class="user man"></span>
+						       		    {% endif %}
+						       	
+						       	{% elif tip.type = "c" %}
+						       		    {% if tip.upload != "0" %}
+						       		    	<span class="user"><img src="{{tip.upload}}" class="user" alt="user picture"></span>
+						       		    {% else %}
+						       		    	<span class="user company"></span>
+						       		    {% endif %}
+								{% endif %}
+	                  	  </div>
+	                  	  </a>
+	                  	  
+	                  	  <!-- Profile name -->
+					      {% include 'outdoor_profile.html' %}  
+			              
+			              <!-- Favorite icon -->
+     					  {% include 'outdoor_favorite_local.html' %}     			  
+          			  
+			      	  	</div>
+			      	  
+			      	  
+					  {% if tip.author_profile_id == request.user.perfil.id %}
+						  {%if tip.waiting_hold %}
+						  <section class="card-action">
+							  <a data-id = "{{tip.id}}"  class="btn custom-tooltip push-hold add_more_label hold-btn-{{tip.id}}" 
+							  href="{% url 'hold_to' tip.slug tip.id %}">
+								  Connect
+							  </a>
+						  </section>
+						  {% endif %}
+				  	  {% else %}
+				  	      <section class="card-action">
+							  <a data-id = "{{tip.id}}"  class="btn custom-tooltip push-play add_more_label play-btn-{{tip.id}}" 
+							  href="{% url 'play_to' tip.slug tip.id %}">
+								  Play
+							  </a>
+						  </section>
+				      {% endif %}
+				      
+				      
+				      
+			      	  <!-- Outdoor Campaign -->
+			      	  {% include 'outdoor_campaign.html' %}
+			      	  				      	  	
+				    </div>
+				  </li>
+				{% endif %}
+				{% empty %}
+					<!-- empty index -->
+					<div class="empty-feed"></div>
+					
+			{% endfor %}
+			</ul>
+			 
+			{% endif %}
+		</div>
+	  </div>
+	</div>
+
+{% endblock %}

@@ -1,0 +1,141 @@
+<!-- Card Form -->
+<div class="modal fade" id="newDeck" tabindex="-1" role="dialog" 
+     aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+            	<span class="title-tip" style="font-size:20px"><img class="flag-options"/> Create campaign</span>
+                
+                <button type="button" class="close" data-dismiss="modal">
+                       <span aria-hidden="true">&times;</span>
+                       <span class="sr-only">Close</span>
+                </button>
+                
+            </div>
+            
+            <div class="modal-body">
+			<div class="modal-header">
+			<form id="new_deck_form" action="{%url 'new_deck' %}" method="post" enctype="multipart/form-data">
+			{% csrf_token %}
+
+				  <input type="hidden" value="{{tip.id}}" id="idTip" class="idTip">
+ 			  	  
+ 			  	  <input type="hidden" value="{{user.id}}" id="author_user_id" name="author_user_id" required="required">
+ 			   
+	 			  <input type="hidden" value="{{perfil_logado.id}}" id="author_profile_id" name="author_profile_id" required="required">
+	 			  
+	 			  <input type="hidden" value="{{perfil_logado.nome}}" id="author_name" name="author_name" required="required">
+	 			  
+	 			  <input id="date" name="date" type="hidden"  value="{% now 'd/m/Y H:m:s' %}" required="required" readonly>
+	 			  
+	 			  <input type="text" id="deck_name" name="deck_name" 
+	 			  class="profile-field-normal" placeholder="Campaign's name">
+				  
+				  <br/><br/><br/><br/>
+				  
+				  <button type="button" class="btn btn-cancel" data-dismiss="modal">Close</button>		  
+				  <input class="btn btn-success" name="submit" type="submit" value="Publish" id="submit" disabled/>
+				
+				<script>
+				  $(document).ready(function () {
+					    $('#deck_name').keyup(function () {
+					        if ($.trim($('#deck_name').val()).length < 1) {
+
+					        	$(':input[type="submit"]').prop('disabled', true);
+
+					        } else {
+
+					        	$(':input[type="submit"]').prop('disabled', false);
+
+					        }
+					    });
+					});
+		          </script>	
+				  <script>
+					$(document).ready(function () {
+						jQuery(document).ready(function($) {
+					        $('#deck_name').keyup(function(event) {
+					            var textBox = event.target;
+					            var start = textBox.selectionStart;
+					            var end = textBox.selectionEnd;
+					            textBox.value = textBox.value.charAt(0).toUpperCase() + textBox.value.slice(1);
+					            textBox.setSelectionRange(start, end);
+					        });
+					    });
+					});
+				  </script>		          
+			</form>
+			</div>
+			</div>
+        </div>  
+    </div>
+</div>
+
+
+<!-- AJAX NEW FOLDER FORM SUBMIT -->
+<script>
+$( document ).ready(function() {
+$("#new_deck_form").submit(function(event){
+    event.preventDefault(); //prevent default action
+    var wasabooref = "{{url}}";   
+    var tip = $(this).data("id"); 
+    var post_url = $(this).attr("action"); //get form action url
+    var request_method = $(this).attr("method"); //get form GET/POST method
+    var form_data = new FormData(this); //Encode form elements for submission
+    
+    $(':input[type="submit"]').prop('disabled', true);
+    
+    $.ajax({
+    	url : post_url,
+        type: request_method,
+        data : form_data,
+        dataType : 'html',
+        contentType: false,
+        processData: false,
+        success: function(response) { //on success
+        	//LOAD SCRIPTS WITHOUT AJAX CALLS
+        	$.getScript( '/static/js/scripts-loader.js');
+        	
+            // AJAX CALLS
+            $.getScript( '/static/js/upcards.js');
+            $.getScript( '/static/js/show-references.js');
+        	$.getScript( '/static/js/show-back.js');
+        	$.getScript( '/static/js/favoriting-card.js');
+        	$.getScript( '/static/js/desfavoriting-card.js');
+        	$.getScript( '/static/js/hide-card.js');
+        	$.getScript( '/static/js/publish-card.js');
+        	$.getScript( '/static/js/counting-favoritings.js');
+        	$.getScript( '/static/js/who-favorited.js');
+        	$.getScript( '/static/js/delete-card-btn-yes.js');
+        	$.getScript( '/static/js/save-to-folder.js');
+        	$.getScript( '/static/js/delete-from-folder.js');
+        	$.getScript( '/static/js/jquery.jscroll.js');
+        	$.getScript( '/static/js/focus.js');
+        	$.getScript( '/static/js/words-count-edit-tip.js');        	
+        	$.getScript( '/static/js/folder-toolbar.js');
+        	$.getScript( '/static/js/toolbtn.js');
+        	
+        	// LOAD HTML
+        	location.reload();
+        	
+        	// CLOSE MODAL
+			$('.close').prop('disabled', false);
+        	$('.close').click();
+        	$('body').removeClass('modal-open');
+        	$('.modal-backdrop').remove();  
+        }
+    });
+});
+});
+</script>
+
+
+<!-- Reset all NewCard Modal's content -->
+<script>
+$( document ).ready(function() {
+	$('#newDeck').on('hidden.bs.modal', function () {
+		$('#deck_name').val('');
+	    $(':input[type="submit"]').prop('disabled', true);
+	});
+	});
+</script>

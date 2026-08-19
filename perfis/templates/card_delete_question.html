@@ -1,0 +1,14 @@
+<!-- CARD DELETE Question -->
+<div class="confirm-delete-question confirm-delete-question-{{tip.id}}" style="display: none;">
+	{%if not tip.content %}<br/><br/><br/>{% endif %}
+	<span>Do you really want to delete this outdoor?</span><br/><br/>
+	<div class="confirm-delete-btn">
+		<input type="button" class="btn btn-danger btn-no" value="No" 
+		data-id = "{{tip.id}}"
+		data-content = "{{tip.content|linebreaks}}">
+		<div></div>
+	   	<input type="button" class="btn btn-success btn-yes" value="Yes" 
+	   	data-url = "{{url}}"
+	   	data-id = "{{tip.id}}">
+	</div>	    
+</div>

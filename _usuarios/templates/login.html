@@ -1,0 +1,127 @@
+{% extends "base_usuario.html" %}
+
+{% block body %}
+
+<style>
+.form-group {
+  position: relative!important;
+}
+.form-group input[type="password"] {
+  padding-right: 30px!important;
+}
+.form-group .glyphicon {
+  right: 30px!important;
+  position:absolute!important;
+  top:10px!important;
+  cursor: pointer!important;
+}
+</style>									
+	<form class="signin-form" action="{{ app_path }}" method="post">
+			{% csrf_token %}
+			
+				<!-- 	
+				<label>E-mail</label>
+				<input class="fill-with-cached-email" type="email" required="" name="email" id="login-email" value="" autofocus="">
+				
+				<label>Password</label>
+				<input type="password" required="" name="password">
+				
+					
+				
+				<button class="btn-login" type="submit">
+					Login
+				</button>
+	
+				 
+				<a class="btn-facebook-login" href="https://www.facebook.com/dialog/oauth?client_id=137282243010732&amp;redirect_uri=https://cursos.alura.com.br/facebook/auth&amp;scope=email,public_profile&amp;response_type=code">
+					Entrar com Facebook
+				</a>
+				
+	
+				<a class="forgotPassword-link">
+					Forgot my login
+				</a>
+				-->
+		
+		{% if form.errors and not form.non_field_errors and not form.this_is_the_login_form.errors %}
+		<div class="alert alert-danger">
+		<p class="errornote" style="text-align: center;color:#a94442;">
+		    Both required fields
+		</p>
+		</div>
+		{% endif %}
+		
+		
+		{% if form.non_field_errors or form.this_is_the_login_form.errors %}
+		<div class="alert alert-danger">
+		<p class="errornote" style="text-align: center;color:#a94442;">
+		Incorrect email format or password
+		{% for error in form.non_field_errors|add:form.this_is_the_login_form.errors %}
+		    {{ error }} 
+		{% endfor %}
+		</p>
+		</div>
+		{% endif %}
+		
+		
+	    <label>
+	    	   E-mail	    	   
+	    	   	    	   
+	   	</label> 
+		{{ form.username }}
+
+	    
+	    					
+		
+		<label>
+			   Password 
+			   
+		</label>
+		<div class="form-group">
+			<input name="password" id="id_password" class="input-field" type="password"> 
+			<span class="glyphicon glyphicon-eye-open fa-2x"></span>
+		</div>
+					
+					
+		<input type="hidden" name="this_is_the_login_form" value="1" />
+	    <input type="hidden" name="next" value="{{ next }}" />					
+
+		  {% url 'admin_password_reset' as password_reset_url %}
+		  {% if password_reset_url %}
+		  <div class="password-reset-link">
+		    <a href="{{ password_reset_url }}">Incorrect email or passwords</a>
+		  </div>
+		  {% endif %}
+			<button class="btn-login" type="submit">
+				Login
+			</button>
+			
+			<!-- 
+			<a href="{%url 'registrar' %}">
+				<button class="btn-register" type="button">
+				 	Create account
+				</button>
+			</a>
+			-->
+			
+			<br/>
+			
+			<p class="footer-menu-item">
+				<a href="{% url 'password_reset_recover' %}"><span>Forgot password?</span></a>
+				<br/><br/>
+				<a href="{% url 'registrar' %}"><span>Create account</span></a>
+			</p>										
+	</form>
+	
+	<script>
+	$(".glyphicon-eye-open").on("click", function() {
+		$(this).toggleClass("glyphicon-eye-close");
+		  var type = $("#id_password").attr("type");
+		if (type == "text"){ 
+		  $("#id_password").prop('type','password');}
+		else{ 
+		  $("#id_password").prop('type','text'); }
+		});
+	</script>
+{% endblock %}
+

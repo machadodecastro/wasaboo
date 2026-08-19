@@ -1,0 +1,23 @@
+.css3gradient{
+	background-color:#f6a7e1;
+	filter:progid:DXImageTransform.Microsoft.gradient(GradientType=1,startColorstr=#f6a7e1, endColorstr=#b69edd);
+	background-image:-moz-linear-gradient(left, #f6a7e1 0%, #b69edd 19%,#cdd051 45%,#ff8d00 70%,#dbed00 94%);
+	background-image:linear-gradient(left, #f6a7e1 0%, #b69edd 19%,#cdd051 45%,#ff8d00 70%,#dbed00 94%);
+	background-image:-webkit-linear-gradient(left, #f6a7e1 0%, #b69edd 19%,#cdd051 45%,#ff8d00 70%,#dbed00 94%);
+	background-image:-o-linear-gradient(left, #f6a7e1 0%, #b69edd 19%,#cdd051 45%,#ff8d00 70%,#dbed00 94%);
+	background-image:-ms-linear-gradient(left, #f6a7e1 0%, #b69edd 19%,#cdd051 45%,#ff8d00 70%,#dbed00 94%);
+	background-image:-webkit-gradient(linear, left bottom, right bottom, color-stop(0%,#f6a7e1), color-stop(19%,#b69edd),color-stop(45%,#cdd051),color-stop(70%,#ff8d00),color-stop(94%,#dbed00));
+}
+
+.outdoor-sobre{
+	width: 80%;
+	margin:5% auto;
+	background-color: #fff;
+	text-align: center;
+	/*padding: .5em;*/
+	border-radius: 11px 11px 11px 11px;
+	/*-moz-border-radius: 11px 11px 11px 11px;*/
+	-webkit-border-radius: 5px 5px;
+	border: 1px solid #c8dbe5;	
+}
+

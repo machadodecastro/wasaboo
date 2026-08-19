@@ -1,0 +1,138 @@
+{% extends "base.html" %}
+{% block body %}
+
+{% if perfil.id == perfil_logado.id %}
+<div class="row-profile">
+
+<!-- MENU -->	
+{% include "menu.html" %}
+
+		<div class="config-titles">
+			<strong>
+				<span class="config-titles">Removed outdoors</span>
+				<span class="question_mark" data-toggle="tooltip" data-placement="right" 
+               			title="Removed outdoors don't appear in your feed. 
+               			They also do not appear in your notifications.">	
+           		</span>
+           	</strong>
+        </div>
+		<hr/>
+		{% for t in removed_count %}
+			{% if t.howmany == 0 %}
+				<div class="no-published-warning">
+					No removed outdoor
+				</div>
+			{% endif %}
+		{% endfor %}
+		<div id="Center">
+		{% if removed_cards %}
+		<ul id="waterfall" class="waterfall">
+			{% for tip in removed_cards %}	
+
+			{% include 'modal_edit_card.html' %}
+			
+			{% include 'modal_remove_card.html' %}
+			
+			{% if tip.removed %}		  
+			<li class="cards card-{{tip.id}}" data-id="{{tip.id}}">
+			    <div class="main card-layout">
+					
+				  {% include 'card_header.html' %}
+												        
+		          <!-- Outdoor title -->
+			      {% include 'outdoor_title.html' %}
+	                    
+				  <!-- Picture -->					
+				  {% include 'outdoor_picture.html' %}									                        
+					
+	              {% include 'card_delete_question.html' %}      
+	                    
+	              {% include 'folder_options.html' %}	      
+	                    
+				  {% include 'folder_container.html' %}	
+				  
+				  <!-- Profile image -->
+                  <div class="profile-image">
+                  	  <a href="{% url 'exibir' tip.author %}">
+                  	  <div class="image-content">
+                  	      	{% if tip.type = "f" %}
+					       		    {% if tip.upload != "0" %}
+					       		    	<span class="user"><img src="{{tip.upload}}" class="user"></span>
+					       		    {% else %}
+					       		    	<span class="user woman"></span>
+					       		    {% endif %}
+					       	
+					       	{% elif tip.type = "m" %}
+					       		    {% if tip.upload != "0" %}
+					       		    	<span class="user"><img src="{{tip.upload}}" class="user"></span>
+					       		    {% else %}
+					       		    	<span class="user man"></span>
+					       		    {% endif %}
+					       	
+					       	{% elif tip.type = "c" %}
+					       		    {% if tip.upload != "0" %}
+					       		    	<span class="user"><img src="{{tip.upload}}" class="user"></span>
+					       		    {% else %}
+					       		    	<span class="user company"></span>
+					       		    {% endif %}
+							{% endif %}
+                  	  </div>
+                  	  </a>
+                  	  
+                  	  <!-- Profile name -->
+					  <div class="author-content">
+		                  <a href="{% url 'exibir' tip.author %}">
+		                  	{{ tip.name }}
+		                  </a>
+		                  <br/>
+		                  
+		                   
+		                  <!-- Card update and creation date --> 
+		                  {% if tip.updated_date != tip.date %}
+		                  <div class="date-content">
+		                    Updated {{ tip.updated_date|date:'M d, Y' }}
+		                    <a data-toggle="tooltip" data-placement="top" 
+		                    title="Posted {{ tip.date|date:'M d, Y' }}">
+								<span class="clock"></span>
+							</a>
+							{% if not tip.removed %}
+			                    {% if tip.link %} | 
+					                <a class="tip_label" target="_blank" href="{{ tip.link }}">
+							            	<span data-toggle="tooltip" data-placement="top" 
+			                    			title="{{ tip.link|truncatechars:40 }}">	
+							            		<span class="external_link"></span>
+							            	</span>
+									</a>
+				            	{% endif %}
+			            	{% endif %}
+		                  </div>
+		                  
+		                  {% else %}
+		                  
+		                  <div class="date-content">
+		                  	Posted {{ tip.date|date:'M d, Y' }}
+		                  	{% if not tip.removed %}
+			                  	{% if tip.link %} | 
+					                <a class="tip_label" target="_blank" href="{{ tip.link }}">
+							                <span data-toggle="tooltip" data-placement="top" 
+			                    			title="{{ tip.link|truncatechars:40 }}">	
+							            		<span class="external_link"></span>
+							            	</span>
+									</a>
+				            	{% endif %}
+			            	{% endif %}
+		                  </div>
+		                  {% endif %}
+		                  
+		              </div>
+ 		      	  </div>			    
+			    </div>
+			  </li>
+			{% endif %}
+			{% endfor %}			
+		</ul>		 
+		{% endif %}
+	</div>	
+</div>
+{% endif %}
+{% endblock %}

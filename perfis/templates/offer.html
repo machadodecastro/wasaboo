@@ -1,0 +1,116 @@
+{% extends "base.html" %}
+{% block body %}
+
+	<!-- Modal for editing self description-->
+	{% include "modal_offer.html" %}
+	
+	<!-- Modal for include more informations-->
+	{% include "modal_more_offer.html" %}	
+
+<div class="row">
+
+	<!-- MENU -->	
+	{% include "menu.html" %}
+    
+	<!-- PROFILE SUB MENU  -->	
+	{% include "menu_profile.html" %}       	
+	
+	<div class="panel panel-default-contents">	
+		    {% for o in content %}
+			  <div class="col-lg-12">
+			    <div class="panel panel-default">              
+			        <div class="panel-heading">
+			            <div class="title-heading">Profile Tip
+			            {% if perfil.id == perfil_logado.id %}
+			            <span class="edit-offer dropdown" style="float: right">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+								<img src="/static/img/points.png" class="points" style="float: right"/>
+						    </a>
+						    <ul class="dropdown-menu">
+					                 <li>
+						                 <a class="edit-link-offer input_label tip_label" 
+								            style="cursor:pointer;" 
+								            data-toggle="modal" 
+								            data-target="#updateOffer"
+								            data-id = "{{o.id}}" 
+							            	data-author = "{{o.offer_user_id}}"
+							            	data-profile = "{{o.offer_profile_id}}"
+											data-title = "{{o.offer_title}}"
+											data-skills = "{{o.offer_skills}}"
+											data-benefits = "{{o.offer_benefits}}">
+								            Edit
+								          </a>
+						             </li>
+					
+					                 <li class="divider"></li>
+					
+					                 <li>
+						                 <a class="delete-offer input_label tip_label" 
+								            style="cursor:pointer;" 
+								            data-id = "{{o.id}}">
+								            Delete
+								          </a>						                 
+								     </li>
+						        </ul>
+						    </span>
+						    {% endif %}
+						</div>   			            
+			        </div>  
+	
+	           	  	<div class="title-content">
+						<span class="input_label tip_label">Job :</span>
+	               	  	{{ o.offer_title }}
+	               	  	
+	               	  	<br/>
+	               	  	
+	               	  	<span class="input_label tip_label">Skills :</span>
+	               	  	{% if o.offer_skills %}
+	               	  		{{ o.offer_skills }}
+	               	  	{% else %}
+	               	  		<span class="input_label tip_label">Not informed</span>
+	               	  	{% endif %}
+	               	  	<br/>
+	               	  	
+	               	  	<span class="input_label tip_label">Benefits :</span>
+	               	  	{% if o.offer_benefits %}
+	               	  		{{ o.offer_benefits }}
+	               	  	{% else %}
+	               	  		<span class="input_label tip_label">Not informed</span>
+	               	  	{% endif %}
+	               	  	
+	               	</div>
+					<div class="author-content">
+		                <div class="date-content">
+			            	Posted {{ o.date|date:'M d, Y' }} | 
+			            	 {% if perfil.id == perfil_logado.id %}
+				            	<a class="edit-more-offer add_more_label" 
+				            	   data-toggle="modal" 
+				            	   data-target="#updateMoreOffer"
+				            	   data-id = "{{o.id}}" 
+								   data-more = "{{o.more}}">
+				            		Add more informations
+				            	</a>
+				             {% else %}
+				             	<a class="show-more-offer add_more_label" 
+				            	   data-toggle="modal" 
+				            	   data-target="#updateMoreOffer"
+				            	   data-id = "{{o.id}}" 
+								   data-show = "{{o.more}}">
+				            	    See more
+				            	</a>
+				             {% endif %}
+		                </div>
+		            </div>
+		            
+	              </div>               	
+		      </div>
+		  
+		  {% empty %}
+		  <li class="no-published-warning">
+			  	No job offer for while
+		  </li>
+		  {% endfor %}
+	</div>
+</div>
+	
+{% endblock %}

@@ -1,0 +1,134 @@
+<!-- Modal to play my cards -->
+<div class="modal mobile-modal-play" id="my_upcards_{{tip.id}}" tabindex="-1" role="dialog" 
+     aria-labelledby="myModalLabel" aria-hidden="true"> 
+    <div class="modal-dialog modal-dialog-play">
+        <div class="modal-content modal-content-play">
+            <div class="modal-header modal-header-play">
+                <button type="button" class="close mobile-close" data-dismiss="modal">
+                       <span aria-hidden="true">&times;</span>
+                       <span class="sr-only">Close</span>
+                </button>
+            </div>
+            
+            <div class="modal-body">
+            
+<ul class="my-upcards-waterfall">
+{% for tip in myupcards %}
+                
+			  {% include 'modal_edit_card.html' %}
+			  
+		      {% include 'modal_remove_card_my_game.html' %}
+			  		       
+              <li class="cards card-{{tip.id}}">
+			    <div class="main card-layout">
+				  
+				    {% include 'card_header.html' %}
+			        
+			        <!-- Outdoor title -->
+			        {% include 'outdoor_title.html' %}  
+
+					{% include 'card_delete_question.html' %}
+	                
+	                {% include 'folder_options.html' %}
+	                    
+					{% include 'folder_container.html' %}  
+					
+					{% include 'chat_container.html' %}                  
+					
+					<!-- Picture -->					
+					{% include 'outdoor_picture.html' %}							    
+				  
+				  <!-- Profile image -->
+                  <div class="profile-image">
+                  	  <a href="{% url 'exibir' tip.author %}">
+                  	  <div class="image-content">
+						    {% if perfil.id == perfil_logado.id %}
+						    	<a data-toggle="modal" data-target="#updateProfilePicture" class="dropdown-toggle">
+							    	{% if tip.type = 'f' %}
+							       		    {% if tip.upload != "0"  %}
+								       		    	<div>
+								       		    		<img src="{{tip.upload}}" class="user">
+								       		    	</div>
+							       		    {% else %}
+								       		    	<div class="user woman"></div>
+								       		{% endif %}
+							       		
+							    	{% elif tip.type = 'm' %}
+							       		    {% if tip.upload != "0"  %}
+								       		    	<div>
+								       		    		<img src="{{tip.upload}}" class="user">
+								       		    	</div>
+							       		    {% else %}
+								       		    	<div class="user man"></div>
+								       		{% endif %}
+							        	
+							    	{% elif tip.type = 'c' %}
+							       		    {% if tip.upload != "0"  %}
+								       		    	<div>
+								       		    		<img src="{{tip.upload}}" class="user">
+								       		    	</div>
+							       		    {% else %}
+								       		    	<div class="user company"></div>
+								       		{% endif %}
+							       	{% endif %}
+						        </a>
+						        
+						      {% else %}
+						     
+							    	{% if tip.type = 'f' %}
+							       		    {% if tip.upload != "0"  %}
+								       		    	<div>
+								       		    		<img src="{{tip.upload}}" class="user">
+								       		    	</div>
+							       		    {% else %}
+								       		    	<div class="user woman"></div>
+								       		{% endif %}
+							       		
+							    	{% elif tip.type = 'm' %}
+							       		    {% if tip.upload != "0"  %}
+								       		    	<div>
+								       		    		<img src="{{tip.upload}}" class="user">
+								       		    	</div>
+							       		    {% else %}
+								       		    	<div class="user man"></div>
+								       		{% endif %}
+							        	
+							    	{% elif tip.type = 'c' %}
+							       		    {% if tip.upload != "0"  %}
+								       		    	<div>
+								       		    		<img src="{{tip.upload}}" class="user">
+								       		    	</div>
+							       		    {% else %}
+								       		    	<div class="user company"></div>
+								       		{% endif %}
+							       	{% endif %}
+						     {% endif %}
+			              </div>
+                  	  </a>
+                  	  
+                  	  <!-- Profile name -->
+					  {% include 'outdoor_profile.html' %}  
+          				    
+          			  <!-- Favorite icon -->
+     			      {% include 'outdoor_favorite_local.html' %}
+     			         
+		      	  </div>
+		      	  
+		      	  <!-- Outdoor Campaign -->
+			      {% include 'outdoor_campaign.html' %}
+		                			    
+			    </div>
+			  </li>
+              {% empty %}
+              
+ 	      	  <li class="no-published-warning">
+	  	      	  No upcards
+	  	      	  <section class="empty-feed"></section>	             
+           	  </li>                
+{% endfor %}
+</ul>
+
+</div>
+</div>
+</div>
+</div>

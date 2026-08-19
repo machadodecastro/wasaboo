@@ -1,0 +1,221 @@
+     <div class="panel-heading panel-heading-{{tip.id}}">
+          <div class="wrapper">
+          {% if tip.removed %}
+	       <div></div>
+		   <div style="text-align: center;margin-top: -10px;">
+		   	   <!-- Restore card to my feed -->
+	      	   <a href="#restoreCard-{{tip.id}}" 
+	   	       	  data-toggle="modal" 
+	   	       	  data-url="{{url}}"
+	   	       	  data-id = "{{tip.id}}"
+	   	       	  data-profile="{{perfil_logado.id}}"
+	    	      class="custom-tooltip restore add_more_label restore-{{tip.id}}" 
+	    	      data-tt="tooltip" 
+	    	      data-placement="bottom" 
+	    	      title="Restore in feed">
+	   	          <input type="button" class="btn btn-cancel restore restore-label-{{tip.id}}" value="Restore"/>
+	           </a>				           
+	        </div>
+	        <div></div>
+        {% else %} <!-- not removed -->
+			<div>
+			{% if tip.link %} 
+                <a class="tip_label" target="_blank" href="{{ tip.link }}" aria-label="external link">
+		                <span data-toggle="tooltip" data-placement="top" 
+                  			title="{{ tip.link|truncatechars:40 }}">	
+		            		<span class="external_link"></span>
+		            	</span>
+				</a>
+           	{% endif %}
+			</div>
+			
+			<div style="text-align: center;margin-top: -10px;">
+			    <!-- Main Toolbar -->
+			    
+			    <!-- Drop down main toolbar -->
+				<a class="add_more_label toolbtn toolbtn-{{tip.id}}" 
+	           	   data-id = "{{tip.id}}">
+				   <span class="down-arrow" />
+		        </a>
+			</div>
+			
+			<div></div>
+		  {% endif %}
+          </div>
+      
+      <!-- Toolbar -->
+      <div class="toolbar toolbar-{{tip.id}} slideup">
+          <div>
+          	   <!-- Saving cards into campaigns -->
+	          	{% if user.is_authenticated %}
+	          	  {% if tip.author_profile_id == perfil_logado.id %}
+		          	   {% if tip.saved %}
+					           <img class="custom-tooltip hearts-on show-folders-in-card add_more_label show-folders-in-card-{{tip.id}}" 
+					           data-id = "{{tip.id}}" data-content="{%if tip.content%}{{tip.content}}{%else%}{%endif%}"
+					           data-toggle="tooltip" data-placement="bottom" title="Campaign">
+				       
+						       <img class="custom-tooltip hearts-off choose-folders-in-card add_more_label choose-folders-in-card-{{tip.id}}" 
+						       data-id = "{{tip.id}}" style="display:none;"
+						       data-toggle="tooltip" data-placement="bottom" title="Promote in a campaign">
+		     		   {% else %}
+					    	   <img class="custom-tooltip hearts-off choose-folders-in-card add_more_label choose-folders-in-card-{{tip.id}}" 
+					    	   data-id = "{{tip.id}}" data-content="{%if tip.content%}{{tip.content}}{%else%}{%endif%}"
+					    	   data-toggle="tooltip" data-placement="bottom" title="Promote in a campaign">
+				       
+						       <img class="custom-tooltip hearts-on show-folders-in-card add_more_label show-folders-in-card-{{tip.id}}" 
+						       data-id = "{{tip.id}}" style="display:none;"
+						       data-toggle="tooltip" data-placement="bottom" title="Campaign">
+		      			{% endif %}	
+		      	  {% else %}
+		      	    <img class="custom-tooltip chat add_more_label chat-{{tip.id}}" 
+					data-id = "{{tip.id}}" data-content="{%if tip.content%}{{tip.content}}{%else%}{%endif%}"
+					data-reference = "{{tip.reference}}" data-toggle="tooltip" data-placement="bottom" title="Chat">
+		      	  {% endif %}
+	      		{% else %}
+	      			<a href="{% url 'login' %}">
+						<img class="custom-tooltip hearts-off choose-folders add_more_label"
+					    data-toggle="tooltip" data-placement="bottom" title="Save into a deck">
+					</a>	      		
+	      		{% endif %}					
+          </div>
+          
+          {% if tip.author_profile_id == request.user.perfil.id %}	
+           <div style="text-align: center;">       	       
+
+	           <a class="custom-tooltip-bottom my-upcards add_more_label my-upcards-btn-{{tip.id}} mobile-upcards-counter"
+	           href="{% for u in upcards_counting %}{% if u.howmany > 0 %} {%url 'show_connected' tip.slug tip.id %} {% else %} {% endif %} {% endfor %}" 
+               data-toggle="modal" data-tt="tooltip" data-placement="bottom" title="Connected">
+                   <span>
+                   {% for u in upcards_counting %}
+                  	   {{ u.howmany }}
+                   {% endfor %}
+                   </span>
+               </a>
+				           
+            </div>	
+           	       				         
+           {% else %}
+		   
+		   <div style="text-align: center;">   	       
+
+	           <a class="custom-tooltip-bottom upcards add_more_label upcards-btn-{{tip.id}} mobile-upcards-counter"
+	           href="{% for u in upcards_counting %}{% if u.howmany > 0 %} {%url 'show_connected' tip.slug tip.id %} {% else %} {% endif %} {% endfor %}" 
+               data-toggle="modal" data-tt="tooltip" data-placement="bottom" title="Connected">
+                   {% for u in upcards_counting %}
+                       <span class="upcards">{{ u.howmany }}</span>
+                   {% endfor %}
+               </a>
+				           			           
+           </div>
+          {% endif %}
+          
+          {% if tip.author_profile_id == request.user.perfil.id %}	
+          <div>
+              <!-- Showing edit toolbar -->
+      	      <a class="rudder add_more_label  rudder-{{tip.id}}" data-id = "{{tip.id}}">
+		   	      <span class="custom-tooltip points points-{{tip.id}}" 
+		   	      data-toggle="tooltip" data-placement="bottom" title="More options"></span>
+              </a>			           
+          </div>
+          {% else %}
+		           <div>
+				   	   <!-- Remove card from my feed -->
+					   {% if user.is_authenticated %}
+						   <a href="#removeCard-{{tip.id}}"
+							  data-toggle="modal" 
+							  data-id = "{{tip.id}}"
+							  class="custom-tooltip rfg add_more_label rfg-{{tip.id}}" 
+							  data-tt="tooltip" 
+							  data-placement="bottom" 
+							  title="Remove outdoor"
+							  aria-label="Card with a red X">
+								  <span class="rfg"></span>
+						   </a>	
+				       {% else %}
+			       	       <a href="{% url 'login' %}"
+			       	          class="custom-tooltip rfg add_more_label" 
+			       	          data-tt="tooltip" 
+			       	          data-placement="bottom" 
+			       	          title="Remove outdoor"
+			       	          aria-label="Card with a red X">
+						   	      <span class="rfg"></span>
+				           </a>					       
+				       {% endif %}							   
+		           </div>
+          {% endif %}
+      </div>	
+      
+      <!-- Edit Toolbar -->
+      <div class="edit-toolbar edit-toolbar-{{tip.id}}">
+          <div>
+              <!-- Deleting the card -->
+      	      <a class="show-confirm-in-card add_more_label show-confirm-in-card-{{tip.id}}" data-id = "{{tip.id}}">
+		   	      <span class="custom-tooltip delete" data-toggle="tooltip" data-placement="bottom" 
+		   	      title="Delete outdoor"></span>
+              </a>				           
+          </div>
+          				       
+          <div style="text-align: left;">
+       	       <!-- Hiding the card -->
+       	       {% if tip.hided == '0' %}
+	   	           <a class="custom-tooltip hide-no-fade add_more_label eye-{{tip.id}}" 
+	   	           data-url = "{{url}}" 
+	   	           data-id = "{{tip.id}}"
+	   	           data-toggle="tooltip" data-placement="bottom" title="Hide outdoor">
+	  	               <span class="eye"></span>
+	               </a>		
+	               <a class="custom-tooltip publish-no-fade input_label eye-to-publish-{{tip.id}}" 
+			       data-url = "{{url}}"
+			       data-id = "{{tip.id}}"
+			       style= "cursor: pointer;display: none;"
+			       data-toggle="tooltip" data-placement="bottom" title="Publish outdoor">
+				       <span class="eye-to-publish"></span>
+				   </a>	    
+	           {% else %}         
+			       <a class="custom-tooltip publish-no-fade input_label eye-to-publish-{{tip.id}}" 
+			       data-url = "{{url}}"
+			       data-id = "{{tip.id}}"
+			       style= "cursor: pointer;"
+			       data-toggle="tooltip" data-placement="bottom" title="Publish outdoor">
+				       <span class="eye-to-publish"></span>
+				   </a>	
+				   <a class="custom-tooltip hide-no-fade add_more_label eye-{{tip.id}}" 
+	   	           data-url = "{{url}}" 
+	   	           data-id = "{{tip.id}}"
+	   	           style= "cursor: pointer;display: none;"
+	   	           data-toggle="tooltip" data-placement="bottom" title="Hide outdoor">
+	  	               <span class="eye"></span>
+	               </a>	     
+	           {% endif %}
+          </div>
+          
+          <div style="text-align: right;">
+              <!-- Show modal to edit -->
+      	      <a   href="#updateCardinCard-{{tip.id}}"
+      	       	data-toggle="modal"
+      	       	class="custom-tooltip pencil add_more_label pencil-{{tip.id}}" 					       	        
+       	        data-id = "{{tip.id}}" 
+            	data-author = "{{tip.author_user_id}}"
+            	data-profile = "{{tip.author_profile_id}}"
+            	data-name = "{{tip.author_name}}"
+            	data-hided = "{{tip.hided}}"
+            	data-type = "{{tip.type}}"
+            	data-text = "{{tip.content}}"
+            	data-reference = "{{tip.reference}}"
+            	data-link = "{{tip.link}}"
+            	data-tt="tooltip" 
+       	        data-placement="bottom" 
+       	        title="Edit">
+		   	        <span class="pencil"></span>
+              </a>
+          </div>
+          
+          <div>
+              <!-- Returning to main toolbar -->
+      	      <a class="downcard add_more_label backtools backtools-{{tip.id}}" data-id = "{{tip.id}}">
+		   	      <span class="points points-{{tip.id}}"/>
+              </a>				           
+          </div>				           
+      </div>
+      				       		        
+     </div>

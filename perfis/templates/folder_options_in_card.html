@@ -1,0 +1,46 @@
+<!-- Folders option by profile -->
+<div class="confirm-folders-options confirm-folders-options-{{tip.id}}"
+style="display: none;margin-top: 60px;">
+	<br/>
+	<span>Choose campaign to associate your outdoor</span><br/><br/>	              	    	
+	<select name="deck" id="default-folder-{{tip.id}}" class="profile-field-normal folder-select-{{tip.id}}" 
+	data-id = "{{tip.id}}">
+		<option value="" disabled selected="selected">Select your campaign</option>
+		
+	{% for deck in decks %}								    
+		<option value="{{ deck.id }}" class="folder-option">{{ deck.deck_name }}</option>
+	{% empty %}
+		<span>You don't have campaigns yet</span>
+	{% endfor %}
+	</select>	
+	
+	<br/><br/>
+								              	    	
+	<div class="confirm-folder-btn-in-card">
+		<input type="button" class="btn btn-danger btn-cancel-in-card" value="Cancel" 
+		data-id="{{tip.id}}" 
+		data-content="{%if tip.content%}{{tip.content|linebreaks}}{%else%}{%endif%}"
+		data-reference="{{tip.reference|linebreaks}}">
+		
+		<div></div>
+	   	
+	   	<input type="button" class="btn btn-success btn-folder-in-card btn-folder-in-card-{{tip.id}}" 
+	   	value="Save" 
+	   	data-url = "{{url}}"
+	   	data-id="{{tip.id}}" 
+	   	data-content="{%if tip.content%}{{tip.content|linebreaks}}{%else%}{%endif%}"
+	   	data-reference="{{tip.reference|linebreaks}}"
+	   	disabled>
+	</div>	    
+</div>
+
+<script>
+// Enable save button when a folder is choosen from list
+$(document).ready(function(){
+$(".folder-select-{{tip.id}}").on('change',function (){  
+	self = $(this);
+	var tip = $(this).data("id"); 
+   	$('.btn-folder-in-card-'+tip).prop('disabled', false);
+});
+});
+</script>

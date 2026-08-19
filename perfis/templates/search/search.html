@@ -1,0 +1,538 @@
+{% extends "base.html" %}
+{% load more_like_this %}
+{% load highlight %}
+
+{% block body %}
+
+
+	<!-- Modal for show tips details-->
+	{% include "modal_show_tip.html" %}	
+
+	<!-- Modal for show who favorited the tip-->
+	{% include "modal_who_favorited.html" %}
+
+	{% if perfil_logado.map == '1' %}	
+	<div id='mapid' class="map-{{perfil.id}}"></div>
+		
+	<div id="Center" style="display: none;">
+	{% if query %}
+		<ul class="profile-waterfall">
+			{% for tip in results %}	
+
+			{% include 'modal_edit_card.html' %}
+			
+			{% include 'modal_remove_card.html' %}
+						
+			<li class="cards card-{{tip.id}}" data-url="{{url}}" data-id="{{tip.id}}">
+			    <div class="main card-layout {% if tip.notified %} go-play {% endif %}">
+			    
+					{% with tip.id as card %}
+						{% for n in notifications_count %}
+							{% if n.referenced_card = card %}
+						    <div class="notifications-advertise">
+						    	{{ n.howmany }}
+						    </div>
+						    {% endif %}
+						{% endfor %}	
+					{% endwith %}				    
+					
+				  {% include 'card_header.html' %}
+												        
+		          <!-- Outdoor title -->
+			      {% include 'outdoor_title.html' %}  
+						
+				  <!-- Picture -->					
+			      {% include 'outdoor_picture.html' %}								                        
+					
+	              {% include 'card_delete_question.html' %}      
+	                    
+	              {% include 'folder_options.html' %}	      
+	                    
+				  {% include 'folder_container.html' %}	
+				  
+				  {% include 'chat_container.html' %}
+				  
+				  <!-- Profile image -->
+                  <div class="profile-image">
+                  	  <a href="{% if user.is_authenticated %}
+                  	               {% url 'exibir' tip.author %}
+	                	       {% else %}
+	                  		   	   {% url 'login' %}
+	                  		   {% endif %}">
+                  	  <div class="image-content">
+                  	      	{% if perfil.id == perfil_logado.id %}
+					    	<a data-toggle="modal" data-target="#updateProfilePicture" class="dropdown-toggle">
+						    	{% if perfil.type = 'f' %}
+						  			{% for a in my_profile_image %}
+						       		    {% if a.upload != "0"  %}
+							       		    	<div>
+							       		    		<img src="{{a.upload}}" class="user">
+							       		    	</div>
+						       		    {% else %}
+							       		    	<div class="user woman"></div>
+							       		{% endif %}
+						       		{% endfor %}
+						       		
+						    	{% elif perfil.type = 'm' %}
+						  			{% for a in my_profile_image %}
+						       		    {% if a.upload != "0"  %}
+							       		    	<div>
+							       		    		<img src="{{a.upload}}" class="user">
+							       		    	</div>
+						       		    {% else %}
+							       		    	<div class="user man"></div>
+							       		{% endif %}
+						       		{% endfor %}
+						        	
+						        {% else %}
+						  			{% for a in my_profile_image %}
+						       		    {% if a.upload != "0"  %}
+							       		    	<div>
+							       		    		<img src="{{a.upload}}" class="user">
+							       		    	</div>
+						       		    {% else %}
+							       		    	<div class="user company"></div>
+							       		{% endif %}
+						       		{% endfor %}
+						       	{% endif %}
+					        </a>
+					        
+					     {% else %}
+					     
+					    	{% if perfil.type = 'f' %}
+						  			{% for a in has_profile_image %}
+						       		    {% if a.upload != "0"  %}
+							       		    	<div>
+							       		    		<img src="{{a.upload}}" class="user">
+							       		    	</div>
+						       		    {% else %}
+							       		    	<div class="user woman"></div>
+							       		{% endif %}
+						       		{% endfor %}  	
+					       	
+					       	{% elif perfil.type = 'm' %}
+						  			{% for a in has_profile_image %}
+						       		    {% if a.upload != "0"  %}
+							       		    	<div>
+							       		    		<img src="{{a.upload}}" class="user">
+							       		    	</div>
+						       		    {% else %}
+							       		    	<div class="user man"></div>
+							       		{% endif %}
+						       		{% endfor %}
+					        	
+					        {% else %}
+						  			{% for a in has_profile_image %}
+						       		    {% if a.upload != "0"  %}
+							       		    	<div>
+							       		    		<img src="{{a.upload}}" class="user">
+							       		    	</div>
+						       		    {% else %}
+							       		    	<div class="user company"></div>
+							       		{% endif %}
+						       		{% endfor %}							        
+						    {% endif %}
+					     {% endif %}
+                  	  </div>
+                  	  </a>
+                  	  
+                  	  <!-- Profile name -->
+					  <div class="author-content">
+		                  <a href="{% if user.is_authenticated %}
+		                  		       {% url 'exibir' tip.author %}
+		                  		   {% else %}
+		                  		   	   {% url 'login' %}
+		                  		   {% endif %}">
+		                  	{{ tip.name }}			                  	
+		                  </a>
+		                  
+		                  <br/>
+		                   
+		                  <!-- Card update and creation date --> 
+		                  {% if tip.updated_date != tip.date %}
+		                  <div class="date-content">
+		                    Updated {{ tip.updated_date|date:'M d, Y' }}
+		                    <a data-toggle="tooltip" data-placement="top" 
+		                    title="Posted {{ tip.date|date:'M d, Y' }}">
+								<span class="clock"></span>
+							</a>
+		                  </div>
+		                  
+		                  {% else %}
+		                  
+		                  <div class="date-content">
+		                  	Posted {{ tip.date|date:'M d, Y' }}
+		                  </div>
+		                  {% endif %}
+		                  
+		              </div>
+          				    
+          				<!-- Favorite icon -->
+          				{% if user.is_authenticated %}
+	          				{% if not tip.removed %}
+	          				    {% if tip.author_profile_id == request.user.perfil.id %}
+	          				    <a href="{%url 'who_favorited_list' tip.id %}" 
+	          				           id="favoritings-{{tip.id}}"
+						          	   class="favoritings favoritings-{{tip.id}} like like-{{tip.id}}"
+						          	   data-toggle="modal"
+				             		   data-target="#whoFavorited" 
+				                       data-url = "{{url}}"
+				                       data-id="{{tip.id}}">
+					              	     <input type="text" class="likes" 
+					              	     data-url = "{{url}}"
+					              	     data-id="{{tip.id}}" 
+					              	     id="favoriteTip-{{tip.id}}" name="favoriteTip" value="{{tip.id}}" 
+					              	     style="display:none;">
+						        </a>
+	          				    {% else %} <!-- another profile -->
+	          				    <div id="fav">
+	          				    		{% if tip.isfav == 0 %}
+	           				    			<img class="pbfavorite pbfavorite-{{tip.id}} user" 
+	           				    			data-url = "{{url}}" 
+	           				    			data-id="{{tip.id}}" 
+	           				    			data-author="{{tip.author_name}}"
+	           				    			id="pbfavoriteTip" name="pbfavoriteTip"/>
+	           				    			
+	           				    			<img class="favorite favorite-{{tip.id}} user" 
+	           				    			data-url = "{{url}}" 
+	           				    			data-id="{{tip.id}}"  
+	           				    			id="favoriteTip" name="favoriteTip" style="display: none"/>
+	          				    		{% else %}
+	           				    			<img class="favorite favorite-{{tip.id}} user" 
+	           				    			data-url = "{{url}}" 
+	           				    			data-id="{{tip.id}}"  
+	           				    			id="favoriteTip" name="favoriteTip" />
+	           				    			
+	           				    			<img class="pbfavorite pbfavorite-{{tip.id}} user" 
+	           				    			data-url = "{{url}}" 
+	           				    			data-id="{{tip.id}}" 
+	           				    			data-author="{{tip.author_name}}"
+	           				    			id="pbfavoriteTip" name="pbfavoriteTip" style="display: none"/>
+	           				    		{% endif %}	
+	          				    </div>		
+	          				    {% endif %}	
+	          				{% endif %}
+	          			{% endif %}					            		
+		      	    </div>
+		      	    
+		      	    
+		      	    
+		      	    {% with tip.id as cardOn %}
+                  		{% for c in card_on_deck %}
+                  			{% if c.tip = cardOn %}	                  			
+                  			<a class="card-on card-at-{{tip.id}}" 
+                  				href="{% url 'bysubject' c.author c.deck %}">
+                  				<section class="campaign-footer">
+                  					<img class="flag-footer"/><span class="campaign-text">{{c.deck_name}}</span>
+                  				</section>
+                  			</a>
+                  			{% endif %}
+                  		{% endfor %}
+	                {% endwith %}			    
+			    </div>
+			</li>
+
+			{% empty %}
+			<div id="wrapper" class="container">
+			    <section id="no-search-results">
+			        <i class="icon-search"></i>
+					<p class="no-results-found">					    
+						  <span class="suggestion">
+						      {% if suggestion %}						      
+					           	  {% url 'search:search' as search_url %} 
+				            	  <!-- <span class="suggestion">
+				                      <span class="didyoumean">Did you mean:</span> 
+				                	  <a class="searchTerm" href="{{ search_url }}?q={{ suggestion }}">
+				                	  	{{ suggestion }}
+				                	  </a>?				                	  
+				                  </span>-->
+				                  <script>
+							      $( document ).ready(function() {
+							    	  window.location.replace('{{ search_url }}?q={{ suggestion }}'); 
+							      });
+							      </script>
+							  {% else %}
+							      <span class="didyoumean">Sorry, no results found.</span>
+				              {% endif %}
+					      </span>			          
+			        </p>
+			    </section>
+	        </div>
+			{% endfor %}
+		</ul>		 
+		{% endif %}
+	</div>
+
+
+
+    <!-- map is 0 -->
+	{% else %}
+	
+	
+	
+	<div class="row content">
+	<div id="Center">
+	{% if query %}
+		<ul class="profile-waterfall">
+			{% for tip in results %}	
+
+			{% include 'modal_edit_card.html' %}
+			
+			{% include 'modal_remove_card.html' %}
+						
+			<li class="cards card-{{tip.id}}" data-url="{{url}}" data-id="{{tip.id}}">
+			    <div class="main card-layout {% if tip.notified %} go-play {% endif %}">
+			    
+					{% with tip.id as card %}
+						{% for n in notifications_count %}
+							{% if n.referenced_card = card %}
+						    <div class="notifications-advertise">
+						    	{{ n.howmany }}
+						    </div>
+						    {% endif %}
+						{% endfor %}	
+					{% endwith %}				    
+					
+					{% include 'card_header.html' %}
+												        
+		          <!-- Outdoor title -->
+			      {% include 'outdoor_title.html' %}  
+						
+				  <!-- Picture -->					
+				  {% include 'outdoor_picture.html' %}								                        
+					
+	              {% include 'card_delete_question.html' %}      
+	                    
+	              {% include 'folder_options.html' %}	      
+	                    
+				  {% include 'folder_container.html' %}	
+				  
+				  {% include 'chat_container.html' %}
+				  
+				  <!-- Profile image -->
+                  <div class="profile-image">
+                  	  <a href="{% if user.is_authenticated %}
+                  	               {% url 'exibir' tip.author %}
+	                	       {% else %}
+	                  		   	   {% url 'login' %}
+	                  		   {% endif %}">
+                  	  <div class="image-content">
+                  	     {% if tip.author_profile_id == perfil_logado.id %}
+					         <a data-toggle="modal" data-target="#updateProfilePicture" class="dropdown-toggle">
+						    	{% if perfil.type = 'f' %}
+						  			{% for a in my_profile_image %}
+						       		    {% if a.upload != "0"  %}
+							       		    	<div>
+							       		    		<img src="{{a.upload}}" class="user">
+							       		    	</div>
+						       		    {% else %}
+							       		    	<div class="user woman"></div>
+							       		{% endif %}
+						       		{% endfor %}
+						       		
+						    	{% elif perfil.type = 'm' %}
+						  			{% for a in my_profile_image %}
+						       		    {% if a.upload != "0"  %}
+							       		    	<div>
+							       		    		<img src="{{a.upload}}" class="user">
+							       		    	</div>
+						       		    {% else %}
+							       		    	<div class="user man"></div>
+							       		{% endif %}
+						       		{% endfor %}
+						        	
+						        {% else %}
+						  			{% for a in my_profile_image %}
+						       		    {% if a.upload != "0"  %}
+							       		    	<div>
+							       		    		<img src="{{a.upload}}" class="user">
+							       		    	</div>
+						       		    {% else %}
+							       		    	<div class="user company"></div>
+							       		{% endif %}
+						       		{% endfor %}
+						       	{% endif %}
+					        </a>
+					        
+					     {% else %}
+					     
+					    	{% if tip.type = "f" %}
+					       		    {% if tip.upload != "0" %}
+					       		    	<span class="user"><img src="{{tip.upload}}" class="user"></span>
+					       		    {% else %}
+					       		    	<span class="user woman"></span>
+					       		    {% endif %}
+					       	
+					       	{% elif tip.type = "m" %}
+					       		    {% if tip.upload != "0" %}
+					       		    	<span class="user"><img src="{{tip.upload}}" class="user"></span>
+					       		    {% else %}
+					       		    	<span class="user man"></span>
+					       		    {% endif %}
+					       	
+					       	{% elif tip.type = "c" %}
+					       		    {% if tip.upload != "0" %}
+					       		    	<span class="user"><img src="{{tip.upload}}" class="user"></span>
+					       		    {% else %}
+					       		    	<span class="user company"></span>
+					       		    {% endif %}
+							{% endif %}
+							
+					     {% endif %}
+                  	  </div>
+                  	  </a>
+                  	  
+                  	  <!-- Profile name -->
+					  <div class="author-content">
+		                  <a href="{% if user.is_authenticated %}
+		                  		       {% url 'exibir' tip.author %}
+		                  		   {% else %}
+		                  		   	   {% url 'login' %}
+		                  		   {% endif %}">
+		                  	{{ tip.name }}			                  	
+		                  </a>
+		                  
+		                  <br/>
+		                   
+		                  <!-- Card update and creation date --> 
+		                  {% if tip.updated_date != tip.date %}
+		                  <div class="date-content">
+		                    Updated {{ tip.updated_date|date:'M d, Y' }}
+		                    <a data-toggle="tooltip" data-placement="top" 
+		                    title="Posted {{ tip.date|date:'M d, Y' }}">
+								<span class="clock"></span>
+							</a>
+		                  </div>
+		                  
+		                  {% else %}
+		                  
+		                  <div class="date-content">
+		                  	Posted {{ tip.date|date:'M d, Y' }}
+		                  </div>
+		                  {% endif %}
+		                  
+		              </div>
+          				    
+          				<!-- Favorite icon -->
+          				{% if user.is_authenticated %}
+	          				{% if not tip.removed %}
+	          				    {% if tip.author_profile_id == request.user.perfil.id %}
+	          				    <a href="{%url 'who_favorited_list' tip.id %}" 
+	          				           id="favoritings-{{tip.id}}"
+						          	   class="favoritings favoritings-{{tip.id}} like like-{{tip.id}}"
+						          	   data-toggle="modal"
+				             		   data-target="#whoFavorited" 
+				                       data-url = "{{url}}"
+				                       data-id="{{tip.id}}">
+					              	     <input type="text" class="likes" 
+					              	     data-url = "{{url}}"
+					              	     data-id="{{tip.id}}" 
+					              	     id="favoriteTip-{{tip.id}}" name="favoriteTip" value="{{tip.id}}" 
+					              	     style="display:none;">
+						        </a>
+	          				    {% else %} <!-- another profile -->
+	          				    <div id="fav">
+	          				    		{% if tip.isfav == 0 %}
+	           				    			<img class="pbfavorite pbfavorite-{{tip.id}} user" 
+	           				    			data-url = "{{url}}" 
+	           				    			data-id="{{tip.id}}" 
+	           				    			data-author="{{tip.author_name}}"
+	           				    			id="pbfavoriteTip" name="pbfavoriteTip"/>
+	           				    			
+	           				    			<img class="favorite favorite-{{tip.id}} user" 
+	           				    			data-url = "{{url}}" 
+	           				    			data-id="{{tip.id}}"  
+	           				    			id="favoriteTip" name="favoriteTip" style="display: none"/>
+	          				    		{% else %}
+	           				    			<img class="favorite favorite-{{tip.id}} user" 
+	           				    			data-url = "{{url}}" 
+	           				    			data-id="{{tip.id}}"  
+	           				    			id="favoriteTip" name="favoriteTip" />
+	           				    			
+	           				    			<img class="pbfavorite pbfavorite-{{tip.id}} user" 
+	           				    			data-url = "{{url}}" 
+	           				    			data-id="{{tip.id}}" 
+	           				    			data-author="{{tip.author_name}}"
+	           				    			id="pbfavoriteTip" name="pbfavoriteTip" style="display: none"/>
+	           				    		{% endif %}	
+	          				    </div>		
+	          				    {% endif %}	
+	          				{% endif %}
+	          			{% endif %}					            		
+		      	    </div>
+		      	    
+		      	    {% if tip.author_profile_id == request.user.perfil.id %}
+						  {%if tip.waiting_hold %}
+						  <section class="card-action">
+							  <a data-id = "{{tip.id}}"  class="btn custom-tooltip push-hold add_more_label hold-btn-{{tip.id}}" 
+							  href="{% if user.is_authenticated %}
+	                  	               {% url 'hold_to' tip.slug tip.id %}
+		                	       {% else %}
+		                  		   	   {% url 'login' %}
+		                  		   {% endif %}">
+								  Connect
+							  </a>
+						  </section>
+						  {% endif %}
+				  	{% else %}
+				  	      <section class="card-action">
+							  <a data-id = "{{tip.id}}"  class="btn custom-tooltip push-play add_more_label play-btn-{{tip.id}}" 
+							  href="{% if user.is_authenticated %}
+	                  	               {% url 'play_to' tip.slug tip.id %}
+		                	       {% else %}
+		                  		   	   {% url 'login' %}
+		                  		   {% endif %}">
+								  Play
+							  </a>
+						  </section>
+				    {% endif %}
+		      	    
+		      	    {% with tip.id as cardOn %}
+                  		{% for c in card_on_deck %}
+                  			{% if c.tip = cardOn %}	                  			
+                  			<a class="card-on card-at-{{tip.id}}" 
+                  				href="{% url 'bysubject' c.author c.deck %}">
+                  				<section class="campaign-footer">
+                  					<img class="flag-footer"/><span class="campaign-text">{{c.deck_name}}</span>
+                  				</section>
+                  			</a>
+                  			{% endif %}
+                  		{% endfor %}
+	                {% endwith %}				    
+			    </div>
+			</li>
+
+			{% empty %}
+			<div id="wrapper" class="container">
+			    <section id="no-search-results">
+			        <i class="icon-search"></i>
+					<p class="no-results-found">					    
+						  <span class="suggestion">
+						      {% if suggestion %}						      
+					           	  {% url 'search:search' as search_url %} 
+				            	  <!-- <span class="suggestion">
+				                      <span class="didyoumean">Did you mean:</span> 
+				                	  <a class="searchTerm" href="{{ search_url }}?q={{ suggestion }}">
+				                	  	{{ suggestion }}
+				                	  </a>?				                	  
+				                  </span>-->
+				                  <script>
+							      $( document ).ready(function() {
+							    	  window.location.replace('{{ search_url }}?q={{ suggestion }}'); 
+							      });
+							      </script>
+							  {% else %}
+							      <span class="didyoumean">Sorry, no results found.</span>
+				              {% endif %}
+					      </span>			          
+			        </p>
+			    </section>
+	        </div>
+			{% endfor %}
+		</ul>		 
+		{% endif %}
+	</div>
+	</div>
+	{% endif %}
+
+{% endblock %}

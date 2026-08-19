@@ -1,0 +1,339 @@
+{% extends "base.html" %}
+{% block body %}
+<div class="row-profile">
+
+<!-- Modal for show tips details-->
+{% include "modal_show_tip.html" %}	
+
+<!-- Modal for show who favorited the tip-->
+{% include "modal_who_favorited.html" %}
+
+<!-- MENU -->	
+{% include "menu.html" %}
+
+<div id="Center"> 	
+{% if not request.user.is_superuser %}	
+	{% for t in title_subject %}
+    	<h1 class="folder-title">{{ t.deck_name }}</h1>
+    {% endfor %}
+       
+        {% if bysubject %}
+		<ul class="profile-waterfall">
+              {% for tip in bysubject %}
+              
+              {% include 'docs.html' %}
+				
+			  {% include 'modal_edit_card.html' %}
+			  
+			  {% include 'modal_remove_card.html' %}
+		           
+              <li class="cards card-{{tip.id}}">
+			    <div class="main card-layout {% if tip.notified %} go-play {% endif %}">
+
+					{% with tip.id as card %}
+						{% for n in notifications_count %}
+							{% if n.referenced_card = card %}
+						    <div class="notifications-advertise">
+						    	{{ n.howmany }}
+						    </div>
+						    {% endif %}
+						{% endfor %}	
+					{% endwith %}
+					
+					{% if tip.world == '1' %} 
+					<a href="{% url 'index' %}" class="checkbox-map-on" data-url="{{url}}" data-profile="{{perfil_logado.id}}" data-map="1">
+					  <div class="world-advertise">
+					    <img class="fire-options"/>
+					  </div>
+					</a>
+					{% elif tip.world == '2' %}
+					<a href="{% url 'index' %}" class="fys-on" data-url="{{url}}" data-profile="{{perfil_logado.id}}" data-map="2">
+					  <div class="world-advertise">
+					    <img class="fys-options"/>
+					  </div>
+					</a>
+					{% elif tip.world == '3' %}
+					<a href="{% url 'index' %}" class="adidas-on" data-url="{{url}}" data-profile="{{perfil_logado.id}}" data-map="3">
+					  <div class="world-advertise">
+					    <img class="nike-options"/>
+					  </div>
+					</a>
+					{% else %}
+					{% endif %}
+									  
+				    {% include 'card_header.html' %}
+			        
+			        <!-- Outdoor title -->
+			        {% include 'outdoor_title.html' %}
+			        
+			        <!-- Picture -->					
+					{% include 'outdoor_picture.html' %}	
+					
+					{% include 'card_delete_question.html' %}
+	                
+	                {% include 'folder_options.html' %}
+	                    
+					{% include 'folder_container.html' %}  
+					
+					{% include 'chat_container.html' %}     							    
+				  
+				  <!-- Profile image -->
+                  <div class="profile-image">
+					    <div class="image-content">
+					    {% if perfil.id == perfil_logado.id %}
+					    	<a data-toggle="modal" data-target="#updateProfilePicture" class="dropdown-toggle">
+						    	{% if perfil.type = 'f' %}
+						  			{% for a in my_profile_image %}
+						       		    {% if a.upload != "0"  %}
+							       		    	<div>
+							       		    		<img src="{{a.upload}}" class="user">
+							       		    	</div>
+						       		    {% else %}
+							       		    	<div class="user woman"></div>
+							       		{% endif %}
+						       		{% endfor %}
+						       		
+						    	{% elif perfil.type = 'm' %}
+						  			{% for a in my_profile_image %}
+						       		    {% if a.upload != "0"  %}
+							       		    	<div>
+							       		    		<img src="{{a.upload}}" class="user">
+							       		    	</div>
+						       		    {% else %}
+							       		    	<div class="user man"></div>
+							       		{% endif %}
+						       		{% endfor %}
+						        	
+						        {% else %}
+						  			{% for a in my_profile_image %}
+						       		    {% if a.upload != "0"  %}
+							       		    	<div>
+							       		    		<img src="{{a.upload}}" class="user">
+							       		    	</div>
+						       		    {% else %}
+							       		    	<div class="user company"></div>
+							       		{% endif %}
+						       		{% endfor %}
+						       	{% endif %}
+					        </a>
+					        
+					     {% else %}
+					     
+					    	{% if perfil.type = 'f' %}
+						  			{% for a in has_profile_image %}
+						       		    {% if a.upload != "0"  %}
+							       		    	<div>
+							       		    		<img src="{{a.upload}}" class="user">
+							       		    	</div>
+						       		    {% else %}
+							       		    	<div class="user woman"></div>
+							       		{% endif %}
+						       		{% endfor %}  	
+					       	
+					       	{% elif perfil.type = 'm' %}
+						  			{% for a in has_profile_image %}
+						       		    {% if a.upload != "0"  %}
+							       		    	<div>
+							       		    		<img src="{{a.upload}}" class="user">
+							       		    	</div>
+						       		    {% else %}
+							       		    	<div class="user man"></div>
+							       		{% endif %}
+						       		{% endfor %}
+					        	
+					        {% else %}
+						  			{% for a in has_profile_image %}
+						       		    {% if a.upload != "0"  %}
+							       		    	<div>
+							       		    		<img src="{{a.upload}}" class="user">
+							       		    	</div>
+						       		    {% else %}
+							       		    	<div class="user company"></div>
+							       		{% endif %}
+						       		{% endfor %}							        
+						    {% endif %}
+					     {% endif %}			                  
+	                  	 </div>
+	                  	  
+		              <!-- Profile name -->
+					  {% include 'outdoor_profile.html' %}
+			              
+					  <!-- Favorite icon -->
+     				  {% include 'outdoor_favorite_local.html' %} 
+     				  	
+				    </div>	
+				    {% if tip.author_profile_id == request.user.perfil.id %}
+                  	<a class="card-on card-at-{{tip.id}}" 
+           				href="{% url 'exibir' perfil.id %}">
+           				<section class="campaign-footer">
+           					<img class="flag-footer"/><span class="campaign-text">All outdoors</span>
+           				</section>
+           			</a>
+                    {% else %}
+					<a class="card-on card-at-{{tip.id}}" 
+           				href="{% url 'exibir' perfil.id %}">
+           				<section class="campaign-footer">
+           					<img class="flag-footer"/><span class="campaign-text">All outdoors</span>
+           				</section>
+           			</a>	
+		            {% endif %}		    
+			    </div>
+			  </li>
+			  
+              {% empty %}
+              
+ 	      	  <li class="no-published-warning">
+	  	      	  No cards by subject	             
+           	  </li>		                              
+              
+              {% endfor %}
+                            
+        </ul>
+        {% endif %}
+    
+    
+    
+{% else %}
+
+
+
+    {% for t in title_subject %}
+    	<h1 class="folder-title">{{ t.deck_name }}</h1>
+    {% endfor %}
+       
+        {% if bysubject %}
+		<ul class="profile-waterfall">
+              {% for tip in bysubject_admin_view %}
+              
+              {% include 'docs.html' %}
+				
+			  {% include 'modal_edit_card.html' %}
+			  
+			  {% include 'modal_remove_card.html' %}
+		           
+              <li class="cards card-{{tip.id}}">
+			    <div class="main card-layout {% if tip.notified %} go-play {% endif %}">
+
+					{% with tip.id as card %}
+						{% for n in notifications_count %}
+							{% if n.referenced_card = card %}
+						    <div class="notifications-advertise">
+						    	{{ n.howmany }}
+						    </div>
+						    {% endif %}
+						{% endfor %}	
+					{% endwith %}
+					
+					{% if tip.world == '1' %} 
+					<a href="{% url 'index' %}" class="checkbox-map-on" data-url="{{url}}" data-profile="{{perfil_logado.id}}" data-map="1">
+					  <div class="world-advertise">
+					    <img class="fire-options"/>
+					  </div>
+					</a>
+					{% elif tip.world == '2' %}
+					<a href="{% url 'index' %}" class="fys-on" data-url="{{url}}" data-profile="{{perfil_logado.id}}" data-map="2">
+					  <div class="world-advertise">
+					    <img class="fys-options"/>
+					  </div>
+					</a>
+					{% elif tip.world == '3' %}
+					<a href="{% url 'index' %}" class="adidas-on" data-url="{{url}}" data-profile="{{perfil_logado.id}}" data-map="3">
+					  <div class="world-advertise">
+					    <img class="nike-options"/>
+					  </div>
+					</a>
+					{% else %}
+					{% endif %}
+									  
+				    {% include 'card_header.html' %}
+			        
+			        <!-- Outdoor title -->
+			        {% include 'outdoor_title.html' %}  
+						
+					<!-- Picture -->					
+					{% include 'outdoor_picture.html' %}					
+
+					{% include 'card_delete_question.html' %}
+	                
+	                {% include 'folder_options.html' %}
+	                    
+					{% include 'folder_container.html' %}                    												    
+				  
+				  <!-- Profile image -->
+                  <div class="profile-image">
+					    <div class="image-content">
+					    {% if tip.type = 'f' %}
+							       		    {% if tip.upload != "0"  %}
+								       		    	<div>
+								       		    		<img src="{{tip.upload}}" class="user">
+								       		    	</div>
+							       		    {% else %}
+								       		    	<div class="user woman"></div>
+								       		{% endif %}
+							       		
+							    	{% elif tip.type = 'm' %}
+							       		    {% if tip.upload != "0"  %}
+								       		    	<div>
+								       		    		<img src="{{tip.upload}}" class="user">
+								       		    	</div>
+							       		    {% else %}
+								       		    	<div class="user man"></div>
+								       		{% endif %}
+							        	
+							    	{% elif tip.type = 'c' %}
+							       		    {% if tip.upload != "0"  %}
+								       		    	<div>
+								       		    		<img src="{{tip.upload}}" class="user">
+								       		    	</div>
+							       		    {% else %}
+								       		    	<div class="user company"></div>
+								       		{% endif %}
+							       	{% endif %}			                  
+	                  	 </div>
+	                  	  
+		                 <!-- Profile name -->
+					      {% include 'outdoor_profile.html' %}
+					      
+					      <!-- Favorite icon -->
+     					  {% include 'outdoor_favorite_local.html' %}	
+				    </div>	
+				    
+				    {% if tip.author_profile_id == request.user.perfil.id %}
+                  	<a class="card-on card-at-{{tip.id}}" 
+           				href="{% url 'exibir' perfil.id %}">
+           				<section class="campaign-footer">
+           					<img class="flag-footer"/><span class="campaign-text">All outdoors</span>
+           				</section>
+           			</a>
+                    {% else %}
+						{% with tip.id as cardOn %}
+	                  		{% for c in card_on_deck %}
+	                  			{% if c.tip = cardOn %}	                  			
+	                  			<a class="card-on card-at-{{tip.id}}" 
+	                  				href="{% url 'exibir' c.author %}">
+	                  				<section class="campaign-footer">
+	                  					<img class="flag-footer"/><span class="campaign-text">All outdoors</span>
+	                  				</section>
+	                  			</a>
+	                  			{% endif %}
+	                  		{% endfor %}
+		                {% endwith %}	
+		            {% endif %}		    
+			    </div>
+			  </li>
+			  
+              {% empty %}
+              
+ 	      	  <li class="no-published-warning">
+	  	      	  No cards by subject	             
+           	  </li>		                              
+              
+              {% endfor %}
+                            
+        </ul>
+        {% endif %}
+{% endif %}
+</div>
+</div>
+
+{% endblock %}

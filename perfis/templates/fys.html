@@ -1,0 +1,127 @@
+{% block body %} 
+
+<div class="container">
+  <div class="row content">
+			  
+	<div id="viewport">
+	  <!-- Sidebar -->
+	  <div id="sidebarx">
+	    <header>
+	      <a href="#"><img class="fys-options"/>Free Your Stuff</a>
+	    </header>
+	    <ul class="nav">
+	    {% for c in categories %}
+	      <li>
+	        <a href="#">
+	          <i class="zmdi zmdi-view-dashboard"></i> {{ c.deck_name }}
+	        </a>
+	      </li>
+	    {% endfor %}
+	    </ul>
+	  </div>
+	</div>
+			
+
+
+	<div id="Center" style="margin-left: 150px;">				
+		<ul class="profile-waterfall">
+									
+			{% for tip in fys %}
+			
+				{% include 'docs.html' %}
+				
+				{% include 'modal_edit_card.html' %}
+				
+				{% include 'modal_remove_card.html' %}
+								
+				{% include 'my_upcards.html' %}
+				
+				{% include 'upcards.html' %}
+												
+				
+				<li class="cards card-{{tip.id}}" data-url="{{url}}" data-id="{{tip.id}}">
+				    <div class="main card-layout {% if tip.notified %} go-play {% endif %}">
+					  
+					  {% include 'card_header.html' %}
+												
+			          <!-- Outdoor title -->
+			          {% include 'outdoor_title.html' %}  
+						
+					  <!-- Picture -->					
+					  {% include 'outdoor_picture.html' %}
+					  						
+		              {% include 'card_delete_question.html' %}      
+		                    
+		              {% include 'folder_options.html' %}	      
+		                    
+					  {% include 'folder_container.html' %}	
+					  
+					  {% include 'chat_container.html' %}
+					  
+					  <!-- Profile image -->
+	                  <div class="profile-image">
+	                  	  <a href="{% url 'exibir' tip.author %}" aria-label="user profile link">
+	                  	  <div class="image-content">
+	                  	      	{% if tip.type = "f" %}
+						       		    {% if tip.upload != "0" %}
+						       		    	<span class="user"><img src="{{tip.upload}}" class="user" alt="user picture"></span>
+						       		    {% else %}
+						       		    	<span class="user woman"></span>
+						       		    {% endif %}
+						       	
+						       	{% elif tip.type = "m" %}
+						       		    {% if tip.upload != "0" %}
+						       		    	<span class="user"><img src="{{tip.upload}}" class="user" alt="user picture"></span>
+						       		    {% else %}
+						       		    	<span class="user man"></span>
+						       		    {% endif %}
+						       	
+						       	{% elif tip.type = "c" %}
+						       		    {% if tip.upload != "0" %}
+						       		    	<span class="user"><img src="{{tip.upload}}" class="user" alt="user picture"></span>
+						       		    {% else %}
+						       		    	<span class="user company"></span>
+						       		    {% endif %}
+								{% endif %}
+	                  	  </div>
+	                  	  </a>
+	                  	  
+	                  	  <!-- Profile name -->
+					      {% include 'outdoor_profile.html' %}  
+			              
+			              <!-- Favorite icon -->
+	    					  {% include 'outdoor_favorite_local.html' %}     			  
+	         			  
+			      	  	</div>
+			      	  
+			      	    {% if tip.author_profile_id != perfil_logado.id %}
+						  <section class="card-action">
+							  <a data-id = "{{tip.id}}"  class="btn custom-tooltip push-hold add_more_label fys-btn-{{tip.id}}" 
+							  href="{% url 'buy' tip.id %}">
+								  I need
+							  </a>
+						  </section>
+						{% endif %}
+				      
+				      
+			      	  <!-- Outdoor Campaign -->
+			      	  {% include 'outdoor_campaign.html' %}
+			      	  				      	  	
+				    </div>
+				  </li>
+				
+				{% empty %}
+				
+					<!-- empty index -->
+					<div class="empty-feed"></div>
+			  
+			{% endfor %}
+			
+			</ul>
+			 			
+	    </div>
+  </div>
+</div>
+
+
+{% endblock %}

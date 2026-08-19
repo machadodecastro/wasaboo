@@ -1,0 +1,106 @@
+{% if not tip.removed %}
+{% if tip.outdoor or tip.outdoor2 or tip.outdoor3 or tip.outdoor4 %}
+        <div class="fotorama fotorama-{{tip.id}}" data-width="100%" data-nav="thumbs" data-loop="true">
+            <!-- Outdoor #1 -->
+            {% if tip.outdoor and tip.hide_image == '0' %}
+            <a href="{%url 'show_tip' tip.slug tip.id %}"
+			class="picture-{{tip.id}} {% if tip.notified and tip.author_profile_id == perfil_logado.id %}notifications-control{% endif %}">                
+                <img data-u="image" class="outdoor outdoor-{{tip.id}} 
+    		    {% if tip.direction = '0' %} landscape {% else %} portrait {% endif %}" data-id="{{tip.id}}"
+    		    src="{{ MEDIA_URL }}{{tip.outdoor}}"/>
+    		</a>    		
+            {% endif %}
+            
+            <!-- Outdoor #2 -->
+            {% if tip.outdoor2 and tip.hide_image2 == '0' %}
+            <a href="{%url 'show_tip' tip.slug tip.id %}" style="cursor:zoom-in" aria-label="card image"
+			class="picture-{{tip.id}} {% if tip.notified and tip.author_profile_id == perfil_logado.id %}notifications-control{% endif %}">                
+                <img data-u="image" class="outdoor2 outdoor2-{{tip.id}} 
+    		    {%if tip.direction2 = '0'%}landscape{%else%}portrait{%endif%}"  data-id="{{tip.id}}"
+    		    src="{{ MEDIA_URL }}{{tip.outdoor2}}" />
+    		</a>
+            {% endif %}
+            
+            <!-- Outdoor #3 -->
+            {% if tip.outdoor3 and tip.hide_image3 == '0' %}
+            <a href="{%url 'show_tip' tip.slug tip.id %}" style="cursor:zoom-in" aria-label="card image"
+			class="picture-{{tip.id}} {% if tip.notified and tip.author_profile_id == perfil_logado.id %}notifications-control{% endif %}">                
+                <img data-u="image" class="outdoor3 outdoor3-{{tip.id}} 
+    		    {%if tip.direction3 = '0'%}landscape{%else%}portrait{%endif%}"  data-id="{{tip.id}}"
+    		    alt="card picture" src="{{ MEDIA_URL }}{{tip.outdoor3}}">    		     
+    		</a>
+            {% endif %} 
+
+            
+            <!-- Outdoor #4 -->
+            <!-- {% if tip.outdoor4 and tip.hide_image4 == '0' %}
+            <a href="{%url 'show_tip' tip.slug tip.id %}" style="cursor:zoom-in" aria-label="card image"
+			class="picture-{{tip.id}} {% if tip.notified and tip.author_profile_id == perfil_logado.id %}notifications-control{% endif %}">                
+                <img data-u="image" class="outdoor4 outdoor4-{{tip.id}} 
+    		    {%if tip.direction4 = '0'%}landscape{%else%}portrait{%endif%}"  data-id="{{tip.id}}"
+    		    alt="card picture" src="{{ MEDIA_URL }}{{tip.outdoor4}}" />
+    		</a>
+            {% endif %}-->
+        </div>
+  
+        {% if perfil_logado.map == '3' %}
+	    	{% if tip.price > '0,00' and tip.price != 'None' %}
+	    	<span class="tag tag-{{tip.id}}">
+	    	  {% if tip.coin == '1' %}
+	    	    <img src="/static/img/united-states.png"> U$
+	    	  {% elif tip.coin == '2' %}
+	    	    <img src="/static/img/european-union.png"> &euro;
+	    	  {% else %}
+	    	    <img src="/static/img/brazil.png"> R$
+	    	  {% endif %}
+	    	  {{ tip.price }}
+	    	</span>
+	    	{% endif %}
+	    {% endif %}
+
+{% endif %}
+{% else %}
+	<div id="columns" style="width: 100%;text-align: center;">
+    	<div class="ghost fotorama fotorama-{{tip.id}}" data-width="100%" data-nav="thumbs" data-loop="true">
+            <!-- Outdoor #1 -->
+            {% if tip.outdoor and tip.hide_image == '0' %}
+            <a href="{%url 'show_tip' tip.slug tip.id %}"
+			class="picture-{{tip.id}} {% if tip.notified and tip.author_profile_id == perfil_logado.id %}notifications-control{% endif %}">                
+                <img data-u="image" class="outdoor outdoor-{{tip.id}} 
+    		    {% if tip.direction = '0' %} landscape {% else %} portrait {% endif %}" data-id="{{tip.id}}"
+    		    src="{{ MEDIA_URL }}{{tip.outdoor}}"/>
+    		</a>    		
+            {% endif %}
+            
+            <!-- Outdoor #2 -->
+            {% if tip.outdoor2 and tip.hide_image2 == '0' %}
+            <a href="{%url 'show_tip' tip.slug tip.id %}" style="cursor:zoom-in" aria-label="card image"
+			class="picture-{{tip.id}} {% if tip.notified and tip.author_profile_id == perfil_logado.id %}notifications-control{% endif %}">                
+                <img data-u="image" class="outdoor2 outdoor2-{{tip.id}} 
+    		    {%if tip.direction2 = '0'%}landscape{%else%}portrait{%endif%}"  data-id="{{tip.id}}"
+    		    src="{{ MEDIA_URL }}{{tip.outdoor2}}" />
+    		</a>
+            {% endif %}
+            
+            <!-- Outdoor #3 -->
+            {% if tip.outdoor3 and tip.hide_image3 == '0' %}
+            <a href="{%url 'show_tip' tip.slug tip.id %}" style="cursor:zoom-in" aria-label="card image"
+			class="picture-{{tip.id}} {% if tip.notified and tip.author_profile_id == perfil_logado.id %}notifications-control{% endif %}">                
+                <img data-u="image" class="outdoor3 outdoor3-{{tip.id}} 
+    		    {%if tip.direction3 = '0'%}landscape{%else%}portrait{%endif%}"  data-id="{{tip.id}}"
+    		    alt="card picture" src="{{ MEDIA_URL }}{{tip.outdoor3}}" />
+    		</a>
+            {% endif %}
+            
+            <!-- Outdoor #4 -->
+            <!-- {% if tip.outdoor4 and tip.hide_image4 == '0' %}
+            <a href="{%url 'show_tip' tip.slug tip.id %}" style="cursor:zoom-in" aria-label="card image"
+			class="picture-{{tip.id}} {% if tip.notified and tip.author_profile_id == perfil_logado.id %}notifications-control{% endif %}">                
+                <img data-u="image" class="outdoor4 outdoor4-{{tip.id}} 
+    		    {%if tip.direction4 = '0'%}landscape{%else%}portrait{%endif%}"  data-id="{{tip.id}}"
+    		    alt="card picture" src="{{ MEDIA_URL }}{{tip.outdoor4}}" />
+    		</a>
+            {% endif %} -->
+        </div>
+	</div>					
+{% endif %}	

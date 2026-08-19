@@ -1,0 +1,137 @@
+{% extends "base.html" %}
+{% block body %}
+{% if perfil.id == perfil_logado.id %}
+<div class="row-profile">
+
+	<!-- MENU -->	
+	{% include "menu.html" %}
+    
+    
+    <div id="Center"> 
+       
+    <!--      
+    <div class="panel-heading-info">
+        <div class="title-heading">
+         	You're following {%for c in contacts %}{{c.howmany}}{% endfor %}
+        </div>
+    </div>
+    -->
+
+    <div class="panel-heading">
+            <div class="title-heading">
+            	<input type="text" id="myContacts" onkeyup="searchContacts()" 
+            	placeholder="Filter my contacts...">
+            </div>
+    </div>
+    
+    <ul id="myULContacts" class="followers-area">     
+    {% for c in children %}
+    	{% if c.fid != request.user.perfil.id %}
+    	<li class="followers-cards">
+                   <a href="{% url 'exibir' c.fid %}">
+                   	<div class="follower-profile-image">
+                 	    {% if c.type = 'f' %}
+				    		{% if c.upload != "0" %}
+				        		<span><img src="{{c.upload}}" class="big-user"></span>
+				        	{% else %}	
+				        		<span class="big-user woman"></span>
+				            {% endif %}				    	
+				        
+				        {% elif c.type = 'm' %}
+				    		{% if c.upload != "0" %}
+				        		<span><img src="{{c.upload}}" class="big-user"></span>
+				        	{% else %}	
+				        		<span class="big-user man"></span>
+				            {% endif %}
+				            
+				        {% elif c.type = 'c' %}
+				    		{% if c.upload != "0" %}
+				        		<span><img src="{{c.upload}}" class="big-user"></span>
+				        	{% else %}	
+				        		<span class="big-user company"></span>
+				            {% endif %}			        
+				        {% endif %}
+                    </div>
+			        <div class="follower-following">
+                   		{{ c.name }}       
+                   	</div>                     
+                   </a>
+     	</li>
+     	{% endif %}
+
+		{% endfor %}
+		
+		{% for c in contacts %}
+			{% if c.howmany = 0 %}
+				<ul class="profile-waterfall">
+				    <li class="no-published-warning">
+					    You are following nobody.		             
+			        </li>		  
+			    </ul>
+			{% endif %}
+		{% endfor %}
+		</ul>
+    <!-- 
+    {% with total_de_contatos=perfil_logado.contatos.count %}
+        {% if total_de_contatos %}
+            <div class="panel-heading">
+	            <div class="title-heading">
+	            	You're following {{total_de_contatos}} contact{{ total_de_contatos|pluralize }}
+	            </div>
+            </div>
+            <ul class="list-group">
+                {% for contato in perfil_logado.contatos.all %}
+
+                    <a href="{% url 'exibir' contato.id %}" class="list-group-item">
+                    	<div class="profile-image">
+	                 	    {% if contato.type = 'f' %}
+					    		<span class="user woman"></span>
+					    	{% elif contato.type = 'm' %}
+					        	<span class="user man"></span>
+					        {% else %}
+					        	<span class="user company"></span>
+					        {% endif %}
+					        
+					        <div class="following">
+	                    		{{ contato.nome }} 
+	                    	</div> 
+	                    </div>
+                    </a>
+                {% endfor %}
+
+            </ul>
+        {% else %}
+            <div class="panel-body">
+                <p>No contacts yet :(</p>
+            </div>
+        {% endif %}
+    {% endwith %}
+    -->
+  </div> 
+  
+</div>
+{% endif %}
+
+
+<script>
+function searchContacts() {
+    // Declare variables
+    var input, filter, ul, li, a, i;
+    input = document.getElementById('myContacts');
+    filter = input.value.toUpperCase();
+    ul = document.getElementById("myULContacts");
+    li = ul.getElementsByTagName('li');
+
+    // Loop through all list items, and hide those who don't match the search query
+    for (i = 0; i < li.length; i++) {
+        a = li[i].getElementsByTagName("a")[0];
+        if (a.innerHTML.toUpperCase().indexOf(filter) > -1) {
+            li[i].style.display = "";
+        } else {
+            li[i].style.display = "none";
+        }
+    }
+}
+</script>
+{% endblock %}
+

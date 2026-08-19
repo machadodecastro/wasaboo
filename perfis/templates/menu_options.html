@@ -1,0 +1,435 @@
+{% load staticfiles %}
+{% block content %}
+
+{% if url_name != 'mobile_menu' %}  
+{% if url_name != 'mobile_new_card' %}
+<div class="mobile_bar">
+	
+	{% include "mobile_menu.html" %}
+	
+	{% if user.is_authenticated %}
+	<a href="{% url 'mobile_new_card' perfil_logado.id %}">
+    	<div class="mobile-user new-card"></div> 
+    </a>
+    {% else %}
+    	<a href="{% url 'public' %}">	    	
+	    	<span class="mobile-user">
+	    		<img src="{% static 'img/wasaboo_logo.png' %}" alt="Wasaboo logo"/>
+	    	</span>
+	    </a>
+		
+		<a class="btn mobile-btn-signup" style="float:right" href="{% url 'registrar' %}">Sign Up</a>
+	{% endif %}
+
+    {% if user.is_authenticated %}
+	<a data-toggle="modal" data-target="#mobile_menu_{{perfil_logado.id}}" class="mobile-picture">
+		<div class="image-content">
+	      {% if perfil_logado.type = 'f' %}
+	 			{% for a in my_profile_image %}
+	      		    {% if a.upload != "0" %}
+	       		    	<span class="mobile-user"><img src="{{a.upload}}" class="mobile-user" alt="user picture"></span>
+	      		    {% else %}
+	       		    	<span class="mobile-user woman"></span>
+	       		{% endif %}
+	      		{% endfor %}
+	      		
+	  	  {% elif perfil_logado.type = 'm' %}
+	             	      		{% for a in my_profile_image %}
+	       		    {% if a.upload != "0"  %}
+	       		    	<span class="mobile-user"><img src="{{a.upload}}" class="mobile-user" alt="mobile_user picture"></span>
+	      		    	{% else %}
+	       		    	<span class="mobile-user man"></span>
+	       		    {% endif %}
+	      			{% endfor %}
+	       		 				    
+	  	  {% elif perfil_logado.type = 'c' %}
+	             	      		{% for a in my_profile_image %}
+	       		    {% if a.upload != "0"  %}
+	       		    	<span class="mobile-user"><img src="{{a.upload}}" class="mobile-user" alt="user picture"></span>
+	      		    	{% else %}
+	       		    	<span class="mobile-user company"></span>
+	       		    {% endif %}
+	      			{% endfor %}
+	      {% endif %}
+		</div>
+	</a>
+	{% else %}
+		<a class="btn mobile-btn-signin" style="float:right" href="{% url 'login' %}">Sign In</a>		
+	{% endif %}
+</div>
+
+
+<div class="header">
+    <div class="header_inner">
+      <div class="header_contents">
+	  
+	  	
+	  <!-- Search bar -->	
+	  <form method="get" action="/search/" class="autocomplete-me">
+	  {% csrf_token %}
+		   <div class="search-bar">
+		    	<div id="imaginary_container"> 
+		        	<div class="input-group stylish-input-group">
+					    <input type="search" class="form-control" placeholder="Search" 
+					    id="autosearch" name="q" autocomplete="off" aria-label="Input search text">						    
+					    <span class="input-group-addon">
+					        <span id="searchclear" class="glyphicon glyphicon-remove"></span>
+		                    <button type="submit" class="search-btn" aria-label="Search" disabled>
+		                        <span class="glyphicon glyphicon-search"></span>
+		                    </button>
+			            </span>
+					</div>
+					{% if user.is_authenticated %}
+					<!-- WORLDS SWITCH -->
+					<label class="switch">
+					    {% if perfil_logado.map == '9' %}	
+					    <input type="checkbox" class="world-on" data-url="{{url}}" data-profile="{{perfil_logado.id}}" data-map="0" checked>
+					    {% else %}
+					    <input type="checkbox" class="world-off" data-url="{{url}}" data-profile="{{perfil_logado.id}}" data-map="9">
+					    {% endif %}
+						<span class="slider round"></span>
+					</label>
+					{% endif %}
+				</div>
+		  </div>
+	  </form>
+   	  
+   	  	
+   	  <!-- Wasaboo logo -->
+	  <div class="header_logo">
+	        <h3 class="text-muted">
+	        	<a href="{% if user.is_authenticated %}
+	        			     {% url 'index' %}
+	        			 {% else %}
+	        			     {% url 'public' %}
+	        			 {% endif %}">
+	        		<img src="{% static 'img/wasaboo_logo_beta.png' %}" alt="Wasaboo logo" class="logo_website"/>
+	        	</a> 
+	        </h3>
+        </div>
+      </div>
+       
+      {% if user.is_authenticated %}
+	  <!-- Profile dropdown menu -->
+      <ul class="base-icon user-profile-desktop">
+          <li class="dropdown custom-tooltip-right" data-toggle="tooltip" data-placement="right" title="My stuff">
+              <a href="{% url 'index' %}" class="dropdown-toggle" data-toggle="dropdown">
+         	      <!-- {{perfil_logado.nome}} -->
+				  <div class="image-content">
+           		  {% if perfil_logado.type = 'f' %}
+			  			{% for a in my_profile_image %}
+			       		    {% if a.upload != "0" %}
+				       		    	<span class="user"><img src="{{a.upload}}" class="user" alt="user picture"></span>
+			       		    {% else %}
+				       		    	<span class="user woman"></span>
+				       		{% endif %}
+			       		{% endfor %}
+			       		
+			   	  {% elif perfil_logado.type = 'm' %}
+                 	      		{% for a in my_profile_image %}
+				       		    {% if a.upload != "0"  %}
+				       		    	<span class="user"><img src="{{a.upload}}" class="user" alt="user picture"></span>
+			       		    	{% else %}
+				       		    	<span class="user man"></span>
+				       		    {% endif %}
+			       			{% endfor %}
+				       		 				    
+			   	  {% elif perfil_logado.type = 'c' %}
+                 	      		{% for a in my_profile_image %}
+				       		    {% if a.upload != "0"  %}
+				       		    	<span class="user"><img src="{{a.upload}}" class="user" alt="user picture"></span>
+			       		    	{% else %}
+				       		    	<span class="user company"></span>
+				       		    {% endif %}
+			       			{% endfor %}
+			      {% endif %}
+           	      </div>
+         	  </a>
+         	
+         	<!-- Dropdown Menu -->
+         	<ul class="dropdown-menu">
+              
+              <li>
+                 <a href="{% url 'index' %}" class="myfeed-on"
+                 data-url="{{url}}" data-profile="{{perfil_logado.id}}" data-map="0">My feed</a>
+              </li>
+              
+              <li>
+	              <a href="{% url 'exibir' perfil_logado.id %}">Published</a>
+              </li>
+              	              
+              <li>
+                  <a href="{% url 'hided' perfil_logado.id %}">Hided</a>
+              </li>
+              
+              <li>
+                  <a href="{% url 'favorites' perfil_logado.id %}"><img class="user pbfavorite"> Favorites</a>
+              </li>
+              
+              <li>
+                  <a href="{% url 'followers' perfil_logado.id %}">Followers</a>
+              </li>
+              
+              <li>
+                  <a href="{% url 'contacts' perfil_logado.id %}">Following</a>
+              </li>  
+
+              <li>
+                  <a href="{% url 'removed_cards' perfil_logado.id %}">Removed</a>
+              </li>
+              
+              <li>
+                  <a href="{% url 'accepted_cards' perfil_logado.id %}">Accepted</a>
+              </li>  			  
+
+              <li>
+                  <a href="{% if perfil.type = 'c' %}
+                  		       {% url 'company' perfil_logado.id %}
+                  		   {% else %}
+                  		       {% url 'whoami' perfil_logado.id %} 
+                  		   {% endif %}"
+                  		   class="menu-dropdown-title">
+                      <img class="profile"/> My Profile
+                  </a>
+              </li>
+              
+              <li>
+                  <a href="{% url 'decks' perfil_logado.id %}" class="menu-dropdown-title">
+                      <img class="flag-menu"/> Campaigns                       
+                  </a>                  
+              </li>
+              
+              <li>
+                  <a href="{% url  'config' perfil_logado.id %}" class="menu-dropdown-title">
+                      <img class="engine"/> Settings
+                  </a>
+              <li>
+              
+              <li>
+                  <a href="{% url  'stats' perfil_logado.id %}" class="menu-dropdown-title">
+                      <img class="stats"/> Stats
+                  </a>
+              </li>
+              
+              <li>
+                  <a href="/logout/" class="menu-dropdown-title">
+                      <img class="power-off"> Log out
+                  </a>
+              </li>
+              
+            </ul>
+         </li>
+       </ul>
+       {% else %}
+	       <div style="float:right;margin-top:15px;">
+	           <a class="btn btn-signin" href="{% url 'login' %}">Login</a>
+	           <a class="btn btn-signup" href="{% url 'registrar' %}">Sign Up</a>
+	       </div>
+	   {% endif %}
+	
+       <!-- Notifications -->
+       {% if user.is_authenticated %}
+		   {% for n in notifications_all %}
+			   {% if n.howmany > 0 %}       
+		       <ul class="base-icon">
+		         <li class="dropdown custom-tooltip" data-toggle="tooltip" data-placement="bottom" 
+		         title="Notifications">
+		         	<a href="{% url 'notifications' %}" class="dropdown-toggle" aria-label="Notifications">
+						<span class="active-notifications"></span>
+		         	</a>
+		         </li>
+		       </ul>
+		       {% endif %}
+	       {% endfor %}
+       {% endif %}	 
+       
+       <!-- Chat Room Messages -->   
+       {% if user.is_authenticated %}    
+	     <ul class="base-icon user-profile-desktop">
+          <li class="dropdown custom-tooltip-right" data-toggle="tooltip" data-placement="right">
+              <a href="{% url 'index' %}" class="dropdown-toggle" data-toggle="dropdown">
+				  <div class="image-content">
+           		    <div class="user chat-menu"></div>
+           	      </div>
+         	  </a>
+         	
+         	<!-- Dropdown Menu -->
+         	<ul class="dropdown-menu" style="margin: 2px -300px 0;">
+         	
+            {% for c in chat_all %}
+              {% if c.profileID and c.outdoorID %}
+               <li>
+                 <a href="{% url 'chat_room' c.profileID c.outdoorID %}">
+                   {% if c.type = "f" %}
+			       		    {% if c.upload != "0" %}
+			       		    	<img src="{{c.upload}}" class="user">
+			       		    {% else %}
+			       		    	<img class="user woman">
+			       		    {% endif %}					       	
+			       	{% elif c.type = "m" %}
+			       		    {% if c.upload != "0" %}
+			       		    	<img src="{{c.upload}}" class="user">
+			       		    {% else %}
+			       		    	<img class="user man">
+			       		    {% endif %}					       	
+			       	{% elif c.type = "c" %}
+			       		    {% if c.upload != "0" %}
+			       		    	<img src="{{c.upload}}" class="user">
+			       		    {% else %}
+			       		    	<img class="user company">
+			       		    {% endif %}
+					{% endif %}
+                   {{ c.nome }} lhe escreveu no outdoor
+                   <img src="{{ MEDIA_URL }}{{ c.imagem }}" style="width:80px"> 
+                 </a>
+              </li>
+              {% endif %}
+            {% empty %}
+              <li>
+                 <a href="#">No messages for you. Try advertise your outdoors to other people</a>
+              </li>
+            {% endfor %}	
+            </ul>
+         </li>
+       </ul>
+       {% endif %}	
+       
+       
+       <!-- School-->
+       <!-- 
+       {% if user.is_authenticated %}
+       <ul class="base-icon new-card-desktop">
+         <li class="dropdown custom-tooltip-left" data-toggle="tooltip" 
+         data-placement="left">
+         	<a class="dropdown-toggle" data-toggle="dropdown">
+         		<div class="user school"></div> 
+         	</a>
+	         	<ul class="dropdown-menu">
+		         <li>
+		         	<a href="#">
+		         		Calendar
+		         	</a>
+		         </li>
+		         
+		         <li>
+		         	<a href="#">
+		         		Notices
+		         	</a>
+		         </li>
+		         
+		         <li>
+		         	<a href="#">
+		         		Occurrences
+		         	</a>
+		         </li>
+		       </ul>
+         </li>
+       </ul>  
+	   {% endif %}	
+	   -->   		 
+	
+	   {% if user.is_authenticated %}
+	   <!-- NEW OUTDOOR option menu-->
+	   {% if perfil_logado.map == '0' %}
+	       <ul class="base-icon new-card-desktop">
+	         <li class="dropdown custom-tooltip-left" data-toggle="tooltip" 
+	         data-placement="left" title="Create">
+	         	<a class="dropdown-toggle" data-toggle="dropdown">
+	         		<div class="user new-card"></div> 
+	         	</a>
+		         	<ul class="dropdown-menu">
+			         <li>
+			         	<a data-toggle="modal" data-target="#newTip" class="dropdown-toggle btn-my-tips new-tip">
+			         		<img class="stand-options"/> New Outdoor
+			         	</a>
+			         </li>
+			         
+			         <li>
+			         	<a data-toggle="modal" data-target="#newDeck" class="dropdown-toggle btn-my-tips new-tip">
+			         		<img class="flag-options"/> New Campaign
+			         	</a>
+			         </li>
+			       </ul>
+	         </li>
+	       </ul> 
+	   
+	   {% elif perfil_logado.map == '1'  %}
+          <!-- No Menu. Outdoor inside the Map -->
+	   
+	   {% elif perfil_logado.map == '2'  %}
+	       <ul class="base-icon new-card-desktop">
+	         <li class="dropdown custom-tooltip-left" data-toggle="tooltip" 
+	         data-placement="left" title="FYS">
+	         	<a class="dropdown-toggle" data-toggle="dropdown">
+	         		<div class="user new-card"></div> 
+	         	</a>
+		         	<ul class="dropdown-menu">
+			         <li>
+			         	<a data-toggle="modal" data-target="#newTip" class="dropdown-toggle btn-my-tips new-tip">
+			         		<img class="fys-options"/> New FYS
+			         	</a>
+			         </li>
+			       </ul>
+	         </li>
+	       </ul>
+	       
+	   {% elif perfil_logado.map == '3'  %}
+	       <ul class="base-icon new-card-desktop">
+	         <li class="dropdown custom-tooltip-left" data-toggle="tooltip" 
+	         data-placement="left" title="Create">
+	         	<a class="dropdown-toggle" data-toggle="dropdown">
+	         		<div class="user new-card"></div> 
+	         	</a>
+		         	<ul class="dropdown-menu">
+			         <li>
+			         	<a data-toggle="modal" data-target="#newTip" class="dropdown-toggle btn-my-tips new-tip">
+			         		<img class="nike-options"/> New Product
+			         	</a>
+			         </li>
+			       </ul>
+	         </li>
+	       </ul>
+	        	       
+	   {% else %}
+	       
+       {% endif %}
+
+           
+	       <ul class="base-icon new-card-desktop">
+	         <li class="dropdown custom-tooltip-left" data-toggle="tooltip" 
+	         data-placement="left" title="Worlds">
+	         	<a class="dropdown-toggle" data-toggle="dropdown">
+	         		<div class="user new-world"></div> 
+	         	</a>
+		         	<ul class="dropdown-menu">
+		         	 <li class="{% if perfil_logado.map == '1' %} active {% endif %}">
+			         	<a href="{% url 'index' %}" data-toggle="modal" class="checkbox-map-on dropdown-toggle btn-my-tips new-tip"
+			         	data-url="{{url}}" data-profile="{{perfil_logado.id}}" data-map="1">
+			         		<img class="portugal-options"/> Portugal against Fires
+			         	</a>
+			         </li>
+			         
+			         <li class="{% if perfil_logado.map == '2' %} active {% endif %}">
+			         	<a href="{% url 'index' %}" data-toggle="modal" class="fys-on dropdown-toggle btn-my-tips new-tip"
+			         	data-url="{{url}}" data-profile="{{perfil_logado.id}}" data-map="2">
+			         		<img class="fys-options"/> Free Your Stuff
+			         	</a>
+			         </li>
+			         
+			         <li class="{% if perfil_logado.map == '3' %} active {% endif %}">
+			         	<a href="{% url 'index' %}" data-toggle="modal" class="adidas-on dropdown-toggle btn-my-tips new-tip"
+			         	data-url="{{url}}" data-profile="{{perfil_logado.id}}" data-map="3">
+			         		<img class="nike-options"/> Nike World
+			         	</a>
+			         </li>			         
+			       </ul>
+	         </li>
+	       </ul>             
+	   {% endif %}
+	   
+     </div>
+</div>
+{% endif %}
+{% endif %}
+
+{% endblock %}

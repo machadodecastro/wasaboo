@@ -1,0 +1,609 @@
+{% block body %}
+{% if perfil.id == perfil_logado.id %}
+
+	{% with request.resolver_match.url_name as url_name %}
+		{%if perfil_logado.type = 'm' or perfil_logado.type = 'f' %}
+		<section class="profile-menu-bar">
+		<div class="user-profile-options">
+				<ul class="nav nav-tabs">
+				  <li  class="{% if url_name == 'whoami' %} active-profile {% endif %} whoamilink" >
+				  	{% if url_name == 'whoami' %}
+				  		<a href="#whoami" data-toggle="tab">
+				  	{% else %}
+				  		<a href="{%url 'whoami' perfil_logado.id %}">
+				  	{% endif %}
+						    	{% if perfil_logado.type = 'f' %}
+						  			{% for a in my_profile_image %}
+						       		    {% if a.upload != "0"  %}
+							       		    	
+							       		    		<img src="{{a.upload}}" class="user" alt="user picture">
+							       		    	
+						       		    {% else %}
+							       		    	<div class="user woman"></div>
+							       		{% endif %}
+						       		{% endfor %}
+						       		
+						    	{% elif perfil_logado.type = 'm' %}
+						  			{% for a in my_profile_image %}
+						       		    {% if a.upload != "0"  %}
+							       		    	
+							       		    		<img src="{{a.upload}}" class="user" alt="user picture">
+							       		    	
+						       		    {% else %}
+							       		    	<div class="user man"></div>
+							       		{% endif %}
+						       		{% endfor %}
+						       	{% endif %}
+					    
+					    <br/>			                  
+				  		<span>Who am I</span>
+				  		{% if url_name == 'whoami' %}
+						  	<br/>
+						   	<a data-toggle="modal" data-target="#newWhoAmI">
+						   		<span class="user edit-profile"></span> 
+						   	</a>
+						{% endif %}
+				  	</a>
+				  </li>
+				  <!-- Mobile WhoAmI link -->				
+				  <li  class="{% if url_name == 'whoami' %} active-profile {% endif %} mobile-whoamilink" >
+				  	{% if url_name == 'whoami' %}
+				  		<a data-toggle="modal" data-target="#newWhoAmI">
+						   	<span class="user edit-profile"></span><p>About You</p>
+						</a>
+						<br/>
+						<a href="{%url 'education' perfil_logado.id %}">
+							<div class="university"></div>
+						</a>
+						<a href="{%url 'knows' perfil_logado.id %}">
+							<span class="knows-about"></span>
+						</a>
+						<a href="{%url 'jobs' perfil_logado.id %}">
+							<span class="job"></span>
+						</a>
+				  		
+				  	{% else %}
+				  		<a href="{%url 'whoami' perfil_logado.id %}"></a>
+				  	{% endif %}
+				  </li>
+				  
+				  
+				  <li class="{% if url_name == 'education' %} active-profile {% endif %} educationlink">
+				  	{% if url_name == 'education' %}
+				  		<a href="#education" data-toggle="tab">
+				  	{% else %}
+				  		<a href="{%url 'education' perfil_logado.id %}">		  	
+				  	{% endif %}
+				  	
+						<div class="university"></div>
+						
+						<br/>			                  
+				  		<span>Education</span>
+				  		{% if url_name == 'education' %}
+						  	<br/>
+						   	<a data-toggle="modal" data-target="#newEducation">
+						   		<span class="user edit-profile"></span> 
+						   	</a>
+						{% endif %}
+				  	</a>
+				  </li>
+				  <!-- Mobile Education link -->
+				  <li class="{% if url_name == 'education' %} active-profile {% endif %} mobile-educationlink">
+				  	{% if url_name == 'education' %}
+			  			<a data-toggle="modal" data-target="#newEducation">
+					   		<span class="user edit-profile"></span>
+					   		<p>Education</p>
+					   	</a>
+						<br/>
+						<a href="{%url 'whoami' perfil_logado.id %}" style="cursor:pointer;">
+				  		{% if perfil_logado.type = 'f' %}
+						  			{% for a in my_profile_image %}
+						       		    {% if a.upload != "0"  %}
+							       		    	
+							       		    		<img src="{{a.upload}}" class="user" alt="user picture">
+							       		    	
+						       		    {% else %}
+							       		    	<div class="user woman"></div>
+							       		{% endif %}
+						       		{% endfor %}
+						       		
+						    	{% elif perfil_logado.type = 'm' %}
+						  			{% for a in my_profile_image %}
+						       		    {% if a.upload != "0"  %}
+							       		    	
+							       		    		<img src="{{a.upload}}" class="user" alt="user picture">
+							       		    	
+						       		    {% else %}
+							       		    	<div class="user man"></div>
+							       		{% endif %}
+						       		{% endfor %}
+						   {% endif %}	
+				  		</a>
+						<a href="{%url 'knows' perfil_logado.id %}">
+							<span class="knows-about"></span>
+						</a>
+						<a href="{%url 'jobs' perfil_logado.id %}">
+							<span class="job"></span>
+						</a>
+				  	{% else %}
+				  		<a href="{%url 'education' perfil_logado.id %}"></a>		  	
+				  	{% endif %}
+				  </li>
+				  
+				  <li class="{% if url_name == 'knows' %} active-profile {% endif %} knowslink">
+				  	{% if url_name == 'knows' %}
+				  		<a href="#knows" data-toggle="tab">
+				  	{% else %}
+				  		<a href="{%url 'knows' perfil_logado.id %}">		  	
+				  	{% endif %}
+						
+						<div class="knows-about"></div>
+						
+						<br/>			                  
+				  		<span>Knows about</span>
+				  		{% if url_name == 'knows' %}
+						  	<br/>
+						   	<a data-toggle="modal" data-target="#newKnows">
+						   		<span class="user edit-profile"></span> 
+						   	</a>
+						{% endif %}		  				
+				  	</a>
+				  </li> 
+				  <!-- Mobile Knows link -->
+				  <li class="{% if url_name == 'knows' %} active-profile {% endif %} mobile-knowslink">
+				  	{% if url_name == 'knows' %}
+				  		<a data-toggle="modal" data-target="#newKnows">
+						   		<span class="user edit-profile"></span> 
+						   		<p>Knows About</p>
+						</a>
+						<br/>
+						<a href="{%url 'whoami' perfil_logado.id %}" style="cursor:pointer;">
+				  		{% if perfil_logado.type = 'f' %}
+						  			{% for a in my_profile_image %}
+						       		    {% if a.upload != "0"  %}
+							       		    	
+							       		    		<img src="{{a.upload}}" class="user" alt="user picture">
+							       		    	
+						       		    {% else %}
+							       		    	<div class="user woman"></div>
+							       		{% endif %}
+						       		{% endfor %}
+						       		
+						    	{% elif perfil_logado.type = 'm' %}
+						  			{% for a in my_profile_image %}
+						       		    {% if a.upload != "0"  %}
+							       		    	
+							       		    		<img src="{{a.upload}}" class="user" alt="user picture">
+							       		    	
+						       		    {% else %}
+							       		    	<div class="user man"></div>
+							       		{% endif %}
+						       		{% endfor %}
+						   {% endif %}	
+				  		</a>
+				  		<a href="{%url 'education' perfil_logado.id %}">
+							<span class="university"></span>
+						</a>
+						<a href="{%url 'jobs' perfil_logado.id %}">
+							<span class="job"></span>
+						</a>
+				  	{% else %}
+				  		<a href="{%url 'knows' perfil_logado.id %}"></a>		  	
+				  	{% endif %}
+				  </li>  
+				  
+				  <li class="{% if url_name == 'jobs' %} active-profile {% endif %} jobslink">
+				  	{% if url_name == 'jobs' %}
+				  		<a href="#jobs" data-toggle="tab">
+				  	{% else %}
+				  		<a href="{%url 'jobs' perfil_logado.id %}">		  	
+				  	{% endif %}
+				  	
+						<div class="job"></div>
+						
+						<br/>			                  
+				  		<span>Job</span>	
+				  		{% if url_name == 'jobs' %}
+						  	<br/>
+						   	<a data-toggle="modal" data-target="#newJobs">
+						   		<span class="user edit-profile"></span> 
+						   	</a>
+						{% endif %}			  			
+				  	</a>
+				  </li>
+				  <!-- Mobile Jobs link -->
+				  <li class="{% if url_name == 'jobs' %} active-profile {% endif %} mobile-jobslink">
+				  	{% if url_name == 'jobs' %}
+				  		<a data-toggle="modal" data-target="#newJobs">
+					   		<span class="user edit-profile"></span> 
+					   		<p>Jobs</p>
+						</a>
+						<br/>
+						<a href="{%url 'whoami' perfil_logado.id %}" style="cursor:pointer;">
+				  		{% if perfil_logado.type = 'f' %}
+						  			{% for a in my_profile_image %}
+						       		    {% if a.upload != "0"  %}
+							       		    	
+							       		    		<img src="{{a.upload}}" class="user" alt="user picture">
+							       		    	
+						       		    {% else %}
+							       		    	<div class="user woman"></div>
+							       		{% endif %}
+						       		{% endfor %}
+						       		
+						    	{% elif perfil_logado.type = 'm' %}
+						  			{% for a in my_profile_image %}
+						       		    {% if a.upload != "0"  %}
+							       		    	
+							       		    		<img src="{{a.upload}}" class="user" alt="user picture">
+							       		    	
+						       		    {% else %}
+							       		    	<div class="user man"></div>
+							       		{% endif %}
+						       		{% endfor %}
+						   {% endif %}	
+				  		</a>
+				  		<a href="{%url 'education' perfil_logado.id %}">
+							<span class="university"></span>
+						</a>
+						<a href="{%url 'knows' perfil_logado.id %}">
+							<span class="knows-about"></span>
+						</a>				  						  		
+				  	{% else %}
+				  		<a href="{%url 'jobs' perfil_logado.id %}"></a>		  	
+				  	{% endif %}
+				  </li>
+				     
+				</ul>
+		</div>
+		</section>
+		
+		{% else %} <!-- is company -->
+		
+		<section class="profile-menu-bar">
+		<div class="company-profile-options">
+				<ul class="nav nav-tabs">
+				  
+				  <li  class="{% if url_name == 'company' %} active-profile {% endif %} companylink">
+				  	{% if url_name == 'company' %}
+				  		<a href="#company" data-toggle="tab">
+				  	{% else %}
+				  		<a href="{%url 'company' perfil_logado.id %}">		  	
+				  	{% endif %}	
+				  		  
+			  			{% for a in my_profile_image %}
+			       		    {% if a.upload != "0"  %}
+				       		    	
+				       		    		<img src="{{a.upload}}" class="user" alt="company picture">
+				       		    	
+			       		    {% else %}
+				       		    	<div class="user company"></div>
+				       		{% endif %}
+			       		{% endfor %}
+						       		
+					    <br/>			                  
+				  		<span>About</span>
+				  		{% if url_name == 'company' %}
+						  	<br/>
+						   	<a data-toggle="modal" data-target="#newCompany">
+						   		<span class="user edit-profile"></span> 
+						   	</a>
+						{% endif %}			  		
+				  	</a>
+				  </li>
+				  <!-- Mobile Company link -->
+				  <li  class="{% if url_name == 'company' %} active-profile {% endif %} mobile-companylink">
+				  	{% if url_name == 'company' %}
+				  		<a data-toggle="modal" data-target="#newCompany">
+						   		<span class="user edit-profile"></span> 
+						   		<p>About Your Company</p>
+						</a>
+						<br/>
+						<a href="{%url 'location' perfil_logado.id %}">	
+							<div class="placeholder"></div>
+						</a>
+				  	{% else %}
+				  		<a href="{%url 'company' perfil_logado.id %}"></a>		  	
+				  	{% endif %}			  		
+				  </li>
+				  
+				  <li class="{% if url_name == 'location' %} active-profile {% endif %} locationlink">
+				  	{% if url_name == 'location' %}
+				  		<a href="#location" data-toggle="tab">
+				  	{% else %}
+				  		<a href="{%url 'location' perfil_logado.id %}">		  	
+				  	{% endif %}	
+				  	
+						<div class="placeholder"></div>
+						
+						<br/>			                  
+				  		<span>Location</span>
+				  		{% if url_name == 'location' %}
+						  	<br/>
+						   	<a data-toggle="modal" data-target="#newLocation">
+						   		<span class="user edit-profile"></span> 
+						   	</a>
+						{% endif %}			  				
+				  	</a>
+				  </li> 
+				  <!-- Mobile Location link -->
+				  <li class="{% if url_name == 'location' %} active-profile {% endif %} mobile-locationlink">
+				  	{% if url_name == 'location' %}
+				  		<a data-toggle="modal" data-target="#newLocation">
+							<span class="user edit-profile"></span> 
+							<p>Location</p>
+						</a>
+						<br/>
+						{% for a in my_profile_image %}
+			       		    {% if a.upload != "0"  %}
+				       		    <a href="{%url 'company' perfil_logado.id %}">	
+				       		    		<img src="{{a.upload}}" class="user" alt="company picture"
+				       		    		style="cursor:pointer;">
+				       		    </a>	
+			       		    {% else %}
+			       		    	<a href="{%url 'company' perfil_logado.id %}">
+				       		    	<div class="user company"></div>
+				       		    </a>
+				       		{% endif %}
+			       		{% endfor %}
+				  	{% else %}
+				  		<a href="{%url 'location' perfil_logado.id %}"></a>  	
+				  	{% endif %}			  				
+				  </li> 	    
+				</ul>
+		</div>
+		</section>
+		{% endif %}
+	{% endwith %}
+	
+{% else %} <!-- OTHER PROFILE -->
+
+	
+	{% with request.resolver_match.url_name as url_name %}
+		{%if perfil.type = 'm' or perfil.type = 'f' %}
+		<section class="profile-menu-bar">
+		<div class="user-profile-options">
+				<ul class="nav nav-tabs">
+				  <li  class="{% if url_name == 'whoami' %} active-profile {% endif %} whoamilink">
+				  	{% if url_name == 'whoami' %}
+				  		<a href="#whoami" data-toggle="tab">
+				  	{% else %}
+				  		<a href="{%url 'whoami' perfil.id %}">
+				  	{% endif %}
+						    	{% if perfil.type = 'f' %}
+						  			{% for a in has_profile_image %}
+						       		    {% if a.upload != "0"  %}
+							       		    	
+							       		    		<img src="{{a.upload}}" class="user">
+							       		    	
+						       		    {% else %}
+							       		    	<div class="user woman"></div>
+							       		{% endif %}
+						       		{% endfor %}
+						       		
+						    	{% elif perfil.type = 'm' %}
+						  			{% for a in has_profile_image %}
+						       		    {% if a.upload != "0"  %}
+							       		    	
+							       		    		<img src="{{a.upload}}" class="user">
+							       		    	
+						       		    {% else %}
+							       		    	<div class="user man"></div>
+							       		{% endif %}
+						       		{% endfor %}
+						       	{% endif %}
+					    
+					    <br/>			                  
+				  		<span>Who am I</span>
+				  	</a>
+				  </li>
+				  <!-- Mobile WhoAmI Link Other Profile -->
+				  <li  class="{% if url_name == 'whoami' %} active-profile {% endif %} mobile-whoamilink">
+				  	{% if url_name == 'whoami' %}
+				  		<a href="#whoami" data-toggle="tab">
+				  	{% else %}
+				  		<a href="{%url 'whoami' perfil.id %}">
+				  	{% endif %}
+						    	{% if perfil.type = 'f' %}
+						  			{% for a in has_profile_image %}
+						       		    {% if a.upload != "0"  %}
+							       		    	
+							       		    		<img src="{{a.upload}}" class="user">
+							       		    	
+						       		    {% else %}
+							       		    	<div class="user woman"></div>
+							       		{% endif %}
+						       		{% endfor %}
+						       		
+						    	{% elif perfil.type = 'm' %}
+						  			{% for a in has_profile_image %}
+						       		    {% if a.upload != "0"  %}
+							       		    	
+							       		    		<img src="{{a.upload}}" class="user">
+							       		    	
+						       		    {% else %}
+							       		    	<div class="user man"></div>
+							       		{% endif %}
+						       		{% endfor %}
+						       	{% endif %}
+					    
+					    <br/>			                  
+				  		<span>Who am I</span>
+				  	</a>
+				  </li>
+				  				  
+				  <li class="{% if url_name == 'education' %} active-profile {% endif %} educationlink">
+				  	{% if url_name == 'education' %}
+				  		<a href="#education" data-toggle="tab">
+				  	{% else %}
+				  		<a href="{%url 'education' perfil.id %}">		  	
+				  	{% endif %}
+				  	
+						<div class="university"></div>
+						
+						<br/>			                  
+				  		<span>Education</span>
+				  	</a>
+				  </li>
+				  <!-- Mobile Education Link Other Profile -->
+				  <li class="{% if url_name == 'education' %} active-profile {% endif %} mobile-educationlink">
+				  	{% if url_name == 'education' %}
+				  		<a href="#education" data-toggle="tab">
+				  	{% else %}
+				  		<a href="{%url 'education' perfil.id %}">		  	
+				  	{% endif %}
+				  	
+						<div class="university"></div>
+						
+						<br/>			                  
+				  		<span>Education</span>
+				  	</a>
+				  </li>
+				  
+				  <li class="{% if url_name == 'knows' %} active-profile {% endif %} knowslink">
+				  	{% if url_name == 'knows' %}
+				  		<a href="#knows" data-toggle="tab">
+				  	{% else %}
+				  		<a href="{%url 'knows' perfil.id %}">		  	
+				  	{% endif %}
+						
+						<div class="knows-about"></div>
+						
+						<br/>			                  
+				  		<span>Knows about</span>
+				  	</a>
+				  </li>
+				  <!-- Mobile Knows Link Other Profile -->
+				  <li class="{% if url_name == 'knows' %} active-profile {% endif %} mobile-knowslink">
+				  	{% if url_name == 'knows' %}
+				  		<a href="#knows" data-toggle="tab">
+				  	{% else %}
+				  		<a href="{%url 'knows' perfil.id %}">		  	
+				  	{% endif %}
+						
+						<div class="knows-about"></div>
+						
+						<br/>			                  
+				  		<span>Knows about</span>
+				  	</a>
+				  </li>				  
+				  
+				  <li class="{% if url_name == 'jobs' %} active-profile {% endif %} jobslink">
+				  	{% if url_name == 'jobs' %}
+				  		<a href="#jobs" data-toggle="tab">
+				  	{% else %}
+				  		<a href="{%url 'jobs' perfil.id %}">		  	
+				  	{% endif %}
+				  	
+						<div class="job"></div>
+						
+						<br/>			                  
+				  		<span>Job</span>	
+				  	</a>
+				  </li>
+				  <!-- Mobile Jobs Link Other Profile -->
+				  <li class="{% if url_name == 'jobs' %} active-profile {% endif %} mobile-jobslink">
+				  	{% if url_name == 'jobs' %}
+				  		<a href="#jobs" data-toggle="tab">
+				  	{% else %}
+				  		<a href="{%url 'jobs' perfil.id %}">		  	
+				  	{% endif %}
+				  	
+						<div class="job"></div>
+						
+						<br/>			                  
+				  		<span>Job</span>	
+				  	</a>
+				  </li>				  
+				</ul>
+		</div>
+		</section>
+		
+		{% else %} <!-- is company -->
+		
+		<section class="profile-menu-bar">
+		<div class="company-profile-options">
+				<ul class="nav nav-tabs">
+				  
+				  <li  class="{% if url_name == 'company' %} active-profile {% endif %} companylink">
+				  	{% if url_name == 'company' %}
+				  		<a href="#company" data-toggle="tab">
+				  	{% else %}
+				  		<a href="{%url 'company' perfil.id %}">		  	
+				  	{% endif %}	
+				  		  
+			  			{% for a in has_profile_image %}
+			       		    {% if a.upload != "0"  %}
+				       		    	
+				       		    	<img src="{{a.upload}}" class="user">
+				       		    	
+			       		    {% else %}
+				       		    	<div class="user company"></div>
+				       		{% endif %}
+			       		{% endfor %}
+						       		
+					    <br/>			                  
+				  		<span>About {{perfil.nome}}</span>
+				  	</a>
+				  </li>
+				  <!-- Mobile Company Link Other Profile -->
+				  <li  class="{% if url_name == 'company' %} active-profile {% endif %} mobile-companylink">
+				  	{% if url_name == 'company' %}
+				  		<a href="#company" data-toggle="tab">
+				  	{% else %}
+				  		<a href="{%url 'company' perfil.id %}">		  	
+				  	{% endif %}	
+				  		  
+			  			{% for a in has_profile_image %}
+			       		    {% if a.upload != "0"  %}
+				       		    	
+				       		    	<img src="{{a.upload}}" class="user">
+				       		    	
+			       		    {% else %}
+				       		    	<div class="user company"></div>
+				       		{% endif %}
+			       		{% endfor %}
+						       		
+					    <br/>			                  
+				  		<span>About {{perfil.nome}}</span>
+				  	</a>
+				  </li>
+				  
+				  
+				  <li class="{% if url_name == 'location' %} active-profile {% endif %} locationlink">
+				  	{% if url_name == 'location' %}
+				  		<a href="#location" data-toggle="tab">
+				  	{% else %}
+				  		<a href="{%url 'location' perfil.id %}">		  	
+				  	{% endif %}	
+				  	
+						<div class="placeholder"></div>
+						
+						<br/>			                  
+				  		<span>Where to find us</span>
+				  	</a>
+				  </li>
+				  <!-- Mobile Location Link Other Profile -->
+				  <li class="{% if url_name == 'location' %} active-profile {% endif %} mobile-locationlink">
+				  	{% if url_name == 'location' %}
+				  		<a href="#location" data-toggle="tab">
+				  	{% else %}
+				  		<a href="{%url 'location' perfil.id %}">		  	
+				  	{% endif %}	
+				  	
+						<div class="placeholder"></div>
+						
+						<br/>			                  
+				  		<span>Where to find us</span>
+				  	</a>
+				  </li>
+				</ul>
+		</div>
+		</section>
+
+		
+		{% endif %}
+	{% endwith %}
+	
+{% endif %}
+{% endblock %}

@@ -1,0 +1,47 @@
+{% extends "wpanel.html" %}
+{% block body %}
+	<table id="tables">
+	  <thead>
+	    <tr>
+	      <th>User ID</th>
+	      <th>Profile ID</th>
+	      <th>Avatar</th>
+	      <th>User</th>
+	      <th>Short Description</th>
+	    </tr>
+	  </thead>
+	  <tbody>	    
+		{% for u in users_short_description %}
+		<tr>
+			<td>{{ u.usuario_id }}</td>
+			<td>{{ u.profile_id }}</td>
+			<td>
+			{% if u.type = "f" %}
+	       		    {% if u.upload != "0" %}
+	       		    	<span class="user"><img src="{{u.upload}}" class="user"></span>
+	       		    {% else %}
+	       		    	<span class="user woman"></span>
+	       		    {% endif %}
+	       	
+	       	{% elif u.type = "m" %}
+	       		    {% if u.upload != "0" %}
+	       		    	<span class="user"><img src="{{u.upload}}" class="user"></span>
+	       		    {% else %}
+	       		    	<span class="user man"></span>
+	       		    {% endif %}
+	       	
+	       	{% elif u.type = "c" %}
+	       		    {% if u.upload != "0" %}
+	       		    	<span class="user"><img src="{{u.upload}}" class="user"></span>
+	       		    {% else %}
+	       		    	<span class="user company"></span>
+	       		    {% endif %}
+			{% endif %}
+			</td>
+			<td><a href="{%url 'exibir' u.profile_id %}" target="_blank">{{ u.nome }}</a></td>
+			<td>{{ u.description }}</td>
+		</tr>
+		{% endfor %}	    
+	  </tbody>
+	</table>
+{% endblock %}

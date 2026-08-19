@@ -1,0 +1,61 @@
+<div class="chat-container chat-container-{{tip.id}}" style="display: none;">
+		
+		<div class="messages messages-{{tip.id}}">
+		{% with tip.id as outdoorID and tip.name as authorName and tip.author_profile_id as authorID %}
+		 {% for message in chat %}
+		   {% if message.outdoor = outdoorID %}	   
+		     <div style="text-align: left;">
+			   	{% if message.profileID == perfil_logado.id %} 
+			   	  <span style="color:orange">Eu:</span> 
+			   	  <span style="color: #666;padding: 6px;border-radius: 4px;"> {{ message.corpo }} </span><br/><br/>
+			   	{% else %} 
+			   	  <span style="color:#337ab7"> {{ authorName }}: </span>
+			   	  <span style="color: #666;padding: 6px;border-radius: 4px;"> {{ message.corpo }} </span><br/><br/> 
+			   	{% endif %} 		   	
+		     </div>
+		   {% endif %}
+		 {% endfor %}
+		{% endwith %}
+		</div>
+		
+		<br/>
+		
+		<div class="textarea-container">
+		  <textarea class="form-control tipTextArea chat_counter" id="chat-{{tip.id}}" name="chat" placeholder="Send a message to {{tip.author_name}}" rows="3"></textarea>
+		</div>
+		
+		<br/>
+				
+   		<input type="button" class="btn btn-danger btn-cancel" value="Cancel" 
+   		data-id="{{tip.id}}" 
+   		data-content="{{tip.content}}">
+   		    	
+    	<input type="button" class="btn btn-success btn-send-msg btn-send-msg-{{tip.id}}" disabled 
+    	value="Send" 
+    	data-id="{{tip.id}}" 
+    	data-url = "{{url}}"
+    	data-destino = "{{ tip.author_profile_id }}"
+    	data-origem = "{{ perfil_logado.id }}"
+    	data-status = "0"
+    	data-criacao = "{% now 'Y-m-d H:m:s' %}">
+    	
+</div>
+
+<!-- Avoid submit empty content in Chat -->
+<script>
+ $(document).ready(function () {
+    $('#chat-{{tip.id}}').keyup(function () {
+        if ($.trim($('#chat-{{tip.id}}').val()).length < 1) {
+			$('.btn-send-msg-{{tip.id}}').prop('disabled', true);
+        } else {
+			
+        	$('.btn-send-msg-{{tip.id}}').prop('disabled', false);
+        }
+    });
+    $('#chat-{{tip.id}}').keypress(function(event) {
+        if (event.keyCode == 13) {
+            event.preventDefault();
+        }
+    });
+});
+</script>

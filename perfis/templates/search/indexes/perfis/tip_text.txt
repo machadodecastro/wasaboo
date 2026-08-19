@@ -1,0 +1,9 @@
+{% autoescape off %}
+{{ object.content }}
+{{ object.outdoor }}
+{{ object.author_name }}
+{{ object.author_profile_id }}
+{{ object.date }}
+{% endautoescape %}
+
+

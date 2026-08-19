@@ -1,0 +1,136 @@
+Dan's Tools
+www.cleancss.com/css-beautify
+CSS Beautifier
+Development
+Encode/Decoders
+Formatters
+Images
+Internet
+Minifiers
+SEO
+Related: CSS MinifyHTML FormatterJavascript Formatter
+     
+ CSS/JS/HTML Playground
+An HTML, CSS, Javascript playground to test and share code snippets.
+
+1
+/*!
+2
+ *  Font Awesome 4.4.0 by @davegandy - http://fontawesome.io - @fontawesome
+3
+ *  License - http://fontawesome.io/license (Font: SIL OFL 1.1, CSS: MIT License)
+4
+ */
+5
+​
+6
+@font-face {
+7
+    font-family: 'FontAwesome';
+8
+    src: url('../fonts/fontawesome-webfont.eot?v=4.4.0');
+9
+    src: url('../fonts/fontawesome-webfont.eot?#iefix&v=4.4.0') format('embedded-opentype'), url('../fonts/fontawesome-webfont.woff2?v=4.4.0') format('woff2'), url('../fonts/fontawesome-webfont.woff?v=4.4.0') format('woff'), url('../fonts/fontawesome-webfont.ttf?v=4.4.0') format('truetype'), url('../fonts/fontawesome-webfont.svg?v=4.4.0#fontawesomeregular') format('svg');
+10
+    font-weight: normal;
+11
+    font-style: normal
+12
+}
+13
+.fa {
+14
+    display: inline-block;
+15
+    font: normal normal normal 14px/1 FontAwesome;
+16
+    font-size: inherit;
+17
+    text-rendering: auto;
+18
+    -webkit-font-smoothing: antialiased;
+19
+    -moz-osx-font-smoothing: grayscale
+20
+}
+21
+.fa-lg {
+22
+    font-size: 1.33333333em;
+23
+    line-height: .75em;
+24
+    vertical-align: -15%
+25
+}
+26
+.fa-2x {
+27
+    font-size: 2em
+28
+}
+29
+.fa-3x {
+30
+    font-size: 3em
+31
+}
+32
+.fa-4x {
+33
+    font-size: 4em
+34
+}
+35
+.fa-5x {
+36
+    font-size: 5em
+37
+}
+38
+.fa-fw {
+39
+    width: 1.28571429em;
+40
+    text-align: center
+41
+}
+42
+.fa-ul {
+43
+    padding-left: 0;
+44
+    margin-left: 2.14285714em;
+45
+    list-style-type: none
+
+Format Code
+
+
+
+
+HTML <style>, <script> formatting: End script and style with newline?  Detect packers and obfuscators?  Keep array indentation?  Break lines on chained methods?  Space before conditional: "if(x)" / "if (x)"  Unescape printable chars encoded as \xNN or \uNNNN?  Use JSLint-happy formatting tweaks?
+
+ 
+CSS Beautifier
+Enter your messy, minified, or obfuscated CSS Style Sheets into the field above to have it cleaned up and made pretty. The editor above also contains helpful line numbers and syntax highlighting. There are many option to tailor the beautifier to your personal formatting tastes.
+
+When do you use CSS Beautifier
+Often when writing CSS Style Sheets your indentation, spacing, and other formatting can become a bit disorganized. It is also common for multiple developers to work on a single project who have different formatting techniques.  This tool is helpful for making the formatting of a file consistent. It is also common for CSS Style Sheets to be minified or obfuscated. You can use this tool to make that code look pretty and readable so it is easier to edit.
+
+Examples
+The minified CSS Style Sheets below:
+
+body{font-family:Georgia, Times, serif;color:purple;background-color:#d8da3d}h1{font-family:Helvetica, Arial}
+Becomes this beautified :
+
+body {
+    font-family: Georgia, Times, serif;
+    color: purple;
+    background-color: #d8da3d
+}
+h1 {
+    font-family: Helvetica, Arial
+}
+© Dan's Tools | Contact | Privacy | About | For more dev tools, check out danstools.com
+xGet It nowTry all-new Acrobat DC desktop free for 30 days

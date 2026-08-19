@@ -1,0 +1,13 @@
+<!-- FOLDER DELETE Question -->
+<div class="confirm-delete-folder confirm-delete-folder-{{tip.id}}" style="display: none;">
+	<br/><br/><span>Do you really want to delete this campaign?</span><br/><br/>
+	<div class="confirm-delete-btn">
+		<input type="button" class="btn btn-danger delete-deck-no" value="No" 
+		data-id = "{{tip.id}}"
+		data-content = "{{tip.content|linebreaks}}">
+		<div></div>
+	   	<input type="button" class="btn btn-success delete-deck-yes" value="Yes" 
+	   	data-url = "{{url}}"
+	   	data-id = "{{tip.id}}">
+	</div>	    
+</div>

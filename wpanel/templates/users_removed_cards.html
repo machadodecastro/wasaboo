@@ -1,0 +1,73 @@
+{% extends "wpanel.html" %}
+{% block body %}
+	<table id="tables">
+	  <thead>
+	    <tr>	      
+	      <th>Card ID</th>
+	      <th>Who removed</th>
+	      <th>What was the reason for the removal?</th>
+	    </tr>
+	  </thead>
+	  <tbody>	    
+		{% for u in removed_cards %}
+		<tr>			
+			<td><a href="{%url 'show_tip' u.slug u.card_id %}" target="_blank">{{ u.card_id }}</a></td>
+			<td>
+			{% with u.usuario_id as user_that_removed %}
+				{% for r in cards_removed %}
+					{% if r.type = "f" %}
+			       		    {% if r.upload != "0" %}
+			       		    	<span class="user"><img src="{{r.upload}}" class="user"></span>
+			       		    {% else %}
+			       		    	<span class="user"><img class="user woman"></span>
+			       		    {% endif %}
+			       	
+			       	{% elif r.type = "m" %}
+			       		    {% if r.upload != "0" %}
+			       		    	<span class="user"><img src="{{r.upload}}" class="user"></span>
+			       		    {% else %}
+			       		    	<span class="user"><img class="user man"></span>
+			       		    {% endif %}
+			       	
+			       	{% elif r.type = "c" %}
+			       		    {% if r.upload != "0" %}
+			       		    	<span class="user"><img src="{{r.upload}}" class="user"></span>
+			       		    {% else %}
+			       		    	<span class="user"><img class="user company"></span>
+			       		    {% endif %}
+					{% endif %}
+							<a href="{%url 'exibir' r.profile_id %}" target="_blank">{{ r.nome }}</a>
+							<br/><br/>
+				{% endfor %}
+			{% endwith %}
+			</td>
+			<td>
+			{% with u.usuario_id as user_that_removed %}
+				{% for r in cards_removed %}
+							{%if r.removed_by = '1' %}
+								Harassment: Disparaging or adversarial towards a person or other card<br/><br/>
+							{%elif r.removed_by = '2' %}
+								Spam: Undisclosed promotion for a link or product<br/><br/>
+							{%elif r.removed_by = '3' %}
+								Plagiarism: Reusing content without attribution (link and blockquotes)<br/><br/>
+							{%elif r.removed_by = '4' %}
+								Joke Card: Not a serious card<br/><br/>
+							{%elif r.removed_by = '5' %}
+								Out of Date: Is no longer relevant or accurate card<br/><br/>
+							{%elif r.removed_by = '6' %}
+								Poorly Written: Has very bad formatting, grammar, and spelling<br/><br/>
+							{%elif r.removed_by = '7' %}
+								Fake Profile: Author's profile is not credible, clear, and relevant<br/><br/>
+							{%elif r.removed_by = '8' %}
+								Bad Image: Content contains image that violates policy<br/><br/>
+							{%elif r.removed_by = '9' %}
+								Incorrect card: Substantially incorrect content<br/><br/>
+							{% endif %}
+				{% endfor %}
+			{% endwith %}
+			</td>			 
+		</tr>
+		{% endfor %}	    
+	  </tbody>
+	</table>
+{% endblock %}

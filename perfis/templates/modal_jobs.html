@@ -1,0 +1,166 @@
+<!-- New Job Form -->
+<div class="modal fade" id="newJobs" tabindex="-1" role="dialog" 
+     aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+          		<span class="profile-name profile-title" id="myModalLabel">
+               	   Add employment
+                </span>
+                <button type="button" class="close" data-dismiss="modal">
+                       <span aria-hidden="true">&times;</span>
+                       <span class="sr-only">Close</span>
+                </button>
+            </div>
+            
+            <div class="modal-body">
+			
+			<form id="new_job_form" action="{%url 'new_jobs' perfil_logado.id %}" method="post">
+			{% csrf_token %}
+ 			  	  
+ 			  	  <input type="hidden" value="{{user.id}}" id="jobs_user_id" name="jobs_user_id" 
+ 			  	  required="required">
+ 			  	  
+	 			  <input type="hidden" value="{{perfil_logado.id}}" id="jobs_profile_id" 
+	 			  name="jobs_profile_id" required="required">
+	 			  
+	 			  <span class="input_label">Company/Organization</span>
+	 			  <input type="text" id="company" name="company" required="required" 
+	 			  class="profile-field-normal" placeholder="Wasaboo...">
+	 			  
+	 			  <br/><br/>
+	 			  
+				  <span class="input_label">Position</span>
+	 			  <input type="text" id="position" name="position" 
+	 			  class="profile-field-normal" placeholder="Bug tester...">
+	 			  
+	 			  <br/><br/>	 			  
+	 			  
+				  <span class="input_label">Start Year</span>
+				  <select id="start_year" name="start_year" 
+				  class="profile-field-normal profile-field-small">
+				  </select>
+				  
+				  <br/><br/>
+				  
+				  <span class="input_label">End Year</span>
+				  <select id="end_year" name="end_year" 
+				  class="profile-field-normal profile-field-small">
+				  </select>
+				  
+				  <br/><br/>	
+				  
+				  <input type="checkbox" id="status_work" name="status_work" value="1"> I currently work here 			  
+	 			  
+	 			  <input id="date" name="date" type="hidden"  value="{% now 'd/m/Y HH:mm:ss' %}" 
+	 			  required="required">
+	 			  
+				  <br/><br/><br/><br/>
+				  
+				  <div class="modal-header">
+				  <button type="button" class="btn btn-default btn-cancel" data-dismiss="modal">Close</button>
+				  <input class="btn btn-info" type="submit" value="Publish" disabled/>
+				  </div>
+			</form>
+							  
+				  <script>
+				  $(document).ready(function () {
+					    $('#company').keyup(function () {
+					        if ($.trim($('#company').val()).length < 1) {
+
+					        	$(':input[type="submit"]').prop('disabled', true);
+
+					        } else {
+
+					        	$(':input[type="submit"]').prop('disabled', false);
+
+					        }
+					    });
+					});
+		          </script>	
+		          
+		          <script>
+					$(document).ready(function () {
+						jQuery(document).ready(function($) {
+					        $('#company').keyup(function(event) {
+					            var textBox = event.target;
+					            var start = textBox.selectionStart;
+					            var end = textBox.selectionEnd;
+					            textBox.value = textBox.value.charAt(0).toUpperCase() + textBox.value.slice(1);
+					            textBox.setSelectionRange(start, end);
+					        });
+					    });
+					});
+				  </script>
+				  
+				  <script>
+					$(document).ready(function () {
+						jQuery(document).ready(function($) {
+					        $('#position').keyup(function(event) {
+					            var textBox = event.target;
+					            var start = textBox.selectionStart;
+					            var end = textBox.selectionEnd;
+					            textBox.value = textBox.value.charAt(0).toUpperCase() + textBox.value.slice(1);
+					            textBox.setSelectionRange(start, end);
+					        });
+					    });
+					});
+				  </script>
+	    	          
+            </div>
+        </div>  
+    </div>
+</div>	
+<!-- End form -->
+
+<!-- AJAX NEW COMPANY FORM SUBMIT -->
+<script>
+$( document ).ready(function() {
+$("#new_job_form").submit(function(event){
+    event.preventDefault(); //prevent default action
+    var wasabooref = "{{url}}";   
+    var tip = $(this).data("id"); 
+    var post_url = $(this).attr("action"); //get form action url
+    var request_method = $(this).attr("method"); //get form GET/POST method
+    var form_data = new FormData(this); //Encode form elements for submission
+    
+    $(':input[type="submit"]').prop('disabled', true);
+    
+    $.ajax({
+    	url : post_url,
+        type: request_method,
+        data : form_data,
+        dataType : 'html',
+        contentType: false,
+        processData: false,
+        success: function(response) { //on success
+        	//LOAD SCRIPTS WITHOUT AJAX CALLS
+        	$.getScript( '/static/js/scripts-loader.js');
+        	
+            // AJAX CALLS
+        	$.getScript( '/static/js/show-references.js');
+        	$.getScript( '/static/js/show-back.js');
+        	$.getScript( '/static/js/favoriting-card.js');
+        	$.getScript( '/static/js/desfavoriting-card.js');
+        	$.getScript( '/static/js/hide-card.js');
+        	$.getScript( '/static/js/publish-card.js');
+        	$.getScript( '/static/js/counting-favoritings.js');
+        	$.getScript( '/static/js/who-favorited.js');
+        	$.getScript( '/static/js/delete-card-btn-yes.js');
+        	$.getScript( '/static/js/save-to-folder.js');
+        	$.getScript( '/static/js/delete-from-folder.js');
+        	$.getScript( '/static/js/jquery.jscroll.js');
+        	$.getScript( '/static/js/delete-jobs.js');
+        	
+        	// LOAD HTML
+        	$('.profile-waterfall').html(jQuery(response).find('.profile-waterfall').html());
+        	
+        	// CLOSE MODAL
+        	$('.close').click();
+        	$('body').removeClass('modal-open');
+        	$('.modal-backdrop').remove();	        	
+        }
+    });
+});
+});
+</script>

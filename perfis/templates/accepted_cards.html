@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+{% block body %}
+
+{% if perfil.id == perfil_logado.id %}
+<div class="row-profile">
+
+<!-- MENU -->	
+{% include "menu.html" %}
+
+		<div class="config-titles">
+			<strong>
+				<span class="config-titles">Accepted outdoors</span>
+				<span class="question_mark" data-toggle="tooltip" data-placement="right" 
+               			title="Outdoors advertised by you that were accepted by other.">	
+           		</span>
+           	</strong>
+        </div>
+		<hr/>
+		{% for a in accepted_count %}
+			{% if a.howmany == 0 %}
+				<div class="no-published-warning">
+					No accepted outdoor
+				</div>
+			{% endif %}
+		{% endfor %}
+		<div id="Center">
+		{% if accepted_cards %}
+		<ul id="profile-waterfall" class="profile-waterfall">
+			{% for tip in accepted_cards %}	
+
+			{% include 'modal_edit_card.html' %}
+			
+			{% include 'modal_remove_card.html' %}
+			
+			{% if tip.accepted %}		  
+			<li class="cards card-{{tip.id}}" data-id="{{tip.id}}">
+			    <div class="main card-layout {% if tip.notified %} go-play {% endif %}">
+					{% with tip.id as card %}
+						{% for n in notifications_count %}
+							{% if n.referenced_card = card %}
+						    <div class="notifications-advertise">
+						    	{{ n.howmany }}
+						    </div>
+						    {% endif %}
+						{% endfor %}	
+					{% endwith %}
+					
+					{% include 'card_header.html' %}
+												        
+		          <!-- Outdoor title -->
+			      {% include 'outdoor_title.html' %}
+				  
+				  <!-- Picture -->					
+				  {% include 'outdoor_picture.html' %}								                        
+					
+	              {% include 'card_delete_question.html' %}      
+	                    
+	              {% include 'folder_options.html' %}	      
+	                    
+				  {% include 'folder_container.html' %}	
+				  
+
+					 <div class="who-accepted-bottom">          		
+       				    <a href="{% url 'who_accepted' tip.id %}">
+		                	<input type="button" class="btn btn-cancel who-accepted-label" 
+		                	value="{% for a in who_accepted_count %}{%if tip.id = a.card %}{{ a.howmany }}{%endif%}{% endfor %} connected"/>
+	                    </a>
+	                 </div>
+	                 
+	                 <!-- Outdoor Campaign -->
+			      	 {% include 'outdoor_campaign.html' %}
+			      	  	   
+ 		      	  </div> 		      	  	  			          
+			  </li>
+			{% endif %}
+			{% endfor %}			
+		</ul>		 
+		{% endif %}
+	</div>	
+</div>
+{% endif %}
+{% endblock %}

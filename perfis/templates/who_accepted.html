@@ -1,0 +1,154 @@
+{% extends "base.html" %}
+	
+{% block body %} 
+<div class="row content">
+
+	<!-- Modal for show tips details-->
+	{% include "modal_show_tip.html" %}	
+
+	<!-- Modal for show who favorited the tip-->
+	{% include "modal_who_favorited.html" %}
+	
+	<input type="hidden" id="profileId" value="{{perfil.id}}">
+	
+	<div id="Center">
+	{% if who %}
+		<ul id="waterfall" class="waterfall">
+								
+			{% for tip in who %}
+			
+			{% include 'modal_edit_card.html' %}
+			
+			{% include 'modal_remove_card.html' %}
+			
+			{% if not tip.stealthed %}
+			{% if tip.accepted_by %}
+			<li class="cards card-{{tip.id}}" data-id="{{tip.id}}">			
+			    <div class="main card-layout {% if tip.notified %} go-play {% endif %}">
+
+					{% with tip.id as card %}
+						{% for n in notifications_count %}
+							{% if n.referenced_card = card %}
+						    <div class="notifications-advertise">
+						    	{{ n.howmany }}
+						    </div>
+						    {% endif %}
+						{% endfor %}	
+					{% endwith %}
+										
+					{% include 'card_header.html' %}
+					
+		          <!-- Outdoor title -->
+			      {% include 'outdoor_title.html' %}
+					
+				  <!-- Picture -->	
+				  {% include 'outdoor_picture.html' %} 							                        
+					
+	              {% include 'card_delete_question.html' %}      
+	                    
+	              {% include 'folder_options.html' %}	      
+	                    
+				  {% include 'folder_container.html' %}	
+				  
+				  {% include 'chat_container.html' %}
+				  
+				  <!-- Profile image -->
+                  <div class="profile-image">
+                  	  <a href="{% url 'exibir' tip.author %}">
+                  	  <div class="image-content">
+                  	      	{% if tip.type = "f" %}
+					       		    {% if tip.upload != "0" %}
+					       		    	<span class="user"><img src="{{tip.upload}}" class="user"></span>
+					       		    {% else %}
+					       		    	<span class="user woman"></span>
+					       		    {% endif %}
+					       	
+					       	{% elif tip.type = "m" %}
+					       		    {% if tip.upload != "0" %}
+					       		    	<span class="user"><img src="{{tip.upload}}" class="user"></span>
+					       		    {% else %}
+					       		    	<span class="user man"></span>
+					       		    {% endif %}
+					       	
+					       	{% elif tip.type = "c" %}
+					       		    {% if tip.upload != "0" %}
+					       		    	<span class="user"><img src="{{tip.upload}}" class="user"></span>
+					       		    {% else %}
+					       		    	<span class="user company"></span>
+					       		    {% endif %}
+							{% endif %}
+                  	  </div>
+                  	  </a>
+                  	  
+                  	  <!-- Profile name -->
+					  {% include 'outdoor_profile.html' %}
+          				    
+          			  <!-- Favorite icon -->
+     				  {% include 'outdoor_favorite_local.html' %}
+     					   
+		      	  	</div>	
+		      	  	
+		      	  	<!-- Outdoor Campaign -->
+			        {% include 'outdoor_campaign.html' %}
+			      		    
+			    </div>
+			  </li>
+			{% endif %}
+			{% endif %}
+			{% empty %}
+				<!-- empty index -->
+				<div class="empty-feed"></div>		    
+			
+			{% endfor %}
+		</ul>
+		 
+		{% endif %}
+	</div>
+
+
+
+  	
+<script>
+function searchContacts() {
+    // Declare variables
+    var input, filter, ul, li, a, i;
+    input = document.getElementById('myContacts');
+    filter = input.value.toUpperCase();
+    ul = document.getElementById("myULContacts");
+    li = ul.getElementsByTagName('li');
+
+    // Loop through all list items, and hide those who don't match the search query
+    for (i = 0; i < li.length; i++) {
+        a = li[i].getElementsByTagName("a")[0];
+        if (a.innerHTML.toUpperCase().indexOf(filter) > -1) {
+            li[i].style.display = "";
+        } else {
+            li[i].style.display = "none";
+        }
+    }
+}
+</script>
+
+<script>
+function searchTips() {
+    // Declare variables
+    var input, filter, ul, li, a, i;
+    input = document.getElementById('myTips');
+    filter = input.value.toUpperCase();
+    ul = document.getElementById("myULTips");
+    li = ul.getElementsByTagName('li');
+
+    // Loop through all list items, and hide those who don't match the search query
+    for (i = 0; i < li.length; i++) {
+        a = li[i].getElementsByTagName("div")[0];
+        if (a.innerHTML.toUpperCase().indexOf(filter) > -1) {
+            li[i].style.display = "";
+        } else {
+            li[i].style.display = "none";
+        }
+    }
+}
+</script>
+
+</div>
+{% endblock %}

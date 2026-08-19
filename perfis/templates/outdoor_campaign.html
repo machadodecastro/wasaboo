@@ -1,0 +1,12 @@
+{% with tip.id as cardOn %}
+	{% for c in card_on_deck %}
+		{% if c.tip = cardOn %}	                  			
+		<a class="card-on card-at-{{tip.id}}" 
+			href="{% url 'bysubject' c.author c.deck %}">
+			<section class="campaign-footer campaign-footer-{{ tip.id }}">
+				<img class="flag-footer"/><span class="campaign-text">{{c.deck_name}}</span>
+			</section>
+		</a>
+		{% endif %}
+	{% endfor %}
+{% endwith %}

@@ -1,0 +1,38 @@
+<div class="folder-container folder-container-{{tip.id}}" style="display: none;margin-top: 60px;padding: 30px 0;">
+	{% if url_name = 'deck' %}
+		<div class="confirm-folder-btn">
+	   		<input type="button" class="btn btn-danger btn-cancel-in-card" value="Cancel" 
+	   		data-id="{{tip.id}}" 
+	   		data-content="{{tip.content|linebreaks}}"
+	   		data-reference="{{tip.reference|linebreaks}}">
+	   		
+	   		<div></div>
+	    	
+	    	<input type="button" class="btn btn-danger btn-folder-remove-in-card btn-folder-remove-in-card-{{tip.id}}" 
+	    	value="Remove from campaign" 
+	    	data-id="{{tip.id}}" 
+	    	data-content="{{tip.content|linebreaks}}"
+	    	data-reference="{{tip.reference|linebreaks}}">
+	   	</div>	
+
+	{% else %}
+		<br/>
+
+		
+		<div class="confirm-folder-btn-in-card confirm-folder-btn-in-card-{{tip.id}}">
+	   		<input type="button" class="btn btn-danger btn-cancel-in-card" value="Cancel" 
+	   		data-id="{{tip.id}}" 
+	   		data-content="{%if tip.content%}{{tip.content|linebreaks}}{%else%}{%endif%}"
+	   		data-reference="{{tip.reference|linebreaks}}">
+	   		
+	   		<div></div>
+	    	
+	    	<input type="button" class="btn btn-danger btn-folder-remove-in-card btn-folder-remove-in-card-{{tip.id}}" 
+	    	value="Remove from campaign" 
+	    	data-url = "{{url}}"
+	    	data-id="{{tip.id}}" 
+	    	data-content="{%if tip.content%}{{tip.content|linebreaks}}{%else%}{%endif%}"
+	    	data-reference="{{tip.reference|linebreaks}}">
+	   	</div>	
+	{% endif %}
+</div>

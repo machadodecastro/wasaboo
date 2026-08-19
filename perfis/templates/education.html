@@ -1,0 +1,126 @@
+{% extends "base.html" %}
+{% block body %}
+<div class="row-profile">
+	<!-- Modal for editing profile education-->
+	{% include "modal_education.html" %}
+
+	<!-- MENU -->	
+	{% include "menu.html" %}
+	
+	<!-- PROFILE SUB MENU  -->	
+	{% include "menu_profile.html" %} 	
+    
+
+	<div class="Center">
+		<ul class="profile-waterfall">
+		    {% for c in content %}
+
+			<!-- Modal for editing EDUCATION user information-->
+			{% include "modal_edit_education.html" %}
+					
+		    <li class="cards card-{{c.id}}">
+			    <div class="main card-layout"> 
+			    
+			  		{% if perfil.id == perfil_logado.id %}
+			        <div class="panel-heading panel-heading-{{c.id}}">
+				          <div class="wrapper">
+								<div></div>
+						
+								<div style="margin-top: -10px;">
+								    <!-- Main Toolbar -->
+								    
+								    <!-- Drop down main toolbar -->
+									<a class="add_more_label toolbtn toolbtn-{{c.id}}" 
+						           	   data-id = "{{c.id}}">
+									   <span class="down-arrow" />
+							        </a>
+								</div>
+						
+						        <div></div>
+				       		</div>
+				      
+				         <!-- Toolbar -->
+				      <div class="toolbar toolbar-{{c.id}} slideup">
+				          <div>
+				          	   <a href="#" 
+					            data-toggle="modal" 
+					            data-target="#updateEducation-{{c.id}}"
+					            data-id = "{{c.id}}">
+					            	<span class="pencil"/>
+					            </a>				       	       				           
+				          </div>	
+
+     			          <div></div>		       				         
+				          
+				          {% if tip.author_profile_id == request.user.perfil.id %}	
+				          <div>
+				              <!-- Showing edit toolbar -->
+				      	       <a class="downcard add_more_label rudder rudder-{{c.id}}" 
+				      	       data-id = "{{c.id}}">
+						   	   <span class="points points-{{c.id}}"/>
+				           </a>			           
+				          </div>
+				          {% else %}
+						   <div style="text-align: center;">
+				       	       <a class="delete-education input_label"
+				       	       style="cursor: pointer;"
+					           data-url = "{{url}}"
+					           data-id = "{{c.id}}">
+					               <span class="delete"/>
+					           </a>				           
+				           </div>
+				          {% endif %}
+				          
+				      </div>	
+				     </div>   
+					{% endif %}
+					
+	           	  	<div class="title-content">
+	               	  	<span class="input_label">School / University :</span>
+	               	  	{{ c.school }}
+	               	  	
+	               	  	<br/>
+	               	  	
+	               	  	<span class="input_label">Course :</span>
+	               	  	{% if c.course %}
+	               	  		{{ c.course }}
+	               	  	{% else %}
+	               	  		<span class="input_label">Not informed</span>
+	               	  	{% endif %}
+	               	  	<br/>
+	               	  	
+	               	  	<span class="input_label">Degree Type :</span>
+	               	  	{% if c.degree %}
+	               	  		{{ c.degree }}
+	               	  	{% else %}
+	               	  		<span class="input_label">Not informed</span>
+	               	  	{% endif %}
+	                	  	
+	               	  	<br/>
+	               	  	
+	               	  	<span class="input_label">Graduation Year :</span>
+	               	  	{% if c.graduation %}
+	               	  		{{ c.graduation }}
+	               	  	{% else %}
+	               	  		<span class="input_label">Not informed</span>
+	               	  	{% endif %}
+	               	  	
+	               	  	<br/><br/>
+	               	  	
+	               	  	<div class="date-content">
+			            	Posted {{ c.date|date:'M d, Y' }}
+		                </div>
+	 
+	               	</div>
+		      </div>
+		  </li>
+		  {% empty %}
+		  <li class="no-published-warning">
+		  	   Nothing about education
+		  </li>
+		  {% endfor %}
+		  
+	</div>	
+</div>
+
+{% endblock %}

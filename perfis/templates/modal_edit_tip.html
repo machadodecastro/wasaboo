@@ -1,0 +1,83 @@
+<!-- Tip Form -->
+<div class="modal fade" id="updateTip" tabindex="-1" role="dialog" 
+     aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+            <span class="title-tip" style="font-size:20px">Edit your tip...</span>
+                <button type="button" class="close" data-dismiss="modal">
+                       <span aria-hidden="true">&times;</span>
+                       <span class="sr-only">Close</span>
+                </button>
+            </div>
+            
+            <div class="modal-body">
+			<form>
+            {% csrf_token %}
+ 			  	  <input type="hidden" value="{{tip.id}}" id="edit_idTip" class="idTip">
+ 			  	  
+ 			  	  <input type="hidden" value="{{tip.author_user_id}}" id="author_user_id" 
+ 			  	  name="author_user_id" required="required" class="author_user_id" >
+ 			   
+	 			  <input type="hidden" value="{{tip.author_profile_id}}" id="author_profile_id" 
+	 			  name="author_profile_id" required="required" class="author_profile_id" >
+	 			  
+	 			  <input type="hidden" value="{{tip.author_name}}" id="author_name" name="author_name" 
+	 			  required="required" class="author_name">
+	 			  
+	 			  <input type="hidden" value="{{tip.hided}}" id="hided" name="hided" 
+	 			  required="required" class="hided">	
+	 			  	 			  
+	 			  <input type="hidden" value="{% now 'd/m/Y HH:mm:ss' %}"  id="date" name="date"  
+	 			  required="required" class="date">
+	 			  
+	 			  <input type="radio" name="type" value="{{tip.type}}" checked="checked"
+	 			  style="display: none;" class="type">
+	 			  
+	 			  <textarea id="edit_content" name="content" rows="5" cols="75" 
+	 			  class="textarea-description tipTextArea" required="required" 
+	 			  autofocus>
+	 			  	  {{tip.content}}
+	 			  </textarea>
+				  
+				  <br/>
+				  <hr class="divider">
+				  <textarea id="edit_reference" name="reference" rows="5" cols="90" class="reference">
+				      {{tip.reference}}
+				  </textarea>
+				  
+				  <br/>	
+				  <hr class="divider">
+				  <span class="title-tip" style="font-size:20px">Link</span>
+				  <input type="text" id="edit_link" name="link" class="profile-field-normal tip_link" 
+				  placeholder="www.">
+				  
+				  <br/>
+				  <br/>
+				  	
+				  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				  <button type="button" class="btn btn-info btn-update-tip" data-id="{{tip.id}}" 
+				  data-text = "{{tip.content}}">Update</button>
+			</form>	
+				  <script>
+				  $(document).ready(function () {
+					    $('#edit_content').keyup(function () {
+					        if ($.trim($('#edit_content').val()).length < 1) {
+
+					        	$('.btn-update-tip').prop('disabled', true);
+
+					        } else {
+
+					        	$('.btn-update-tip').prop('disabled', false);
+
+					        }
+					    });
+					});
+		          </script>		    	          
+
+			
+                
+            </div>
+        </div>  
+    </div>
+</div>	<!-- End tip form -->

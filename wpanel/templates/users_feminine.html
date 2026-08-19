@@ -1,0 +1,53 @@
+{% extends "wpanel.html" %}
+{% block body %}
+	<table id="tables">
+	  <thead>
+	    <tr>
+	      <th>User ID</th>
+	      <th>Profile ID</th>
+	      <th>Avatar</th>
+	      <th>Name</th>
+	      <th>Email</th>
+	      <th>Type</th>
+	      <th>Stealth</th>
+	      <th>Start Date</th>
+	    </tr>
+	  </thead>
+	  <tbody>	    
+		{% for u in users_feminine %}
+		<tr>
+			<td>{{ u.usuario_id }}</td>
+			<td>{{ u.id }}</td>
+			<td>
+			{% if u.type = "f" %}
+	       		    {% if u.upload != "0" %}
+	       		    	<span class="user"><img src="{{u.upload}}" class="user"></span>
+	       		    {% else %}
+	       		    	<span class="user woman"></span>
+	       		    {% endif %}
+	       	
+	       	{% elif u.type = "m" %}
+	       		    {% if u.upload != "0" %}
+	       		    	<span class="user"><img src="{{u.upload}}" class="user"></span>
+	       		    {% else %}
+	       		    	<span class="user man"></span>
+	       		    {% endif %}
+	       	
+	       	{% elif u.type = "c" %}
+	       		    {% if u.upload != "0" %}
+	       		    	<span class="user"><img src="{{u.upload}}" class="user"></span>
+	       		    {% else %}
+	       		    	<span class="user company"></span>
+	       		    {% endif %}
+			{% endif %}
+			</td>
+			<td><a href="{%url 'exibir' u.id %}" target="_blank">{{ u.nome }}</a></td>
+			<td>{{ u.email }}</td> 
+			<td>{{ u.type }}</td>
+			<td>{{ u.stealth }}</td>
+			<td>{{ u.date_joined }}</td>
+		</tr>
+		{% endfor %}	    
+	  </tbody>
+	</table>
+{% endblock %}
